@@ -133,8 +133,14 @@ The environment reserves a read-only `.git` directory. Local Git metadata theref
 ./git-local commit -m "Update documentation"
 ```
 
-Es ist kein Remote eingerichtet. Temporäre Dateien und Build-Caches sind ausgeschlossen. Für den ersten Commit wird mangels vorhandener Git-Identität die lokale Projektkennung `Turn-Table-Test <turn-table-test@localhost>` verwendet; globale Git-Einstellungen werden nicht verändert.
+GitHub-Remote: https://github.com/FMI-Berlin/Turn-Table-Test.git. Temporäre Dateien und Build-Caches sind ausgeschlossen. Für den ersten Commit wird mangels vorhandener Git-Identität die lokale Projektkennung `Turn-Table-Test <turn-table-test@localhost>` verwendet; globale Git-Einstellungen werden nicht verändert.
 
-No remote is configured. Temporary files and build caches are ignored. In the absence of an existing Git identity, the initial commit uses the local project identity `Turn-Table-Test <turn-table-test@localhost>`; global Git settings are unchanged.
+GitHub remote: https://github.com/FMI-Berlin/Turn-Table-Test.git. Temporary files and build caches are ignored. In the absence of an existing Git identity, the initial commit uses the local project identity `Turn-Table-Test <turn-table-test@localhost>`; global Git settings are unchanged.
 
-未配置远程仓库。临时文件及构建缓存已排除。由于没有现有的 Git 身份配置，首次提交采用本地项目身份 `Turn-Table-Test <turn-table-test@localhost>`，不会修改全局 Git 设置。
+GitHub 远程仓库：https://github.com/FMI-Berlin/Turn-Table-Test.git。临时文件及构建缓存已排除。由于没有现有的 Git 身份配置，首次提交采用本地项目身份 `Turn-Table-Test <turn-table-test@localhost>`，不会修改全局 Git 设置。
+
+Außerhalb dieser Umgebung lässt sich das Projekt regulär klonen; danach funktionieren normale `git`-Befehle. / Outside this environment, clone normally and use standard `git` commands. / 在此环境之外，可正常克隆并使用标准 `git` 命令。
+
+```bash
+git clone https://github.com/FMI-Berlin/Turn-Table-Test.git
+```
