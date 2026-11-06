@@ -1,0 +1,4 @@
+#!/bin/sh
+# Use local Git metadata because the environment reserves a read-only .git.
+project_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd) || exit
+exec git --git-dir="$project_dir/.git-local" --work-tree="$project_dir" "$@"

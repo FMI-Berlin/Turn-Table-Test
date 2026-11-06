@@ -1,0 +1,106 @@
+{
+  "outage_comparison": {
+    "correction_age_threshold_s": 10,
+    "criterion": "both RTK-fixed, both correction ages > threshold, identical UTC epochs",
+    "statistics": {
+      "P23A_1": {
+        "epochs": 6812,
+        "rms_m": 0.018850678352026425,
+        "median_m": 0.013053702724738386,
+        "p95_m": 0.03589180976380425,
+        "max_m": 0.09647436477596247
+      },
+      "UM980": {
+        "epochs": 6812,
+        "rms_m": 0.026847010474685976,
+        "median_m": 0.019024484267587523,
+        "p95_m": 0.05420715914123925,
+        "max_m": 0.07939007780418735
+      }
+    }
+  },
+  "mean_rotation_period_s": 169.59947439819925,
+  "rotation_period_count": 76,
+  "rotation_period_std_s": 15.028089030169335,
+  "rotation_period_min_s": 160.79682356968624,
+  "rotation_period_max_s": 292.5452858419394,
+  "displayed_quality": 4,
+  "radius_m": 0.3309662523412043,
+  "center_lat_deg": 40.065586191441504,
+  "center_lon_deg": 116.22835972241717,
+  "origin_lat_deg": 40.065586143333334,
+  "origin_lon_deg": 116.22835968166667,
+  "center_east_m": 0.00347651054873793,
+  "center_north_m": 0.005341733444459319,
+  "robust_radial_sigma_m": 0.003620280704929194,
+  "reference_fixed_epochs": 13191,
+  "reference_angle_epochs": 13191,
+  "reference_segments": 3,
+  "unknown_full_turns_across_reference_gaps": true,
+  "max_interpolation_gap_s": 3.0,
+  "common_start_utc_seconds": 13269.0,
+  "common_end_utc_seconds": 29708.0,
+  "date": "2026-11-03",
+  "files": {
+    "P23A_0": {
+      "positions": 13306,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [],
+      "quality_counts": {
+        "1": 82,
+        "4": 13191,
+        "5": 33
+      }
+    },
+    "P23A_1": {
+      "positions": 13280,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [],
+      "quality_counts": {
+        "1": 392,
+        "4": 12888
+      }
+    },
+    "UM980": {
+      "positions": 13308,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [
+        "2026-11-03"
+      ],
+      "quality_counts": {
+        "1": 331,
+        "2": 29,
+        "4": 12948
+      }
+    }
+  },
+  "statistics": {
+    "P23A_0": {
+      "epochs": 13191,
+      "excluded_epochs": 115,
+      "rms_m": 0.003829720586364178,
+      "median_m": 0.00244399306631564,
+      "p95_m": 0.007691942577626131,
+      "max_m": 0.01710447818539986
+    },
+    "P23A_1": {
+      "epochs": 12849,
+      "excluded_epochs": 431,
+      "rms_m": 0.017460123644202075,
+      "median_m": 0.007469756222397083,
+      "p95_m": 0.035421215355474996,
+      "max_m": 0.09647436477596247
+    },
+    "UM980": {
+      "epochs": 12908,
+      "excluded_epochs": 400,
+      "rms_m": 0.02070957930226668,
+      "median_m": 0.012375065867162307,
+      "p95_m": 0.042564280403893553,
+      "max_m": 0.07939007780418735
+    }
+  }
+}

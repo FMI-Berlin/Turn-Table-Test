@@ -1,0 +1,22 @@
+# Local repository metadata (the managed .git directory is read-only)
+/.git-local/
+/.git/
+
+# Environment and Python caches
+/.venv/
+__pycache__/
+*.py[cod]
+
+# Environment-managed directories
+/.agents/
+/.aws/
+/.codex/
+
+# LaTeX build intermediates (retain report source, figures and PDF)
+/bericht/tex-cache/
+/bericht/build.log
+/bericht/*.aux
+/bericht/*.log
+/bericht/*.out
+/bericht/*.toc
+/bericht/*.synctex.gz
