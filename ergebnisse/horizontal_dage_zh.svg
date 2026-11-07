@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430"><rect width="100%" height="100%" fill="white"/>
+<g font-family="sans-serif" font-size="12">
+<text x="95" y="23" font-size="16">HRMS 随 dAge 的变化：10 秒区间及线性拟合</text>
+<path d="M95.0,90v270" stroke="#ddd" fill="none"/>
+<text x="95.0" y="380" text-anchor="middle">0</text>
+<path d="M240.0,90v270" stroke="#ddd" fill="none"/>
+<text x="240.0" y="380" text-anchor="middle">50</text>
+<path d="M385.0,90v270" stroke="#ddd" fill="none"/>
+<text x="385.0" y="380" text-anchor="middle">100</text>
+<path d="M530.0,90v270" stroke="#ddd" fill="none"/>
+<text x="530.0" y="380" text-anchor="middle">150</text>
+<path d="M675.0,90v270" stroke="#ddd" fill="none"/>
+<text x="675.0" y="380" text-anchor="middle">200</text>
+<path d="M820.0,90v270" stroke="#ddd" fill="none"/>
+<text x="820.0" y="380" text-anchor="middle">250</text>
+<path d="M965.0,90v270" stroke="#ddd" fill="none"/>
+<text x="965.0" y="380" text-anchor="middle">300</text>
+<path d="M95,360.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="364.0" text-anchor="end">0</text>
+<path d="M95,292.5h870" stroke="#ddd" fill="none"/>
+<text x="87" y="296.5" text-anchor="end">10</text>
+<path d="M95,225.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="229.0" text-anchor="end">20</text>
+<path d="M95,157.5h870" stroke="#ddd" fill="none"/>
+<text x="87" y="161.5" text-anchor="end">30</text>
+<path d="M95,90.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="94.0" text-anchor="end">40</text>
+<path d="M95.0,90v270 M95,360.0h870" stroke="black" stroke-width="1.2" fill="none"/>
+<text x="95.0" y="45" fill="red">P23A_0</text>
+<path d="M98.49,334.39h0.1 M137.21,314.96h0.1 M166.65,313.60h0.1" stroke="red" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="385.0" y="45" fill="green">P23A_1</text>
+<path d="M98.94,331.48h0.1 M139.75,279.33h0.1 M168.75,282.93h0.1 M197.95,269.75h0.1 M226.95,273.19h0.1 M255.82,281.18h0.1 M284.95,271.52h0.1 M313.82,264.43h0.1 M342.95,268.36h0.1 M371.81,266.63h0.1 M401.07,256.91h0.1 M429.95,256.80h0.1 M458.95,261.42h0.1 M487.95,244.68h0.1 M516.95,231.47h0.1 M545.95,222.05h0.1 M574.95,213.73h0.1 M603.95,216.55h0.1 M632.95,205.01h0.1 M661.95,200.58h0.1 M690.95,178.17h0.1 M719.95,190.41h0.1 M748.95,182.07h0.1 M777.95,154.70h0.1 M806.95,144.79h0.1 M835.95,144.83h0.1 M864.95,136.84h0.1 M893.95,132.61h0.1 M922.95,138.25h0.1 M950.50,129.33h0.1" stroke="green" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="675.0" y="45" fill="blue">UM980</text>
+<path d="M98.96,293.99h0.1 M139.54,306.84h0.1 M168.72,299.93h0.1 M197.95,290.69h0.1 M226.95,281.96h0.1 M255.84,269.40h0.1 M284.95,262.74h0.1 M313.95,252.22h0.1 M342.95,242.41h0.1 M371.95,226.28h0.1 M400.95,218.77h0.1 M429.95,216.25h0.1 M458.95,204.93h0.1 M487.90,198.29h0.1 M516.95,188.27h0.1 M545.95,176.96h0.1 M574.90,184.17h0.1 M604.04,178.78h0.1 M632.95,173.61h0.1 M661.95,165.59h0.1 M690.95,162.10h0.1 M719.95,153.66h0.1 M748.95,142.95h0.1 M777.95,139.19h0.1 M806.90,131.07h0.1 M835.95,128.41h0.1 M864.95,122.18h0.1 M893.95,114.14h0.1 M922.95,116.90h0.1 M951.95,115.90h0.1" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="95.0" y="67" fill="red">P23A_0: +0.1354 mm/s</text>
+<path d="M98.49,332.21 L166.65,310.73" stroke="red" stroke-width="2" fill="none"/>
+<text x="385.0" y="67" fill="green">P23A_1: +0.0927 mm/s</text>
+<path d="M98.94,314.20 L950.50,130.50" stroke="green" stroke-width="2" fill="none"/>
+<text x="675.0" y="67" fill="blue">UM980: +0.1026 mm/s</text>
+<path d="M98.96,301.81 L951.95,98.09" stroke="blue" stroke-width="2" fill="none"/>
+<path d="M90.0,360.0h10 M95.0,355.0v10" stroke="black" stroke-width="2"/><text x="103.0" y="352.0">(0,0)</text>
+<text x="530.0" y="418" text-anchor="middle">改正数据龄期 dAge [s]</text>
+<text transform="translate(19,225.0) rotate(-90)" text-anchor="middle">水平均方根误差 HRMS [mm]</text>
+</g></svg>

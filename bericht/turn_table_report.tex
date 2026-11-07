@@ -58,7 +58,7 @@ P23A\_1 & 0,01746 m & 0,03542 m & 0,09647 m\\
 UM980 & 0,02071 m & 0,04256 m & 0,07939 m\\
 \bottomrule\end{tabular}\end{center}
 
-Die vollständige horizontale Ansicht enthält sämtliche RTK-fixed-Abweichungen; die zusätzliche Detailansicht zeigt ±10 cm und blendet Punkte außerhalb aus. Gleiche Achsenskalierung, rot=P23A\_0, grün=P23A\_1, blau=UM980, schwarzes Kreuz=Sollposition. Zusätzlich: Anzahl der Vollkreise, Ost-, Nord- und horizontaler Fehler über der Zeit. Statistiken beziehen sich auf alle verwendeten Epochen, nicht nur auf das Detailfenster oder einzelne Outage-Phasen.
+Die vollständige horizontale Ansicht enthält sämtliche RTK-fixed-Abweichungen; die zusätzliche Detailansicht zeigt ±10 cm und blendet Punkte außerhalb aus. Gleiche Achsenskalierung, rot=P23A\_0, grün=P23A\_1, blau=UM980, schwarzes Kreuz=Sollposition. Zusätzlich: Anzahl der Vollkreise, Ost-, Nord- und horizontaler Fehler über der Zeit. Vor dem HRMS-/Fit-Diagramm zeigt {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}scatter.svg}} alle verwendbaren RTK-fixed-Einzelwerte des horizontalen Fehlers [mm] über dAge [s], ohne Binning. Before the HRMS/fit plot, {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}scatter.svg}} shows every usable RTK-fixed horizontal error sample [mm] versus dAge [s], without binning. {\small\texttt{horizontal\_\allowbreak{}dage.svg}}: dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer. Alle Diagramme markieren den Ursprung und die Nulllinien; das Raster verwendet runde Schrittweiten. Intervallwerte stehen in {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}hrms.csv}}, Fitparameter in {\small\texttt{auswertung.json}}. Statistiken beziehen sich auf alle verwendeten Epochen, nicht nur auf das Detailfenster oder einzelne Outage-Phasen.
 
 Validiert durch vollständigen Lauf mit den drei Eingabedateien, identische Ergebnis-Zeitstempel, einen synthetischen Kreis mit bekanntem Mittelpunkt/Radius und einen GGA-Mitternachtswechsel.
 
@@ -81,22 +81,20 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \setlength{\unitlength}{1bp}\begin{picture}(680.0,680.0)
 \put(0,0){\includegraphics[width=680.0bp,height=680.0bp]{bericht/abbildungen/horizontal.pdf}}
 \put(95.0,657.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Horizontale Abweichungen vom zeitgleichen Sollkreis}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.09642}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.09642}}
-\put(205.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05785}}
-\put(87.0,175.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05785}}
-\put(315.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.01928}}
-\put(87.0,284.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.01928}}
-\put(425.00000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01928}}
-\put(87.0,393.00000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01928}}
-\put(535.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05785}}
-\put(87.0,501.99999999999994){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05785}}
-\put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.09642}}
-\put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.09642}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(232.5,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(370.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(507.50000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,202.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,338.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,474.75000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,635.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
-\put(379.0,351.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Soll (0,0)}}
+\put(278.33333333333337,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(461.6666666666667,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(378.0,350.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Soll (0,0)}}
 \put(370.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Ost-Abweichung [m]}}
 \put(19.0,342.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Nord-Abweichung [m]}}}
 \end{picture}}
@@ -107,21 +105,19 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \put(0,0){\includegraphics[width=680.0bp,height=680.0bp]{bericht/abbildungen/horizontal_detail.pdf}}
 \put(95.0,657.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Detail ±0,10 m (größere Abweichungen ausgeblendet)}}
 \put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
-\put(205.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
-\put(87.0,175.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
-\put(315.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
-\put(87.0,284.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
-\put(425.00000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
-\put(87.0,393.00000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
-\put(535.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
-\put(87.0,501.99999999999994){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
+\put(232.5,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(370.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(507.50000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
 \put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,202.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,338.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,474.75000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
 \put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,635.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
-\put(379.0,351.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Soll (0,0)}}
+\put(278.33333333333337,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(461.6666666666667,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(378.0,350.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Soll (0,0)}}
 \put(370.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Ost-Abweichung [m]}}
 \put(19.0,342.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Nord-Abweichung [m]}}}
 \end{picture}}
@@ -131,19 +127,21 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/winkel.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Umdrehungen: positiv von Ost nach Nord}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -84.19}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -66.1}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -48.02}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.00000000000003){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -29.93}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -11.85}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 6.24}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -80}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -60}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -40}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -20}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(103.0,314.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Zeit seit gemeinsamem Beginn [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Anzahl der Vollkreise seit erstem Referenzpunkt}}}
 \end{picture}}
@@ -153,21 +151,25 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/east_zeit.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Ost-Abweichung über der Zeit}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.0772}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.04977}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02235}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.005077}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.0325}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05993}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.08}}
+\put(87.0,108.14285714285717){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
+\put(87.0,150.28571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.04}}
+\put(87.0,192.4285714285714){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
+\put(87.0,234.57142857142856){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,276.7142857142857){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
+\put(87.0,318.8571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,246.57142857142856){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Zeit seit gemeinsamem Beginn [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Ost-Abweichung [m]}}}
 \end{picture}}
@@ -177,21 +179,22 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/north_zeit.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Nord-Abweichung über der Zeit}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1022}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06478}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.0274}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.00999}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04738}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08476}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,139.75){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,213.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,287.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,225.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Zeit seit gemeinsamem Beginn [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Nord-Abweichung [m]}}}
 \end{picture}}
@@ -201,23 +204,79 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_zeit.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Horizontal-Abweichung über der Zeit}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.007717}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01466}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.03705}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05943}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08181}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1042}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Zeit seit gemeinsamem Beginn [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal-Abweichung [m]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_dage_scatter.pdf}}
+\put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Horizontaler Fehler über dAge: alle RTK-fixed-Einzelwerte}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 40}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 60}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 80}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Korrekturdatenalter dAge [s]}}
+\put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontaler Fehler [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_dage.pdf}}
+\put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS über dAge: 10-s-Intervalle und linearer Fit}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,133.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 10}}
+\put(87.0,201.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
+\put(87.0,268.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 30}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 40}}
+\put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(95.0,363.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(385.0,363.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(675.0,363.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Korrekturdatenalter dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontaler RMS-Fehler HRMS [mm]}}}
 \end{picture}}
 \end{figure}\clearpage
 \clearpage\section{English — Turn-table test — 2026-11-03}
@@ -265,7 +324,7 @@ P23A\_1 & 0.01746 m & 0.03542 m & 0.09647 m\\
 UM980 & 0.02071 m & 0.04256 m & 0.07939 m\\
 \bottomrule\end{tabular}\end{center}
 
-The full horizontal view shows all RTK-fixed errors. The detail view covers ±10 cm and hides points outside this range. Both axes have equal scales. Red=P23A\_0, green=P23A\_1, blue=UM980, black cross=expected position. Additional plots show revolutions and east, north and horizontal errors over time. Statistics cover all retained epochs, rather than just the detail window or individual outage phases.
+The full horizontal view shows all RTK-fixed errors. The detail view covers ±10 cm and hides points outside this range. Both axes have equal scales. Red=P23A\_0, green=P23A\_1, blue=UM980, black cross=expected position. Additional plots show revolutions and east, north and horizontal errors over time. Before the HRMS/fit plot, {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}scatter.svg}} shows every usable RTK-fixed horizontal error sample [mm] versus dAge [s], without binning. {\small\texttt{horizontal\_\allowbreak{}dage.svg}}: dAge is the reported GGA correction age [s]. HRMS = sqrt(mean(east error² + north error²)) per 10-s interval (0,10], (10,20], …; age zero belongs to the first interval. Points use the mean observed age in each interval. Lines use unweighted least squares on interval HRMS values with a free intercept, restricted to the observed age range; slopes are in mm/s. All usable RTK-fixed epochs with valid dAge are included, without pairing receivers. dAge is not an externally measured outage duration. All plots mark the origin and zero lines, with rounded grid steps. Bin values are saved in {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}hrms.csv}}, fit parameters in {\small\texttt{auswertung.json}}. Statistics cover all retained epochs, rather than just the detail window or individual outage phases.
 
 Validation included a complete run with all three input files, matching timestamps before the fixed filter and reference alignment after it, a synthetic circle with known centre/radius, a GGA midnight rollover, and the conversion from degrees to revolutions.
 
@@ -288,22 +347,20 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \setlength{\unitlength}{1bp}\begin{picture}(680.0,680.0)
 \put(0,0){\includegraphics[width=680.0bp,height=680.0bp]{bericht/abbildungen/horizontal_en.pdf}}
 \put(95.0,657.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Horizontal errors relative to the time-aligned expected circle}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.09642}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.09642}}
-\put(205.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05785}}
-\put(87.0,175.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05785}}
-\put(315.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.01928}}
-\put(87.0,284.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.01928}}
-\put(425.00000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01928}}
-\put(87.0,393.00000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01928}}
-\put(535.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05785}}
-\put(87.0,501.99999999999994){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05785}}
-\put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.09642}}
-\put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.09642}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(232.5,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(370.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(507.50000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,202.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,338.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,474.75000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,635.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
-\put(379.0,351.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Expected (0,0)}}
+\put(278.33333333333337,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(461.6666666666667,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(378.0,350.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Expected (0,0)}}
 \put(370.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont East error [m]}}
 \put(19.0,342.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont North error [m]}}}
 \end{picture}}
@@ -314,21 +371,19 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \put(0,0){\includegraphics[width=680.0bp,height=680.0bp]{bericht/abbildungen/horizontal_detail_en.pdf}}
 \put(95.0,657.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Detail ±0.10 m (larger errors hidden)}}
 \put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
-\put(205.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
-\put(87.0,175.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
-\put(315.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
-\put(87.0,284.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
-\put(425.00000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
-\put(87.0,393.00000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
-\put(535.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
-\put(87.0,501.99999999999994){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
+\put(232.5,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(370.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(507.50000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
 \put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,202.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,338.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,474.75000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
 \put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,635.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
-\put(379.0,351.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Expected (0,0)}}
+\put(278.33333333333337,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(461.6666666666667,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(378.0,350.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Expected (0,0)}}
 \put(370.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont East error [m]}}
 \put(19.0,342.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont North error [m]}}}
 \end{picture}}
@@ -338,19 +393,21 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/winkel_en.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Revolutions: positive from east towards north}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -84.19}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -66.1}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -48.02}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.00000000000003){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -29.93}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -11.85}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 6.24}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -80}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -60}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -40}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -20}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(103.0,314.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Time since common start [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Revolutions since first reference point}}}
 \end{picture}}
@@ -360,21 +417,25 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/east_zeit_en.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont East error over time}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.0772}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.04977}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02235}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.005077}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.0325}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05993}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.08}}
+\put(87.0,108.14285714285717){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
+\put(87.0,150.28571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.04}}
+\put(87.0,192.4285714285714){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
+\put(87.0,234.57142857142856){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,276.7142857142857){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
+\put(87.0,318.8571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,246.57142857142856){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Time since common start [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont East error [m]}}}
 \end{picture}}
@@ -384,21 +445,22 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/north_zeit_en.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont North error over time}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1022}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06478}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.0274}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.00999}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04738}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08476}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,139.75){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,213.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,287.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,225.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Time since common start [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont North error [m]}}}
 \end{picture}}
@@ -408,23 +470,79 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_zeit_en.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Horizontal error over time}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.007717}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01466}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.03705}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05943}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08181}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1042}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Time since common start [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal error [m]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_dage_scatter_en.pdf}}
+\put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont Horizontal error versus dAge: all RTK-fixed samples}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 40}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 60}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 80}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Correction age dAge [s]}}
+\put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal error [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_dage_en.pdf}}
+\put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS versus dAge: 10-s bins and linear fit}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,133.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 10}}
+\put(87.0,201.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
+\put(87.0,268.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 30}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 40}}
+\put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(95.0,363.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(385.0,363.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(675.0,363.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Correction age dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal RMS error HRMS [mm]}}}
 \end{picture}}
 \end{figure}\clearpage
 \clearpage\section{{\cjkfont 中}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont （}\allowbreak{}{\cjkfont 简}\allowbreak{}{\cjkfont 体}\allowbreak{}{\cjkfont ）}\allowbreak{}— {\cjkfont 转}\allowbreak{}{\cjkfont 台}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{} — 2026{\cjkfont 年}\allowbreak{}11{\cjkfont 月}\allowbreak{}3{\cjkfont 日}\allowbreak{}}
@@ -472,7 +590,7 @@ P23A\_1 & 0.01746 m & 0.03542 m & 0.09647 m\\
 UM980 & 0.02071 m & 0.04256 m & 0.07939 m\\
 \bottomrule\end{tabular}\end{center}
 
-{\cjkfont 完}\allowbreak{}{\cjkfont 整}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 显}\allowbreak{}{\cjkfont 示}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{} RTK {\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 局}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 覆}\allowbreak{}{\cjkfont 盖}\allowbreak{} ±10 cm{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 隐}\allowbreak{}{\cjkfont 藏}\allowbreak{}{\cjkfont 范}\allowbreak{}{\cjkfont 围}\allowbreak{}{\cjkfont 外}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 两}\allowbreak{}{\cjkfont 个}\allowbreak{}{\cjkfont 坐}\allowbreak{}{\cjkfont 标}\allowbreak{}{\cjkfont 轴}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 例}\allowbreak{}{\cjkfont 尺}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 红}\allowbreak{}{\cjkfont 色}\allowbreak{}=P23A\_0{\cjkfont ，}\allowbreak{}{\cjkfont 绿}\allowbreak{}{\cjkfont 色}\allowbreak{}=P23A\_1{\cjkfont ，}\allowbreak{}{\cjkfont 蓝}\allowbreak{}{\cjkfont 色}\allowbreak{}=UM980{\cjkfont ，}\allowbreak{}{\cjkfont 黑}\allowbreak{}{\cjkfont 色}\allowbreak{}{\cjkfont 十}\allowbreak{}{\cjkfont 字}\allowbreak{}={\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 置}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 另}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 旋}\allowbreak{}{\cjkfont 转}\allowbreak{}{\cjkfont 圈}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 统}\allowbreak{}{\cjkfont 计}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont 基}\allowbreak{}{\cjkfont 于}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 留}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 而}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 局}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 或}\allowbreak{}{\cjkfont 某}\allowbreak{}{\cjkfont 些}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 阶}\allowbreak{}{\cjkfont 段}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 。}\allowbreak{}
+{\cjkfont 完}\allowbreak{}{\cjkfont 整}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 显}\allowbreak{}{\cjkfont 示}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{} RTK {\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 局}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 覆}\allowbreak{}{\cjkfont 盖}\allowbreak{} ±10 cm{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 隐}\allowbreak{}{\cjkfont 藏}\allowbreak{}{\cjkfont 范}\allowbreak{}{\cjkfont 围}\allowbreak{}{\cjkfont 外}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 两}\allowbreak{}{\cjkfont 个}\allowbreak{}{\cjkfont 坐}\allowbreak{}{\cjkfont 标}\allowbreak{}{\cjkfont 轴}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 例}\allowbreak{}{\cjkfont 尺}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 红}\allowbreak{}{\cjkfont 色}\allowbreak{}=P23A\_0{\cjkfont ，}\allowbreak{}{\cjkfont 绿}\allowbreak{}{\cjkfont 色}\allowbreak{}=P23A\_1{\cjkfont ，}\allowbreak{}{\cjkfont 蓝}\allowbreak{}{\cjkfont 色}\allowbreak{}=UM980{\cjkfont ，}\allowbreak{}{\cjkfont 黑}\allowbreak{}{\cjkfont 色}\allowbreak{}{\cjkfont 十}\allowbreak{}{\cjkfont 字}\allowbreak{}={\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 置}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 另}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 旋}\allowbreak{}{\cjkfont 转}\allowbreak{}{\cjkfont 圈}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 在}\allowbreak{} HRMS {\cjkfont 及}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 之}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont ，}\allowbreak{}{\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}scatter.svg}} {\cjkfont 显}\allowbreak{}{\cjkfont 示}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{} RTK {\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [mm] {\cjkfont 随}\allowbreak{} dAge [s] {\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 进}\allowbreak{}{\cjkfont 行}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 箱}\allowbreak{}{\cjkfont 。}\allowbreak{}{\small\texttt{horizontal\_\allowbreak{}dage.svg}}{\cjkfont ：}\allowbreak{}dAge {\cjkfont 为}\allowbreak{} GGA {\cjkfont 报}\allowbreak{}{\cjkfont 告}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{} [s]{\cjkfont 。}\allowbreak{}{\cjkfont 每}\allowbreak{}{\cjkfont 个}\allowbreak{} 10 {\cjkfont 秒}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{} (0,10]{\cjkfont 、}\allowbreak{}(10,20] {\cjkfont 等}\allowbreak{}{\cjkfont 计}\allowbreak{}{\cjkfont 算}\allowbreak{} HRMS = sqrt({\cjkfont 平}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 值}\allowbreak{}({\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}² + {\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}²)){\cjkfont ；}\allowbreak{}{\cjkfont 零}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 计}\allowbreak{}{\cjkfont 入}\allowbreak{}{\cjkfont 首}\allowbreak{}{\cjkfont 个}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 横}\allowbreak{}{\cjkfont 坐}\allowbreak{}{\cjkfont 标}\allowbreak{}{\cjkfont 为}\allowbreak{}{\cjkfont 各}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 各}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{} HRMS {\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 加}\allowbreak{}{\cjkfont 权}\allowbreak{}{\cjkfont 最}\allowbreak{}{\cjkfont 小}\allowbreak{}{\cjkfont 二}\allowbreak{}{\cjkfont 乘}\allowbreak{}{\cjkfont 直}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 截}\allowbreak{}{\cjkfont 距}\allowbreak{}{\cjkfont 自}\allowbreak{}{\cjkfont 由}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 在}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 际}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 范}\allowbreak{}{\cjkfont 围}\allowbreak{}{\cjkfont 内}\allowbreak{}{\cjkfont 绘}\allowbreak{}{\cjkfont 制}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 斜}\allowbreak{}{\cjkfont 率}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 为}\allowbreak{} mm/s{\cjkfont 。}\allowbreak{}{\cjkfont 包}\allowbreak{}{\cjkfont 含}\allowbreak{}{\cjkfont 具}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 效}\allowbreak{} dAge {\cjkfont 的}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{} RTK {\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 要}\allowbreak{}{\cjkfont 求}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont 配}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 。}\allowbreak{}dAge {\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 外}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 得}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 持}\allowbreak{}{\cjkfont 续}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 所}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 标}\allowbreak{}{\cjkfont 出}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 零}\allowbreak{}{\cjkfont 轴}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 网}\allowbreak{}{\cjkfont 格}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 整}\allowbreak{}{\cjkfont 齐}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 长}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 存}\allowbreak{}{\cjkfont 在}\allowbreak{} {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}hrms.csv}}{\cjkfont ，}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 存}\allowbreak{}{\cjkfont 在}\allowbreak{} {\small\texttt{auswertung.json}}{\cjkfont 。}\allowbreak{}{\cjkfont 统}\allowbreak{}{\cjkfont 计}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont 基}\allowbreak{}{\cjkfont 于}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 留}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 而}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 局}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 或}\allowbreak{}{\cjkfont 某}\allowbreak{}{\cjkfont 些}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 阶}\allowbreak{}{\cjkfont 段}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 。}\allowbreak{}
 
 {\cjkfont 验}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 包}\allowbreak{}{\cjkfont 括}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 三}\allowbreak{}{\cjkfont 份}\allowbreak{}{\cjkfont 输}\allowbreak{}{\cjkfont 入}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont 件}\allowbreak{}{\cjkfont 完}\allowbreak{}{\cjkfont 整}\allowbreak{}{\cjkfont 运}\allowbreak{}{\cjkfont 行}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 确}\allowbreak{}{\cjkfont 认}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 筛}\allowbreak{}{\cjkfont 选}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 戳}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 致}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 以}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 筛}\allowbreak{}{\cjkfont 选}\allowbreak{}{\cjkfont 后}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 齐}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 知}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 心}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 半}\allowbreak{}{\cjkfont 径}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 成}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{}{\cjkfont ；}\allowbreak{}GGA {\cjkfont 跨}\allowbreak{}{\cjkfont 午}\allowbreak{}{\cjkfont 夜}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 以}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 从}\allowbreak{}{\cjkfont 角}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 到}\allowbreak{}{\cjkfont 旋}\allowbreak{}{\cjkfont 转}\allowbreak{}{\cjkfont 圈}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 换}\allowbreak{}{\cjkfont 算}\allowbreak{}{\cjkfont 检}\allowbreak{}{\cjkfont 查}\allowbreak{}{\cjkfont 。}\allowbreak{}
 
@@ -494,22 +612,20 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \setlength{\unitlength}{1bp}\begin{picture}(680.0,680.0)
 \put(0,0){\includegraphics[width=680.0bp,height=680.0bp]{bericht/abbildungen/horizontal_zh.pdf}}
 \put(95.0,657.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 于}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 刻}\allowbreak{}{\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 周}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 置}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.09642}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.09642}}
-\put(205.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05785}}
-\put(87.0,175.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05785}}
-\put(315.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.01928}}
-\put(87.0,284.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.01928}}
-\put(425.00000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01928}}
-\put(87.0,393.00000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01928}}
-\put(535.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05785}}
-\put(87.0,501.99999999999994){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05785}}
-\put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.09642}}
-\put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.09642}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(232.5,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(370.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(507.50000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,202.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,338.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,474.75000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,635.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
-\put(379.0,351.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 值}\allowbreak{} (0,0)}}
+\put(278.33333333333337,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(461.6666666666667,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(378.0,350.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 值}\allowbreak{} (0,0)}}
 \put(370.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}
 \put(19.0,342.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}}
 \end{picture}}
@@ -520,21 +636,19 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \put(0,0){\includegraphics[width=680.0bp,height=680.0bp]{bericht/abbildungen/horizontal_detail_zh.pdf}}
 \put(95.0,657.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 局}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 图}\allowbreak{} ±0.10 m{\cjkfont （}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 显}\allowbreak{}{\cjkfont 示}\allowbreak{}{\cjkfont 范}\allowbreak{}{\cjkfont 围}\allowbreak{}{\cjkfont 外}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont ）}\allowbreak{}}}
 \put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
-\put(205.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
-\put(87.0,175.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
-\put(315.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
-\put(87.0,284.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
-\put(425.00000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
-\put(87.0,393.00000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
-\put(535.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
-\put(87.0,501.99999999999994){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
+\put(232.5,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(370.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(507.50000000000006,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
 \put(645.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,202.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,338.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,474.75000000000006){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
 \put(87.0,611.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,635.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
-\put(379.0,351.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 值}\allowbreak{} (0,0)}}
+\put(278.33333333333337,635.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(461.6666666666667,635.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(378.0,350.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 值}\allowbreak{} (0,0)}}
 \put(370.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}
 \put(19.0,342.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}}
 \end{picture}}
@@ -544,19 +658,21 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/winkel_zh.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 旋}\allowbreak{}{\cjkfont 转}\allowbreak{}{\cjkfont 圈}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 从}\allowbreak{}{\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 北}\allowbreak{}{\cjkfont 为}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 向}\allowbreak{}}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -84.19}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -66.1}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -48.02}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.00000000000003){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -29.93}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -11.85}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 6.24}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -80}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -60}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -40}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -20}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(103.0,314.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 自}\allowbreak{}{\cjkfont 共}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 刻}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{} [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 自}\allowbreak{}{\cjkfont 首}\allowbreak{}{\cjkfont 个}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 旋}\allowbreak{}{\cjkfont 转}\allowbreak{}{\cjkfont 圈}\allowbreak{}{\cjkfont 数}\allowbreak{}}}}
 \end{picture}}
@@ -566,21 +682,25 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/east_zeit_zh.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.0772}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.04977}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02235}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.005077}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.0325}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05993}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.08}}
+\put(87.0,108.14285714285717){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06}}
+\put(87.0,150.28571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.04}}
+\put(87.0,192.4285714285714){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.02}}
+\put(87.0,234.57142857142856){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,276.7142857142857){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
+\put(87.0,318.8571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,246.57142857142856){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 自}\allowbreak{}{\cjkfont 共}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 刻}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{} [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 东}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}}
 \end{picture}}
@@ -590,21 +710,22 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/north_zeit_zh.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1022}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.06478}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.0274}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.00999}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04738}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08476}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.1}}
+\put(87.0,139.75){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.05}}
+\put(87.0,213.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,287.25){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,225.5){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 自}\allowbreak{}{\cjkfont 共}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 刻}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{} [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 北}\allowbreak{}{\cjkfont 向}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}}
 \end{picture}}
@@ -614,23 +735,79 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
 \put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_zeit_zh.pdf}}
 \put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}}}
-\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -10.96}}
-\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont -0.007717}}
-\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 48.22}}
-\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.01466}}
-\put(442.99999999999994,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 107.4}}
-\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.03705}}
-\put(617.0000000000001,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 166.6}}
-\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.05943}}
-\put(790.9999999999999,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 225.8}}
-\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08181}}
-\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 284.9}}
-\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1042}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.02}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.04}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.06}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.08}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0.1}}
 \put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
-\put(265.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
-\put(435.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 自}\allowbreak{}{\cjkfont 共}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 刻}\allowbreak{}{\cjkfont 起}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{} [min]}}
 \put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [m]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_dage_scatter_zh.pdf}}
+\put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{} dAge {\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{} RTK {\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 值}\allowbreak{}}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,125.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
+\put(87.0,184.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 40}}
+\put(87.0,243.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 60}}
+\put(87.0,302.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 80}}
+\put(87.0,361.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{} dAge [s]}}
+\put(19.0,217.5){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,430.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=430.0bp]{bericht/abbildungen/horizontal_dage_zh.pdf}}
+\put(95.0,407.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS {\cjkfont 随}\allowbreak{} dAge {\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont ：}\allowbreak{}10 {\cjkfont 秒}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,133.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 10}}
+\put(87.0,201.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 20}}
+\put(87.0,268.5){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 30}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 40}}
+\put(95.0,385.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(385.0,385.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(675.0,385.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(95.0,363.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(385.0,363.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(675.0,363.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{} dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 根}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} HRMS [mm]}}}
 \end{picture}}
 \end{figure}\clearpage
 \end{document}

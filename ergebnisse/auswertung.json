@@ -1,4 +1,32 @@
 {
+  "dage_hrms": {
+    "bin_width_s": 10,
+    "bin_convention": "(lower, upper]; age zero included in first bin",
+    "fit_method": "unweighted OLS of bin HRMS versus mean age, free intercept",
+    "fits": {
+      "P23A_0": {
+        "slope_mm_per_s": 0.13541844382246082,
+        "intercept_mm": 3.953859459466236,
+        "bins": 3,
+        "min_age_s": 1.2025393911580236,
+        "max_age_s": 24.705882352941178
+      },
+      "P23A_1": {
+        "slope_mm_per_s": 0.09268385844979046,
+        "intercept_mm": 6.6587882579013264,
+        "bins": 30,
+        "min_age_s": 1.358188824662813,
+        "max_age_s": 295.0
+      },
+      "UM980": {
+        "slope_mm_per_s": 0.10261130996249866,
+        "intercept_mm": 8.480381418432522,
+        "bins": 30,
+        "min_age_s": 1.365698904056912,
+        "max_age_s": 295.5
+      }
+    }
+  },
   "outage_comparison": {
     "correction_age_threshold_s": 10,
     "criterion": "both RTK-fixed, both correction ages > threshold, identical UTC epochs",

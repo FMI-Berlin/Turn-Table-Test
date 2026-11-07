@@ -14,7 +14,7 @@ Python 3.10 oder neuer; die Analyse benötigt keine externen Python-Pakete:
 python3 turn_table.py
 ```
 
-Danach [ergebnisse/index.html](ergebnisse/index.html) im Browser öffnen. Die Übersicht enthält deutsche, englische und chinesische Kapitel einschließlich übersetzter Diagramme.
+Danach [ergebnisse/index.html](ergebnisse/index.html) im Browser öffnen. Die Übersicht enthält deutsche, englische und chinesische Kapitel einschließlich übersetzter Diagramme, auch HRMS in 10-s-Intervallen über dem Korrekturdatenalter dAge [s] mit linearem Fit und Steigungen in mm/s. Alle Diagramme zeigen den Ursprung und ein Raster mit runden Schrittweiten.
 
 ```bash
 python3 turn_table.py --input-dir . --output-dir ergebnisse --max-gap 3
@@ -54,7 +54,7 @@ python3 turn_table.py
 python3 build_report.py
 ```
 
-Der Berichtsaufbau verwendet `AUSWERTUNG.md` und `ergebnisse/` im Projektverzeichnis. Nach Änderungen an Eingabedaten die Ergebniszahlen und Texte in `AUSWERTUNG.md` ebenfalls aktualisieren: Die Berichtserzeugung übernimmt diese Dokumentation, statt ihre Zahlen automatisch neu zu berechnen. Das PDF enthält sechs Diagramme pro Sprache. Der HTML-Bericht und die CSV-/JSON-Ergebnisse werden dagegen direkt aus den Messdaten erzeugt.
+Der Berichtsaufbau verwendet `AUSWERTUNG.md` und `ergebnisse/` im Projektverzeichnis. Nach Änderungen an Eingabedaten die Ergebniszahlen und Texte in `AUSWERTUNG.md` ebenfalls aktualisieren: Die Berichtserzeugung übernimmt diese Dokumentation, statt ihre Zahlen automatisch neu zu berechnen. Das PDF enthält acht Diagramme pro Sprache. Der HTML-Bericht und die CSV-/JSON-Ergebnisse werden dagegen direkt aus den Messdaten erzeugt.
 
 ## English
 
@@ -81,7 +81,7 @@ This conclusion concerns the accuracy of retained fixed solutions, not overall o
 ### Outputs and PDF generation
 
 - [AUSWERTUNG.md](AUSWERTUNG.md): full methodology, results and conclusion in all three languages.
-- [PDF report](bericht/turn_table_report.pdf) and [LaTeX source](bericht/turn_table_report.tex): all three languages, with six plots per language.
+- [PDF report](bericht/turn_table_report.pdf) and [LaTeX source](bericht/turn_table_report.tex): all three languages, with eight plots per language.
 - `ergebnisse/`: HTML, SVG plots, measurement CSV files, rotation durations, paired outage comparison and JSON statistics.
 - Keep `turn_table.py` and `report_languages.py` together. Input filenames and machine-readable fields remain unchanged.
 
@@ -112,7 +112,7 @@ python3 turn_table.py
 ### 输出与 PDF 生成
 
 - [AUSWERTUNG.md](AUSWERTUNG.md)：三种语言的完整方法、结果和结论。
-- [PDF 报告](bericht/turn_table_report.pdf) 和 [LaTeX 源文件](bericht/turn_table_report.tex)：包含全部三种语言，每种语言各六幅图。
+- [PDF 报告](bericht/turn_table_report.pdf) 和 [LaTeX 源文件](bericht/turn_table_report.tex)：包含全部三种语言，每种语言各八幅图。
 - `ergebnisse/`：HTML、SVG 图、测量 CSV、旋转周期、配对中断比较和 JSON 统计。
 - 请将 `turn_table.py` 和 `report_languages.py` 保存在同一目录。原始输入文件名和机器可读字段名保持不变。
 

@@ -5,6 +5,14 @@ import json
 # Exact report/axis phrases; numeric data and machine-readable field names stay unchanged.
 TRANSLATIONS = {
 'en': {
+'Horizontaler Fehler über dAge: alle RTK-fixed-Einzelwerte':'Horizontal error versus dAge: all RTK-fixed samples',
+'Horizontaler Fehler [mm]':'Horizontal error [mm]',
+'dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer.':'dAge is the reported GGA correction age [s]. HRMS = sqrt(mean(east error² + north error²)) per 10-s interval (0,10], (10,20], …; age zero belongs to the first interval. Points use the mean observed age in each interval. Lines use unweighted least squares on interval HRMS values with a free intercept, restricted to the observed age range; slopes are in mm/s. All usable RTK-fixed epochs with valid dAge are included, without pairing receivers. dAge is not an externally measured outage duration.',
+'HRMS über dAge: 10-s-Intervalle und linearer Fit':'HRMS versus dAge: 10-s bins and linear fit',
+'Horizontaler RMS-Fehler HRMS [mm]':'Horizontal RMS error HRMS [mm]',
+'Korrekturdatenalter dAge [s]':'Correction age dAge [s]',
+'Horizontaler Fehler über dAge (nur RTK-fixed)':'Horizontal error versus dAge (RTK-fixed only)',
+'dAge ist das gemeldete Korrekturdatenalter aus GGA in Sekunden, nicht die extern gemessene Outage-Dauer. Jeder Punkt zeigt den horizontalen Fehler einer RTK-fixed-Epoche mit gültigem dAge; fehlende oder ungültige Alterswerte werden ausgelassen. Alle drei Receiver sind enthalten, ohne Beschränkung auf gemeinsame Outage-Epochen.':'dAge is the reported GGA correction age in seconds, not an externally measured outage duration. Each point shows the horizontal error of an RTK-fixed epoch with a valid dAge; missing or invalid ages are omitted. All three receivers are included, without restricting the plot to paired outage epochs.',
 'Mittlere Umdrehungsdauer:':'Mean rotation period:',
 'vollständige Umdrehungen, ohne Referenzlücken':'complete revolutions, excluding reference gaps',
 'Turn-Table-Test':'Turn-table test',
@@ -26,6 +34,14 @@ TRANSLATIONS = {
 'Soll (0,0)':'Expected (0,0)',
 },
 'zh': {
+'Horizontaler Fehler über dAge: alle RTK-fixed-Einzelwerte':'水平误差随 dAge 的变化：全部 RTK 固定解单点值',
+'Horizontaler Fehler [mm]':'水平误差 [mm]',
+'dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer.':'dAge 为 GGA 报告的改正数据龄期 [s]。每个 10 秒区间 (0,10]、(10,20] 等计算 HRMS = sqrt(平均值(东向误差² + 北向误差²))；零龄期计入首个区间。点的横坐标为各区间的平均龄期。对各区间 HRMS 采用不加权最小二乘直线拟合，截距自由，仅在实际龄期范围内绘制，斜率单位为 mm/s。包含具有有效 dAge 的全部可用 RTK 固定解历元，不要求接收机历元配对。dAge 并非外部测得的中断持续时间。',
+'HRMS über dAge: 10-s-Intervalle und linearer Fit':'HRMS 随 dAge 的变化：10 秒区间及线性拟合',
+'Horizontaler RMS-Fehler HRMS [mm]':'水平均方根误差 HRMS [mm]',
+'Korrekturdatenalter dAge [s]':'改正数据龄期 dAge [s]',
+'Horizontaler Fehler über dAge (nur RTK-fixed)':'水平误差随 dAge 的变化（仅 RTK 固定解）',
+'dAge ist das gemeldete Korrekturdatenalter aus GGA in Sekunden, nicht die extern gemessene Outage-Dauer. Jeder Punkt zeigt den horizontalen Fehler einer RTK-fixed-Epoche mit gültigem dAge; fehlende oder ungültige Alterswerte werden ausgelassen. Alle drei Receiver sind enthalten, ohne Beschränkung auf gemeinsame Outage-Epochen.':'dAge 是 GGA 报告的改正数据龄期，单位为秒，并非外部测得的中断持续时间。每个点表示具有有效 dAge 的一个 RTK 固定解历元的水平误差；缺失或无效的龄期不予绘制。图中包含全部三个接收机，不限于配对的中断历元。',
 'Mittlere Umdrehungsdauer:':'平均旋转周期：',
 'vollständige Umdrehungen, ohne Referenzlücken':'次完整旋转，已排除参考数据缺口',
 'Turn-Table-Test':'转台测试', 'Radius:':'半径：', ' bis ':' 至 ', 'Datum:':'日期：',

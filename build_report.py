@@ -102,7 +102,7 @@ def figure(stem):
 def diagrams(language):
     suffix={'de':'','en':'_en','zh':'_zh'}[language]
     return '\n'.join(figure(stem+suffix) for stem in
-                     ['horizontal','horizontal_detail','winkel','east_zeit','north_zeit','horizontal_zeit'])+r'\clearpage'
+                     ['horizontal','horizontal_detail','winkel','east_zeit','north_zeit','horizontal_zeit','horizontal_dage_scatter','horizontal_dage'])+r'\clearpage'
 
 
 def markdown_report():
