@@ -54,6 +54,8 @@ Die vollständige horizontale Ansicht enthält sämtliche RTK-fixed-Abweichungen
 
 Validiert durch vollständigen Lauf mit den drei Eingabedateien, identische Ergebnis-Zeitstempel, einen synthetischen Kreis mit bekanntem Mittelpunkt/Radius und einen GGA-Mitternachtswechsel.
 
+Zusätzlicher historischer Vergleich: `horizontal_dage_vergleich.svg` übernimmt alle fünf Kurven aus Abbildung 1 auf Seite 2 von `Frühere Outage Results.pdf` und ergänzt die neuen HRMS-Werte und Fitgeraden. `horizontal_dage_vergleich_detail.svg` zeigt 0–300 s und 0–150 mm mit den zwei niedrigeren alten Kurven und dem isolierten präzisen Uhrenpunkt. Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht. Die rekonstruierten Koordinaten und ihre Herkunft stehen unter `vergleich/`.
+
 ## Fazit zum Outage-Vergleich
 
 **P23A_1 zeigt die kleineren typischen horizontalen Abweichungen während Abschnitten mit veralteten Referenzdaten.** Der UM980 hat dagegen den kleineren maximalen Einzelfehler. P23A_0 dient als kontinuierlich versorgte Referenz und wird nicht als Outage-Kandidat gewertet.
@@ -66,6 +68,30 @@ Für einen fairen direkten Vergleich werden 6.812 identische UTC-Epochen ausgew�
 | UM980 | 2,69 cm | 1,90 cm | 5,42 cm | 7,94 cm |
 
 Damit liegt der RMS von P23A_1 in diesem Vergleich rund 30 % unter dem des UM980. Die einzelnen Vergleichsepochen stehen in `ergebnisse/outage_vergleich.csv`, die Statistik in `auswertung.json`.
+
+## Bewertung anhand der früheren Untersuchung (Punkte 1–6)
+
+**Die aktuellen Receiver erreichen bei ungefähr fünf Minuten alten Korrekturen etwa 3–4 cm HRMS. Das liegt deutlich unter den früheren Stufen 1–5, erreicht aber nicht den damaligen Wert mit präzisen Satellitenuhren aus Stufe 6.** Welche Verfahren die heutigen Receiver intern einsetzen, lässt sich aus den Positionsdaten allein nicht bestimmen.
+
+Quelle: „Frühere Outage Results.pdf“, Punkte 1–6 auf Seiten 1–2, Abbildung 1 auf Seite 2. Die folgenden historischen Werte bei 300 s sind Näherungen aus den rekonstruierten Kurven; nur Stufe 6 ist ein einzelner, im Text mit etwa 20 mm angegebener Punkt. Unsere 34,2 mm (P23A_1) und 36,2 mm (UM980) stammen aus 290 < dAge ≤300 s, nicht aus einer Fitvorhersage. P23A_1 reicht bis 299 s.
+
+**1. Alte Referenzdaten unverändert verwenden:** Früher starker, nahezu linearer Fehleranstieg bis etwa 829 mm HRMS bei 300 s. Unsere 34–36 mm zeigen ein wesentlich günstigeres Verhalten. Das Alter der Korrekturen allein bestimmt die Genauigkeit nicht; die Verarbeitungsmethode und die Testbedingungen sind wesentlich.
+
+**2. Broadcast-Satellitenuhren berücksichtigen:** Verbesserung auf etwa 687 mm. Die zeitliche Änderung der Satellitenuhren ist wichtig, doch das einfache Uhrenmodell reichte im früheren Versuch nicht aus.
+
+**3. Relativistische Korrektur ergänzen:** Weitere Verbesserung auf etwa 347 mm. Bei zeitversetzten Referenz- und Roverdaten werden Modellterme relevant, die sich bei gleichzeitigen Beobachtungen weitgehend herausheben. Sorgfältige Modellierung ist entscheidend.
+
+**4. Ultra-Rapid-Bahnen und Uhren verwenden:** Rückgang auf etwa 134 mm. Bessere Satelliteninformationen reduzierten den Fehler deutlich. Unsere heutigen Werte liegen nochmals darunter; wegen unterschiedlicher Versuchsbedingungen ist daraus kein isolierter Algorithmusvergleich ableitbar.
+
+**5. Finale präzise Bahnen verwenden:** Nur noch begrenzte Verbesserung auf etwa 105 mm. Im früheren Versuch waren Bahnfehler zuletzt nicht mehr der entscheidende Engpass. Genauere Bahnen allein lösten das Problem nicht.
+
+**6. Finale präzise Satellitenuhren verwenden:** Etwa 20 mm bei 300 s. Der frühere Bericht führt den verbleibenden Fehler auf kurzfristige Nichtlinearitäten der Satellitenuhren zurück. Für unsere Restfehler ist dies eine plausible Prüfhypothese, keine nachgewiesene Ursache. Der historische Punkt verwendet nachträglich verfügbare präzise Produkte und ist keine belegte Echtzeitgrenze.
+
+**Was lernen wir?** Die heutigen Ergebnisse sind sehr gut, eine erreichte Genauigkeitsgrenze ist aber nicht belegt. Ein linearer Fehleranstieg identifiziert die Ursache nicht eindeutig. Unsere Steigungen von 0,0927 mm/s (P23A_1) und 0,1026 mm/s (UM980) sind empirische Fits, keine physikalischen Grenzen.
+
+Der Vorteil von P23A_1 wird bei langen Outages kleiner: Mit frischen Korrekturen (0 < dAge ≤10 s) betragen die HRMS-Werte 4,2 gegenüber 9,8 mm; nahe 300 s sind es 34,2 gegenüber 36,2 mm. Diese Altersklassen enthalten jeweils die verwendbaren Fixed-Epochen des einzelnen Receivers und sind kein gepaarter Vergleich.
+
+**Nächster Nachweis:** Dieselben Outage-Rohdaten mit unterschiedlichen Satellitenuhr- und Bahnmodellen auswerten, eine unabhängige Positionsreferenz verwenden und die Fixed-Verfügbarkeit mitbewerten. Unsere aktuelle Auswertung bewertet erhaltene Fixed-Lösungen relativ zum P23A_0-Sollkreis. Gemeinsame Fehler können verborgen bleiben. Sie belegt gute relative Outage-Genauigkeit, aber keine absolute Genauigkeitsgrenze.
 
 # English — Turn-table test — 2026-11-03
 
@@ -123,6 +149,8 @@ The full horizontal view shows all RTK-fixed errors. The detail view covers ±10
 
 Validation included a complete run with all three input files, matching timestamps before the fixed filter and reference alignment after it, a synthetic circle with known centre/radius, a GGA midnight rollover, and the conversion from degrees to revolutions.
 
+Historical comparison: `horizontal_dage_vergleich.svg` combines all five curves from Figure 1, page 2 of `Frühere Outage Results.pdf`, with the new HRMS bins and fitted lines. `horizontal_dage_vergleich_detail.svg` shows 0–300 s and 0–150 mm with the two lower historical curves and the isolated precise-clock point. Historical coordinates are approximate PDF vector reconstructions, not original observations; see `vergleich/` for provenance. The precise-clock point uses final products. Current fits end at observed ages; different test conditions limit comparability.
+
 ## Outage comparison conclusion
 
 **P23A_1 has smaller typical horizontal errors during periods with stale reference data.** UM980 has the smaller maximum individual error. P23A_0 receives continuous reference data and is the reference, rather than an outage comparison candidate.
@@ -135,6 +163,30 @@ The direct comparison uses 6,812 identical UTC epochs where both receivers are R
 | UM980 | 2.69 cm | 1.90 cm | 5.42 cm | 7.94 cm |
 
 P23A_1 therefore has approximately 30% lower RMS than UM980 in this comparison. Individual comparison epochs are saved in `ergebnisse/outage_vergleich.csv`, with summary statistics in `auswertung.json`.
+
+## Assessment against the earlier study (steps 1–6)
+
+**The current receivers achieve about 3–4 cm HRMS with corrections approximately five minutes old. This is substantially below earlier steps 1–5, but above the result obtained with precise satellite clocks in step 6.** Position outputs alone do not identify the methods implemented inside today's receivers.
+
+Source: “Frühere Outage Results.pdf”, steps 1–6 on pages 1–2 and Figure 1 on page 2. Historical values at 300 s below are approximate reconstructions from plotted curves; step 6 is a single point described as about 20 mm in the text. Our 34.2 mm (P23A_1) and 36.2 mm (UM980) come from 290 < dAge ≤300 s, not fit predictions. P23A_1 ends at 299 s.
+
+**1. Use outdated reference data unchanged:** Earlier errors grew almost linearly to about 829 mm HRMS at 300 s. Our 34–36 mm show much more favourable behaviour. Correction age alone does not determine accuracy; processing methods and test conditions matter.
+
+**2. Apply broadcast satellite clock models:** Errors fell to about 687 mm. Changes in satellite clocks matter, but the simple clock model was insufficient in the earlier experiment.
+
+**3. Add the relativistic correction:** Errors fell further to about 347 mm. Model terms that largely cancel for simultaneous observations become relevant when reference and rover epochs differ. Careful modelling is essential.
+
+**4. Use ultra-rapid orbits and clocks:** Errors fell to about 134 mm. Better satellite information substantially reduced errors. Today's results are lower still; different experimental conditions prevent an isolated algorithm comparison.
+
+**5. Use final precise orbits:** The additional improvement to about 105 mm was limited. Orbit errors were no longer the main bottleneck in that experiment. More accurate orbits alone did not solve the problem.
+
+**6. Use final precise satellite clocks:** About 20 mm at 300 s. The earlier report attributes the remaining error to short-term satellite clock nonlinearities. This is a plausible hypothesis to test for our residuals, not an established cause. The historical point uses precise products available after the experiment and does not establish a real-time accuracy limit.
+
+**What do we learn?** Current results are very good, but do not establish that an accuracy limit has been reached. Linear error growth does not uniquely identify its cause. Our slopes of 0.0927 mm/s (P23A_1) and 0.1026 mm/s (UM980) are empirical fits, not physical limits.
+
+P23A_1's advantage narrows during long outages: with fresh corrections (0 < dAge ≤10 s), HRMS is 4.2 versus 9.8 mm; near 300 s it is 34.2 versus 36.2 mm. These age classes use each receiver's available fixed epochs separately and are not a paired comparison.
+
+**Next verification:** Process the same outage raw observations with different satellite clock and orbit models, use independent position truth, and assess fixed-solution availability. Our current analysis evaluates retained fixed solutions relative to the P23A_0 expected circle. Common errors can remain hidden. It demonstrates good relative outage accuracy, not an absolute accuracy limit.
 
 # 中文（简体）— 转台测试 — 2026年11月3日
 
@@ -192,6 +244,8 @@ python3 turn_table.py --input-dir . --output-dir ergebnisse --max-gap 3
 
 验证包括：使用三份输入文件完整运行；确认固定解筛选前的时间戳一致性以及筛选后与参考数据的时间对齐；已知圆心和半径的合成圆测试；GGA 跨午夜测试；以及从角度到旋转圈数的换算检查。
 
+历史对比图 `horizontal_dage_vergleich.svg` 将“Frühere Outage Results.pdf”第 2 页图 1 的全部五条曲线与新 HRMS 区间值和拟合直线叠加。`horizontal_dage_vergleich_detail.svg` 显示 0–300 秒、0–150 mm 范围的两条较低历史曲线及精密钟差孤立点。历史坐标是 PDF 矢量线的近似重建，并非原始观测数据，来源说明见 `vergleich/`。精密钟差点使用最终产品；新拟合仅限实际龄期范围。测试条件不同限制了可比性。
+
 ## 参考数据中断对比结论
 
 **在改正数据过时的时段内，P23A_1 的典型水平误差更小。** 但 UM980 的最大单次误差更小。P23A_0 持续接收参考数据，仅作为参考基准，不参与中断性能排名。
@@ -204,3 +258,27 @@ python3 turn_table.py --input-dir . --output-dir ergebnisse --max-gap 3
 | UM980 | 2.69 cm | 1.90 cm | 5.42 cm | 7.94 cm |
 
 本次比较中，P23A_1 的均方根误差比 UM980 低约 30%。各对比历元保存在 `ergebnisse/outage_vergleich.csv`，汇总统计保存在 `auswertung.json`。
+
+## 对照历史研究的评价（步骤 1–6）
+
+**当前接收机在改正数据龄期约五分钟时达到约 3–4 cm HRMS，明显低于历史步骤 1–5 的结果，但尚未达到步骤 6 使用精密卫星钟差时的结果。** 仅凭位置输出，无法确定当前接收机内部采用了哪些算法。
+
+来源：“Frühere Outage Results.pdf”第 1–2 页步骤 1–6 及第 2 页图 1。以下 300 秒历史值为图中曲线重建的近似值；步骤 6 是单独一点，原文约为 20 mm。当前 P23A_1 的 34.2 mm 和 UM980 的 36.2 mm 来自 290 < dAge ≤300 秒区间，并非拟合预测值。P23A_1 的数据最多到 299 秒。
+
+**1. 直接使用过时的参考数据：** 历史误差近似线性增长，300 秒时约为 829 mm HRMS。当前 34–36 mm 的表现明显更好。改正龄期本身并不决定精度，处理方法和测试条件同样重要。
+
+**2. 应用广播卫星钟差模型：** 历史误差降至约 687 mm。卫星钟差随时间的变化很重要，但简单钟差模型在历史实验中仍不足以解决问题。
+
+**3. 加入相对论修正：** 历史误差进一步降至约 347 mm。参考站和流动站观测不同步时，原本在同步观测中大幅抵消的模型项会变得重要，因此精细建模十分关键。
+
+**4. 使用超快速轨道和钟差：** 历史误差降至约 134 mm。更好的卫星信息明显降低了误差。当前结果更低，但由于实验条件不同，不能据此单独比较算法优劣。
+
+**5. 使用最终精密轨道：** 历史误差仅进一步降至约 105 mm。在该实验中，轨道误差已不再是主要瓶颈；仅提高轨道精度并未解决问题。
+
+**6. 使用最终精密卫星钟差：** 300 秒时约 20 mm。历史报告将剩余误差归因于卫星钟差的短期非线性变化。对当前残差而言，这是合理的待检验假设，尚非已证实原因。历史点使用事后可用的精密产品，不能视为已证实的实时精度极限。
+
+**我们学到了什么？** 当前结果很好，但尚不能证明已经达到精度极限。线性误差增长不能唯一确定误差来源。当前 P23A_1 的 0.0927 mm/s 和 UM980 的 0.1026 mm/s 是经验拟合斜率，并非物理极限。
+
+P23A_1 在长时间中断时的优势缩小：新鲜改正数据（0 < dAge ≤10 秒）下 HRMS 为 4.2 mm 对 9.8 mm；接近 300 秒时为 34.2 mm 对 36.2 mm。这些龄期区间分别采用各接收机可用的固定解历元，并非配对比较。
+
+**下一步验证：** 对同一组中断原始观测应用不同卫星钟差和轨道模型，采用独立位置真值，并同时评价固定解可用性。当前分析仅评价相对于 P23A_0 理论圆周的保留固定解，共同误差可能被掩盖。因此，它证明了良好的相对中断精度，尚不能证明绝对精度极限。

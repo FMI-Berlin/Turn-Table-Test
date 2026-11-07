@@ -41,7 +41,8 @@ def pdf_geometry(svg, destination):
     colors = {'red':(1,0,0),'green':(0,.5,0),'blue':(0,0,1),'black':(0,0,0),'#ddd':(.867,)*3}
     for el in svg.iter():
         if el.tag.rsplit('}',1)[-1] != 'path': continue
-        color = colors[el.attrib['stroke']]
+        stroke = el.attrib['stroke']
+        color = tuple(int(stroke[i:i+2],16)/255 for i in (1,3,5)) if stroke.startswith('#') and len(stroke)==7 else colors[stroke]
         commands += [' '.join(map(str,color))+' RG',
                      el.attrib.get('stroke-width','1')+' w', '1 J',
                      '/GS gs' if 'opacity' in el.attrib else '/Solid gs']
@@ -86,7 +87,8 @@ def figure(stem):
         if el.tag.rsplit('}',1)[-1]!='text': continue
         text=tex(''.join(el.itertext()))
         size=el.attrib.get('font-size','12');color=el.attrib.get('fill','black')
-        style=rf'\color{{{color}}}\sffamily\fontsize{{{size}}}{{{size}}}\selectfont '
+        color_command = rf'\color[HTML]{{{color[1:]}}}' if color.startswith('#') else rf'\color{{{color}}}'
+        style=color_command+rf'\sffamily\fontsize{{{size}}}{{{size}}}\selectfont '
         anchor={'middle':'c','end':'r'}.get(el.attrib.get('text-anchor'),'l')
         if 'transform' in el.attrib:
             x,y=map(float,re.search(r'translate\(([^,]+),([^\)]+)\)',el.attrib['transform']).groups())
@@ -102,7 +104,7 @@ def figure(stem):
 def diagrams(language):
     suffix={'de':'','en':'_en','zh':'_zh'}[language]
     return '\n'.join(figure(stem+suffix) for stem in
-                     ['horizontal','horizontal_detail','winkel','east_zeit','north_zeit','horizontal_zeit','horizontal_dage_scatter','horizontal_dage'])+r'\clearpage'
+                     ['horizontal','horizontal_detail','winkel','east_zeit','north_zeit','horizontal_zeit','horizontal_dage_scatter','horizontal_dage','horizontal_dage_vergleich','horizontal_dage_vergleich_detail'])+r'\clearpage'
 
 
 def markdown_report():

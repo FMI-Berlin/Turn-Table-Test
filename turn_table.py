@@ -160,7 +160,7 @@ def age_hrms(points, bin_width=10):
 
 
 def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, extent_m=None,
-             lines=()):
+             lines=(), legend_columns=None, bounds=None):
     allpoints=[p for _,_,pts in list(series)+list(lines) for p in pts if p is not None]
     allpoints.append((0,0))
     xmin,xmax=min(p[0] for p in allpoints),max(p[0] for p in allpoints)
@@ -176,7 +176,18 @@ def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, exten
         xmin,xmax,xticks=axis_range(xmin,xmax)
         ymin,ymax,yticks=axis_range(ymin,ymax)
         w,h=1000,430
+    if bounds is not None:
+        xmin,xmax,ymin,ymax=bounds
+        _,_,xticks=axis_range(xmin,xmax,nice_step(xmax-xmin,7))
+        _,_,yticks=axis_range(ymin,ymax,nice_step(ymax-ymin,7))
+        xticks=[x for x in xticks if xmin<=x<=xmax]
+        yticks=[y for y in yticks if ymin<=y<=ymax]
     left,top,pw,ph=95,90 if lines else 65,w-130,h-(160 if lines else 135)
+    if legend_columns:
+        series_rows=math.ceil(len(series)/legend_columns)
+        line_rows=math.ceil(len(lines)/legend_columns)
+        top=45+(series_rows+line_rows)*22+6
+        ph=270; h=top+ph+70
     def xy(x,y): return left+(x-xmin)/(xmax-xmin)*pw,top+ph-(y-ymin)/(ymax-ymin)*ph
     def tick_label(value): return '0' if abs(value)<1e-12 else f'{value:.8g}'
     elements=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><rect width="100%" height="100%" fill="white"/>',
@@ -190,17 +201,57 @@ def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, exten
     zx,zy=xy(0,0)
     elements.append(f'<path d="M{zx},{top}v{ph} M{left},{zy}h{pw}" stroke="black" stroke-width="1.2" fill="none"/>')
     for k,(label,color,points) in enumerate(series):
-        elements.append(f'<text x="{left+k*pw/max(len(series),1)}" y="45" fill="{color}">{html.escape(label)}</text>')
+        lx=left+(k%legend_columns)*pw/legend_columns if legend_columns else left+k*pw/max(len(series),1)
+        ly=45+(k//legend_columns)*22 if legend_columns else 45
+        elements.append(f'<text x="{lx}" y="{ly}" fill="{color}">{html.escape(label)}</text>')
         d=' '.join(f'M{px:.2f},{py:.2f}h0.1' for x,y in points if xmin<=x<=xmax and ymin<=y<=ymax if (px_py:=xy(x,y)) for px,py in [px_py])
         elements.append(f'<path d="{d}" stroke="{color}" stroke-width="{4 if lines else 2}" stroke-linecap="round" opacity="0.55"/>')
     for k,(label,color,points) in enumerate(lines):
-        elements.append(f'<text x="{left+k*pw/max(len(lines),1)}" y="67" fill="{color}">{html.escape(label)}</text>')
+        lx=left+(k%legend_columns)*pw/legend_columns if legend_columns else left+k*pw/max(len(lines),1)
+        ly=45+(series_rows+k//legend_columns)*22 if legend_columns else 67
+        elements.append(f'<text x="{lx}" y="{ly}" fill="{color}">{html.escape(label)}</text>')
         d=' '.join(f'{"M" if i==0 else "L"}{xy(x,y)[0]:.2f},{xy(x,y)[1]:.2f}' for i,(x,y) in enumerate(points))
         elements.append(f'<path d="{d}" stroke="{color}" stroke-width="2" fill="none"/>')
     origin_label='Soll (0,0)' if zero else '(0,0)'
     elements.append(f'<path d="M{zx-5},{zy}h10 M{zx},{zy-5}v10" stroke="black" stroke-width="2"/><text x="{zx+8}" y="{zy-8}">{origin_label}</text>')
     elements += [f'<text x="{left+pw/2}" y="{h-12}" text-anchor="middle">{html.escape(xlabel)}</text>',f'<text transform="translate(19,{top+ph/2}) rotate(-90)" text-anchor="middle">{html.escape(ylabel)}</text>','</g></svg>']
     path.write_text('\n'.join(elements))
+
+
+COMPARISON_NOTE = ('Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.')
+
+
+def historical_comparison(output, rms_series, fit_lines):
+    source=Path(__file__).resolve().parent/'vergleich'/'fruehere_outage_hrms.csv'
+    groups={}
+    with source.open() as stream:
+        for row in csv.DictReader(stream):
+            groups.setdefault(row['variant'], []).append((float(row['dage_s']),float(row['hrms_mm'])))
+    labels=[('no_sv_clock','Alt: ohne SV-Uhr','#666666'),
+            ('sv_clock','Alt: SV-Uhr','#a65e00'),
+            ('sv_clock_rel','Alt: SV-Uhr + Relativität','#800080'),
+            ('sv_clock_rel_ultra','Alt: + Ultra-Rapid','#c000c0'),
+            ('sv_clock_rel_precise','Alt: + präzise Bahnen','#000080')]
+    old_lines=[(label,color,groups[key]) for key,label,color in labels]
+    precise=('Alt: präzise Uhren (ein Punkt)','#800000',groups['precise_clocks_300s'])
+    # Match the source chart's endpoint despite subpixel vector rounding.
+    old_lines=[(label,color,[(min(500,x),y) for x,y in pts]) for label,color,pts in old_lines]
+    def through_age(points, limit):
+        result=[(x,y) for x,y in points if x<=limit]
+        for (x0,y0),(x1,y1) in zip(points,points[1:]):
+            if x0<limit<x1:
+                result.append((limit,y0+(y1-y0)*(limit-x0)/(x1-x0)))
+                break
+        return result
+    svg_plot(output/'horizontal_dage_vergleich.svg',rms_series+[precise],
+             'Korrekturdatenalter dAge [s]','Horizontaler RMS-Fehler HRMS [mm]',
+             'HRMS(dAge): frühere Untersuchung und neue Ergebnisse',
+             lines=old_lines+fit_lines,legend_columns=2,bounds=(0,500,0,1400))
+    detail=[(label,color,through_age(pts,300)) for label,color,pts in old_lines[-2:]]
+    svg_plot(output/'horizontal_dage_vergleich_detail.svg',rms_series+[precise],
+             'Korrekturdatenalter dAge [s]','Horizontaler RMS-Fehler HRMS [mm]',
+             'HRMS(dAge): Vergleich im Detail (0–300 s, 0–150 mm)',
+             lines=detail+fit_lines,legend_columns=2,bounds=(0,300,0,150))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -305,6 +356,7 @@ def main():
         svg_plot(output/'horizontal_dage.svg', rms_series,
                  'Korrekturdatenalter dAge [s]', 'Horizontaler RMS-Fehler HRMS [mm]',
                  'HRMS über dAge: 10-s-Intervalle und linearer Fit', lines=fit_lines)
+        historical_comparison(output, rms_series, fit_lines)
     svg_plot(output/'winkel.svg',[('P23A_0','red',[((t-start)/60,(ang-angles[0])/(2*math.pi)) for t,ang in zip(times,angles) if start<=t<=end])],'Zeit seit gemeinsamem Beginn [min]','Anzahl der Vollkreise seit erstem Referenzpunkt','Umdrehungen: positiv von Ost nach Nord')
     with (output/'referenz_winkel.csv').open('w',newline='') as f:
         writer=csv.writer(f);writer.writerow(['utc_seconds','angle_deg_from_east_unwrapped','revolutions_since_first_reference','segment'])
@@ -327,7 +379,7 @@ def main():
         writer.writerows((t,paired[0][t]['horizontal_error_m'],paired[1][t]['horizontal_error_m']) for t in paired_times)
     summary=dict(dage_hrms=dict(bin_width_s=10, bin_convention='(lower, upper]; age zero included in first bin', fit_method='unweighted OLS of bin HRMS versus mean age, free intercept', fits=age_fits),outage_comparison=dict(correction_age_threshold_s=10,criterion="both RTK-fixed, both correction ages > threshold, identical UTC epochs",statistics=outage_stats),mean_rotation_period_s=mean_period,rotation_period_count=len(periods),rotation_period_std_s=st.pstdev(durations),rotation_period_min_s=min(durations),rotation_period_max_s=max(durations),displayed_quality=4,radius_m=radius,center_lat_deg=lat0+math.degrees(cy/m),center_lon_deg=lon0+math.degrees(cx/(n*math.cos(phi))),origin_lat_deg=lat0,origin_lon_deg=lon0,center_east_m=cx,center_north_m=cy,robust_radial_sigma_m=scale,reference_fixed_epochs=len(ref),reference_angle_epochs=len(good),reference_segments=segment+1,unknown_full_turns_across_reference_gaps=True,max_interpolation_gap_s=args.max_gap,common_start_utc_seconds=start,common_end_utc_seconds=end,date=next(iter(dates),None),files=info,statistics=stats)
     (output/'auswertung.json').write_text(json.dumps(summary,indent=2)+'\n')
-    age_plot = ('<div><img src="horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="horizontal_dage.svg" style="max-width:100%"></div>') if any(points for _, _, points in age_series) else ''
+    age_plot = ('<div><img src="horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="horizontal_dage_vergleich.svg" style="max-width:100%"></div><div><img src="horizontal_dage_vergleich_detail.svg" style="max-width:100%"></div>') if any(points for _, _, points in age_series) else ''
     (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>'+f'<p>Radius: {radius:.5f} m. Mittlere Umdrehungsdauer: {mean_period:.3f} s ({len(periods)} vollständige Umdrehungen, ohne Referenzlücken). UTC: {dt.timedelta(seconds=start)} bis {dt.timedelta(seconds=end)}. Datum: {summary["date"]} (aus UM980; gleicher Tag für P23A angenommen).</p><p>Rot: P23A_0; grün: P23A_1; blau: UM980; schwarzes Kreuz: Sollposition. Nur RTK-fixed-Positionen (GGA-Qualität 4) sind enthalten. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360° als Anzahl der Vollkreise.</p><p>Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in referenz_winkel.csv).</p>'+''.join(f'<div><img src="{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','winkel.svg','east_zeit.svg','north_zeit.svg','horizontal_zeit.svg'])+age_plot+'</body></html>')
     from report_languages import append_report_chapters
     append_report_chapters(output)

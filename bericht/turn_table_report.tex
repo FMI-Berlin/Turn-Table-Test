@@ -62,6 +62,8 @@ Die vollständige horizontale Ansicht enthält sämtliche RTK-fixed-Abweichungen
 
 Validiert durch vollständigen Lauf mit den drei Eingabedateien, identische Ergebnis-Zeitstempel, einen synthetischen Kreis mit bekanntem Mittelpunkt/Radius und einen GGA-Mitternachtswechsel.
 
+Zusätzlicher historischer Vergleich: {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}vergleich.svg}} übernimmt alle fünf Kurven aus Abbildung 1 auf Seite 2 von {\small\texttt{Frühere Outage Results.pdf}} und ergänzt die neuen HRMS-Werte und Fitgeraden. {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}vergleich\_\allowbreak{}detail.svg}} zeigt 0–300 s und 0–150 mm mit den zwei niedrigeren alten Kurven und dem isolierten präzisen Uhrenpunkt. Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht. Die rekonstruierten Koordinaten und ihre Herkunft stehen unter {\small\texttt{vergleich/\allowbreak{}}}.
+
 \subsection{Fazit zum Outage-Vergleich}
 
 \textbf{P23A\_1 zeigt die kleineren typischen horizontalen Abweichungen während Abschnitten mit veralteten Referenzdaten.} Der UM980 hat dagegen den kleineren maximalen Einzelfehler. P23A\_0 dient als kontinuierlich versorgte Referenz und wird nicht als Outage-Kandidat gewertet.
@@ -75,6 +77,30 @@ UM980 & 2,69 cm & 1,90 cm & 5,42 cm & 7,94 cm\\
 \bottomrule\end{tabular}\end{center}
 
 Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM980. Die einzelnen Vergleichsepochen stehen in {\small\texttt{ergebnisse/\allowbreak{}outage\_\allowbreak{}vergleich.csv}}, die Statistik in {\small\texttt{auswertung.json}}.
+
+\subsection{Bewertung anhand der früheren Untersuchung (Punkte 1–6)}
+
+\textbf{Die aktuellen Receiver erreichen bei ungefähr fünf Minuten alten Korrekturen etwa 3–4 cm HRMS. Das liegt deutlich unter den früheren Stufen 1–5, erreicht aber nicht den damaligen Wert mit präzisen Satellitenuhren aus Stufe 6.} Welche Verfahren die heutigen Receiver intern einsetzen, lässt sich aus den Positionsdaten allein nicht bestimmen.
+
+Quelle: „Frühere Outage Results.pdf“, Punkte 1–6 auf Seiten 1–2, Abbildung 1 auf Seite 2. Die folgenden historischen Werte bei 300 s sind Näherungen aus den rekonstruierten Kurven; nur Stufe 6 ist ein einzelner, im Text mit etwa 20 mm angegebener Punkt. Unsere 34,2 mm (P23A\_1) und 36,2 mm (UM980) stammen aus 290 < dAge ≤300 s, nicht aus einer Fitvorhersage. P23A\_1 reicht bis 299 s.
+
+\textbf{1. Alte Referenzdaten unverändert verwenden:} Früher starker, nahezu linearer Fehleranstieg bis etwa 829 mm HRMS bei 300 s. Unsere 34–36 mm zeigen ein wesentlich günstigeres Verhalten. Das Alter der Korrekturen allein bestimmt die Genauigkeit nicht; die Verarbeitungsmethode und die Testbedingungen sind wesentlich.
+
+\textbf{2. Broadcast-Satellitenuhren berücksichtigen:} Verbesserung auf etwa 687 mm. Die zeitliche Änderung der Satellitenuhren ist wichtig, doch das einfache Uhrenmodell reichte im früheren Versuch nicht aus.
+
+\textbf{3. Relativistische Korrektur ergänzen:} Weitere Verbesserung auf etwa 347 mm. Bei zeitversetzten Referenz- und Roverdaten werden Modellterme relevant, die sich bei gleichzeitigen Beobachtungen weitgehend herausheben. Sorgfältige Modellierung ist entscheidend.
+
+\textbf{4. Ultra-Rapid-Bahnen und Uhren verwenden:} Rückgang auf etwa 134 mm. Bessere Satelliteninformationen reduzierten den Fehler deutlich. Unsere heutigen Werte liegen nochmals darunter; wegen unterschiedlicher Versuchsbedingungen ist daraus kein isolierter Algorithmusvergleich ableitbar.
+
+\textbf{5. Finale präzise Bahnen verwenden:} Nur noch begrenzte Verbesserung auf etwa 105 mm. Im früheren Versuch waren Bahnfehler zuletzt nicht mehr der entscheidende Engpass. Genauere Bahnen allein lösten das Problem nicht.
+
+\textbf{6. Finale präzise Satellitenuhren verwenden:} Etwa 20 mm bei 300 s. Der frühere Bericht führt den verbleibenden Fehler auf kurzfristige Nichtlinearitäten der Satellitenuhren zurück. Für unsere Restfehler ist dies eine plausible Prüfhypothese, keine nachgewiesene Ursache. Der historische Punkt verwendet nachträglich verfügbare präzise Produkte und ist keine belegte Echtzeitgrenze.
+
+\textbf{Was lernen wir?} Die heutigen Ergebnisse sind sehr gut, eine erreichte Genauigkeitsgrenze ist aber nicht belegt. Ein linearer Fehleranstieg identifiziert die Ursache nicht eindeutig. Unsere Steigungen von 0,0927 mm/s (P23A\_1) und 0,1026 mm/s (UM980) sind empirische Fits, keine physikalischen Grenzen.
+
+Der Vorteil von P23A\_1 wird bei langen Outages kleiner: Mit frischen Korrekturen (0 < dAge ≤10 s) betragen die HRMS-Werte 4,2 gegenüber 9,8 mm; nahe 300 s sind es 34,2 gegenüber 36,2 mm. Diese Altersklassen enthalten jeweils die verwendbaren Fixed-Epochen des einzelnen Receivers und sind kein gepaarter Vergleich.
+
+\textbf{Nächster Nachweis:} Dieselben Outage-Rohdaten mit unterschiedlichen Satellitenuhr- und Bahnmodellen auswerten, eine unabhängige Positionsreferenz verwenden und die Fixed-Verfügbarkeit mitbewerten. Unsere aktuelle Auswertung bewertet erhaltene Fixed-Lösungen relativ zum P23A\_0-Sollkreis. Gemeinsame Fehler können verborgen bleiben. Sie belegt gute relative Outage-Genauigkeit, aber keine absolute Genauigkeitsgrenze.
 
 \begin{figure}[p]\centering
 \resizebox{0.98\linewidth}{!}{%
@@ -278,6 +304,75 @@ Damit liegt der RMS von P23A\_1 in diesem Vergleich rund 30 \% unter dem des UM9
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Korrekturdatenalter dAge [s]}}
 \put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontaler RMS-Fehler HRMS [mm]}}}
 \end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,523.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=523.0bp]{bericht/abbildungen/horizontal_dage_vergleich.pdf}}
+\put(95.0,500.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS(dAge): frühere Untersuchung und neue Ergebnisse}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(443.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(617.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(791.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 400}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 500}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,104.57142857142856){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(87.0,143.1428571428571){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 400}}
+\put(87.0,181.71428571428572){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 600}}
+\put(87.0,220.28571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 800}}
+\put(87.0,258.8571428571429){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1000}}
+\put(87.0,297.42857142857144){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1200}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1400}}
+\put(95.0,478.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(530.0,478.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(95.0,456.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(530.0,456.0){\makebox(0,0)[lb]{\color[HTML]{800000}\sffamily\fontsize{12}{12}\selectfont Alt: präzise Uhren (ein Punkt)}}
+\put(95.0,434.0){\makebox(0,0)[lb]{\color[HTML]{666666}\sffamily\fontsize{12}{12}\selectfont Alt: ohne SV-Uhr}}
+\put(530.0,434.0){\makebox(0,0)[lb]{\color[HTML]{a65e00}\sffamily\fontsize{12}{12}\selectfont Alt: SV-Uhr}}
+\put(95.0,412.0){\makebox(0,0)[lb]{\color[HTML]{800080}\sffamily\fontsize{12}{12}\selectfont Alt: SV-Uhr + Relativität}}
+\put(530.0,412.0){\makebox(0,0)[lb]{\color[HTML]{c000c0}\sffamily\fontsize{12}{12}\selectfont Alt: + Ultra-Rapid}}
+\put(95.0,390.0){\makebox(0,0)[lb]{\color[HTML]{000080}\sffamily\fontsize{12}{12}\selectfont Alt: + präzise Bahnen}}
+\put(530.0,390.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(95.0,368.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(530.0,368.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Korrekturdatenalter dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontaler RMS-Fehler HRMS [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,501.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=501.0bp]{bericht/abbildungen/horizontal_dage_vergleich_detail.pdf}}
+\put(95.0,478.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS(dAge): Vergleich im Detail (0–300 s, 0–150 mm)}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,111.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 25}}
+\put(87.0,156.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(87.0,201.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 75}}
+\put(87.0,246.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(87.0,291.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 125}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(95.0,456.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(530.0,456.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(95.0,434.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(530.0,434.0){\makebox(0,0)[lb]{\color[HTML]{800000}\sffamily\fontsize{12}{12}\selectfont Alt: präzise Uhren (ein Punkt)}}
+\put(95.0,412.0){\makebox(0,0)[lb]{\color[HTML]{c000c0}\sffamily\fontsize{12}{12}\selectfont Alt: + Ultra-Rapid}}
+\put(530.0,412.0){\makebox(0,0)[lb]{\color[HTML]{000080}\sffamily\fontsize{12}{12}\selectfont Alt: + präzise Bahnen}}
+\put(95.0,390.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(530.0,390.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(95.0,368.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Korrekturdatenalter dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontaler RMS-Fehler HRMS [mm]}}}
+\end{picture}}
 \end{figure}\clearpage
 \clearpage\section{English — Turn-table test — 2026-11-03}
 
@@ -328,6 +423,8 @@ The full horizontal view shows all RTK-fixed errors. The detail view covers ±10
 
 Validation included a complete run with all three input files, matching timestamps before the fixed filter and reference alignment after it, a synthetic circle with known centre/radius, a GGA midnight rollover, and the conversion from degrees to revolutions.
 
+Historical comparison: {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}vergleich.svg}} combines all five curves from Figure 1, page 2 of {\small\texttt{Frühere Outage Results.pdf}}, with the new HRMS bins and fitted lines. {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}vergleich\_\allowbreak{}detail.svg}} shows 0–300 s and 0–150 mm with the two lower historical curves and the isolated precise-clock point. Historical coordinates are approximate PDF vector reconstructions, not original observations; see {\small\texttt{vergleich/\allowbreak{}}} for provenance. The precise-clock point uses final products. Current fits end at observed ages; different test conditions limit comparability.
+
 \subsection{Outage comparison conclusion}
 
 \textbf{P23A\_1 has smaller typical horizontal errors during periods with stale reference data.} UM980 has the smaller maximum individual error. P23A\_0 receives continuous reference data and is the reference, rather than an outage comparison candidate.
@@ -341,6 +438,30 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \bottomrule\end{tabular}\end{center}
 
 P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison. Individual comparison epochs are saved in {\small\texttt{ergebnisse/\allowbreak{}outage\_\allowbreak{}vergleich.csv}}, with summary statistics in {\small\texttt{auswertung.json}}.
+
+\subsection{Assessment against the earlier study (steps 1–6)}
+
+\textbf{The current receivers achieve about 3–4 cm HRMS with corrections approximately five minutes old. This is substantially below earlier steps 1–5, but above the result obtained with precise satellite clocks in step 6.} Position outputs alone do not identify the methods implemented inside today's receivers.
+
+Source: “Frühere Outage Results.pdf”, steps 1–6 on pages 1–2 and Figure 1 on page 2. Historical values at 300 s below are approximate reconstructions from plotted curves; step 6 is a single point described as about 20 mm in the text. Our 34.2 mm (P23A\_1) and 36.2 mm (UM980) come from 290 < dAge ≤300 s, not fit predictions. P23A\_1 ends at 299 s.
+
+\textbf{1. Use outdated reference data unchanged:} Earlier errors grew almost linearly to about 829 mm HRMS at 300 s. Our 34–36 mm show much more favourable behaviour. Correction age alone does not determine accuracy; processing methods and test conditions matter.
+
+\textbf{2. Apply broadcast satellite clock models:} Errors fell to about 687 mm. Changes in satellite clocks matter, but the simple clock model was insufficient in the earlier experiment.
+
+\textbf{3. Add the relativistic correction:} Errors fell further to about 347 mm. Model terms that largely cancel for simultaneous observations become relevant when reference and rover epochs differ. Careful modelling is essential.
+
+\textbf{4. Use ultra-rapid orbits and clocks:} Errors fell to about 134 mm. Better satellite information substantially reduced errors. Today's results are lower still; different experimental conditions prevent an isolated algorithm comparison.
+
+\textbf{5. Use final precise orbits:} The additional improvement to about 105 mm was limited. Orbit errors were no longer the main bottleneck in that experiment. More accurate orbits alone did not solve the problem.
+
+\textbf{6. Use final precise satellite clocks:} About 20 mm at 300 s. The earlier report attributes the remaining error to short-term satellite clock nonlinearities. This is a plausible hypothesis to test for our residuals, not an established cause. The historical point uses precise products available after the experiment and does not establish a real-time accuracy limit.
+
+\textbf{What do we learn?} Current results are very good, but do not establish that an accuracy limit has been reached. Linear error growth does not uniquely identify its cause. Our slopes of 0.0927 mm/s (P23A\_1) and 0.1026 mm/s (UM980) are empirical fits, not physical limits.
+
+P23A\_1's advantage narrows during long outages: with fresh corrections (0 < dAge ≤10 s), HRMS is 4.2 versus 9.8 mm; near 300 s it is 34.2 versus 36.2 mm. These age classes use each receiver's available fixed epochs separately and are not a paired comparison.
+
+\textbf{Next verification:} Process the same outage raw observations with different satellite clock and orbit models, use independent position truth, and assess fixed-solution availability. Our current analysis evaluates retained fixed solutions relative to the P23A\_0 expected circle. Common errors can remain hidden. It demonstrates good relative outage accuracy, not an absolute accuracy limit.
 
 \begin{figure}[p]\centering
 \resizebox{0.98\linewidth}{!}{%
@@ -544,6 +665,75 @@ P23A\_1 therefore has approximately 30\% lower RMS than UM980 in this comparison
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Correction age dAge [s]}}
 \put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal RMS error HRMS [mm]}}}
 \end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,523.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=523.0bp]{bericht/abbildungen/horizontal_dage_vergleich_en.pdf}}
+\put(95.0,500.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS(dAge): earlier study and new results}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(443.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(617.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(791.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 400}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 500}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,104.57142857142856){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(87.0,143.1428571428571){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 400}}
+\put(87.0,181.71428571428572){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 600}}
+\put(87.0,220.28571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 800}}
+\put(87.0,258.8571428571429){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1000}}
+\put(87.0,297.42857142857144){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1200}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1400}}
+\put(95.0,478.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(530.0,478.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(95.0,456.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(530.0,456.0){\makebox(0,0)[lb]{\color[HTML]{800000}\sffamily\fontsize{12}{12}\selectfont Earlier: precise clocks (one point)}}
+\put(95.0,434.0){\makebox(0,0)[lb]{\color[HTML]{666666}\sffamily\fontsize{12}{12}\selectfont Earlier: no SV clock}}
+\put(530.0,434.0){\makebox(0,0)[lb]{\color[HTML]{a65e00}\sffamily\fontsize{12}{12}\selectfont Earlier: SV clock}}
+\put(95.0,412.0){\makebox(0,0)[lb]{\color[HTML]{800080}\sffamily\fontsize{12}{12}\selectfont Earlier: SV clock + relativity}}
+\put(530.0,412.0){\makebox(0,0)[lb]{\color[HTML]{c000c0}\sffamily\fontsize{12}{12}\selectfont Earlier: + ultra-rapid}}
+\put(95.0,390.0){\makebox(0,0)[lb]{\color[HTML]{000080}\sffamily\fontsize{12}{12}\selectfont Earlier: + precise orbits}}
+\put(530.0,390.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(95.0,368.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(530.0,368.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Correction age dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal RMS error HRMS [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,501.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=501.0bp]{bericht/abbildungen/horizontal_dage_vergleich_detail_en.pdf}}
+\put(95.0,478.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS(dAge): comparison detail (0–300 s, 0–150 mm)}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,111.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 25}}
+\put(87.0,156.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(87.0,201.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 75}}
+\put(87.0,246.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(87.0,291.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 125}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(95.0,456.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(530.0,456.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(95.0,434.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(530.0,434.0){\makebox(0,0)[lb]{\color[HTML]{800000}\sffamily\fontsize{12}{12}\selectfont Earlier: precise clocks (one point)}}
+\put(95.0,412.0){\makebox(0,0)[lb]{\color[HTML]{c000c0}\sffamily\fontsize{12}{12}\selectfont Earlier: + ultra-rapid}}
+\put(530.0,412.0){\makebox(0,0)[lb]{\color[HTML]{000080}\sffamily\fontsize{12}{12}\selectfont Earlier: + precise orbits}}
+\put(95.0,390.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(530.0,390.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(95.0,368.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont Correction age dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont Horizontal RMS error HRMS [mm]}}}
+\end{picture}}
 \end{figure}\clearpage
 \clearpage\section{{\cjkfont 中}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont （}\allowbreak{}{\cjkfont 简}\allowbreak{}{\cjkfont 体}\allowbreak{}{\cjkfont ）}\allowbreak{}— {\cjkfont 转}\allowbreak{}{\cjkfont 台}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{} — 2026{\cjkfont 年}\allowbreak{}11{\cjkfont 月}\allowbreak{}3{\cjkfont 日}\allowbreak{}}
 
@@ -594,6 +784,8 @@ UM980 & 0.02071 m & 0.04256 m & 0.07939 m\\
 
 {\cjkfont 验}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 包}\allowbreak{}{\cjkfont 括}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 三}\allowbreak{}{\cjkfont 份}\allowbreak{}{\cjkfont 输}\allowbreak{}{\cjkfont 入}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont 件}\allowbreak{}{\cjkfont 完}\allowbreak{}{\cjkfont 整}\allowbreak{}{\cjkfont 运}\allowbreak{}{\cjkfont 行}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 确}\allowbreak{}{\cjkfont 认}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 筛}\allowbreak{}{\cjkfont 选}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 戳}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 致}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 以}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 筛}\allowbreak{}{\cjkfont 选}\allowbreak{}{\cjkfont 后}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 齐}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 知}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 心}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 半}\allowbreak{}{\cjkfont 径}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 成}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{}{\cjkfont ；}\allowbreak{}GGA {\cjkfont 跨}\allowbreak{}{\cjkfont 午}\allowbreak{}{\cjkfont 夜}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 以}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 从}\allowbreak{}{\cjkfont 角}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 到}\allowbreak{}{\cjkfont 旋}\allowbreak{}{\cjkfont 转}\allowbreak{}{\cjkfont 圈}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 换}\allowbreak{}{\cjkfont 算}\allowbreak{}{\cjkfont 检}\allowbreak{}{\cjkfont 查}\allowbreak{}{\cjkfont 。}\allowbreak{}
 
+{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 图}\allowbreak{} {\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}vergleich.svg}} {\cjkfont 将}\allowbreak{}“Frühere Outage Results.pdf”{\cjkfont 第}\allowbreak{} 2 {\cjkfont 页}\allowbreak{}{\cjkfont 图}\allowbreak{} 1 {\cjkfont 的}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 五}\allowbreak{}{\cjkfont 条}\allowbreak{}{\cjkfont 曲}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 新}\allowbreak{} HRMS {\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 直}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 叠}\allowbreak{}{\cjkfont 加}\allowbreak{}{\cjkfont 。}\allowbreak{}{\small\texttt{horizontal\_\allowbreak{}dage\_\allowbreak{}vergleich\_\allowbreak{}detail.svg}} {\cjkfont 显}\allowbreak{}{\cjkfont 示}\allowbreak{} 0–300 {\cjkfont 秒}\allowbreak{}{\cjkfont 、}\allowbreak{}0–150 mm {\cjkfont 范}\allowbreak{}{\cjkfont 围}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 两}\allowbreak{}{\cjkfont 条}\allowbreak{}{\cjkfont 较}\allowbreak{}{\cjkfont 低}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 曲}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 孤}\allowbreak{}{\cjkfont 立}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 坐}\allowbreak{}{\cjkfont 标}\allowbreak{}{\cjkfont 是}\allowbreak{} PDF {\cjkfont 矢}\allowbreak{}{\cjkfont 量}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 近}\allowbreak{}{\cjkfont 似}\allowbreak{}{\cjkfont 重}\allowbreak{}{\cjkfont 建}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 观}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 来}\allowbreak{}{\cjkfont 源}\allowbreak{}{\cjkfont 说}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 见}\allowbreak{} {\small\texttt{vergleich/\allowbreak{}}}{\cjkfont 。}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 最}\allowbreak{}{\cjkfont 终}\allowbreak{}{\cjkfont 产}\allowbreak{}{\cjkfont 品}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 新}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 际}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 范}\allowbreak{}{\cjkfont 围}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{}{\cjkfont 条}\allowbreak{}{\cjkfont 件}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 制}\allowbreak{}{\cjkfont 了}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
 \subsection{{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 结}\allowbreak{}{\cjkfont 论}\allowbreak{}}
 
 \textbf{{\cjkfont 在}\allowbreak{}{\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 过}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 段}\allowbreak{}{\cjkfont 内}\allowbreak{}{\cjkfont ，}\allowbreak{}P23A\_1 {\cjkfont 的}\allowbreak{}{\cjkfont 典}\allowbreak{}{\cjkfont 型}\allowbreak{}{\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 更}\allowbreak{}{\cjkfont 小}\allowbreak{}{\cjkfont 。}\allowbreak{}} {\cjkfont 但}\allowbreak{} UM980 {\cjkfont 的}\allowbreak{}{\cjkfont 最}\allowbreak{}{\cjkfont 大}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 次}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 更}\allowbreak{}{\cjkfont 小}\allowbreak{}{\cjkfont 。}\allowbreak{}P23A\_0 {\cjkfont 持}\allowbreak{}{\cjkfont 续}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 作}\allowbreak{}{\cjkfont 为}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 基}\allowbreak{}{\cjkfont 准}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 排}\allowbreak{}{\cjkfont 名}\allowbreak{}{\cjkfont 。}\allowbreak{}
@@ -607,6 +799,30 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \bottomrule\end{tabular}\end{center}
 
 {\cjkfont 本}\allowbreak{}{\cjkfont 次}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 较}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont ，}\allowbreak{}P23A\_1 {\cjkfont 的}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 根}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 比}\allowbreak{} UM980 {\cjkfont 低}\allowbreak{}{\cjkfont 约}\allowbreak{} 30\%{\cjkfont 。}\allowbreak{}{\cjkfont 各}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 存}\allowbreak{}{\cjkfont 在}\allowbreak{} {\small\texttt{ergebnisse/\allowbreak{}outage\_\allowbreak{}vergleich.csv}}{\cjkfont ，}\allowbreak{}{\cjkfont 汇}\allowbreak{}{\cjkfont 总}\allowbreak{}{\cjkfont 统}\allowbreak{}{\cjkfont 计}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 存}\allowbreak{}{\cjkfont 在}\allowbreak{} {\small\texttt{auswertung.json}}{\cjkfont 。}\allowbreak{}
+
+\subsection{{\cjkfont 对}\allowbreak{}{\cjkfont 照}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 研}\allowbreak{}{\cjkfont 究}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 评}\allowbreak{}{\cjkfont 价}\allowbreak{}{\cjkfont （}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 骤}\allowbreak{} 1–6{\cjkfont ）}\allowbreak{}}
+
+\textbf{{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 在}\allowbreak{}{\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 约}\allowbreak{}{\cjkfont 五}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 达}\allowbreak{}{\cjkfont 到}\allowbreak{}{\cjkfont 约}\allowbreak{} 3–4 cm HRMS{\cjkfont ，}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 显}\allowbreak{}{\cjkfont 低}\allowbreak{}{\cjkfont 于}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 骤}\allowbreak{} 1–5 {\cjkfont 的}\allowbreak{}{\cjkfont 结}\allowbreak{}{\cjkfont 果}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 但}\allowbreak{}{\cjkfont 尚}\allowbreak{}{\cjkfont 未}\allowbreak{}{\cjkfont 达}\allowbreak{}{\cjkfont 到}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 骤}\allowbreak{} 6 {\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 结}\allowbreak{}{\cjkfont 果}\allowbreak{}{\cjkfont 。}\allowbreak{}} {\cjkfont 仅}\allowbreak{}{\cjkfont 凭}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 置}\allowbreak{}{\cjkfont 输}\allowbreak{}{\cjkfont 出}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 无}\allowbreak{}{\cjkfont 法}\allowbreak{}{\cjkfont 确}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 内}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 了}\allowbreak{}{\cjkfont 哪}\allowbreak{}{\cjkfont 些}\allowbreak{}{\cjkfont 算}\allowbreak{}{\cjkfont 法}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+{\cjkfont 来}\allowbreak{}{\cjkfont 源}\allowbreak{}{\cjkfont ：}\allowbreak{}“Frühere Outage Results.pdf”{\cjkfont 第}\allowbreak{} 1–2 {\cjkfont 页}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 骤}\allowbreak{} 1–6 {\cjkfont 及}\allowbreak{}{\cjkfont 第}\allowbreak{} 2 {\cjkfont 页}\allowbreak{}{\cjkfont 图}\allowbreak{} 1{\cjkfont 。}\allowbreak{}{\cjkfont 以}\allowbreak{}{\cjkfont 下}\allowbreak{} 300 {\cjkfont 秒}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont 为}\allowbreak{}{\cjkfont 图}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 曲}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 重}\allowbreak{}{\cjkfont 建}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 近}\allowbreak{}{\cjkfont 似}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 骤}\allowbreak{} 6 {\cjkfont 是}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 独}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont 约}\allowbreak{}{\cjkfont 为}\allowbreak{} 20 mm{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{} P23A\_1 {\cjkfont 的}\allowbreak{} 34.2 mm {\cjkfont 和}\allowbreak{} UM980 {\cjkfont 的}\allowbreak{} 36.2 mm {\cjkfont 来}\allowbreak{}{\cjkfont 自}\allowbreak{} 290 < dAge ≤300 {\cjkfont 秒}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 预}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont 。}\allowbreak{}P23A\_1 {\cjkfont 的}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 最}\allowbreak{}{\cjkfont 多}\allowbreak{}{\cjkfont 到}\allowbreak{} 299 {\cjkfont 秒}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{1. {\cjkfont 直}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 过}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 近}\allowbreak{}{\cjkfont 似}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 增}\allowbreak{}{\cjkfont 长}\allowbreak{}{\cjkfont ，}\allowbreak{}300 {\cjkfont 秒}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 约}\allowbreak{}{\cjkfont 为}\allowbreak{} 829 mm HRMS{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{} 34–36 mm {\cjkfont 的}\allowbreak{}{\cjkfont 表}\allowbreak{}{\cjkfont 现}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 显}\allowbreak{}{\cjkfont 更}\allowbreak{}{\cjkfont 好}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 本}\allowbreak{}{\cjkfont 身}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 决}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 处}\allowbreak{}{\cjkfont 理}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 法}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 试}\allowbreak{}{\cjkfont 条}\allowbreak{}{\cjkfont 件}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 样}\allowbreak{}{\cjkfont 重}\allowbreak{}{\cjkfont 要}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{2. {\cjkfont 应}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 广}\allowbreak{}{\cjkfont 播}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 模}\allowbreak{}{\cjkfont 型}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 降}\allowbreak{}{\cjkfont 至}\allowbreak{}{\cjkfont 约}\allowbreak{} 687 mm{\cjkfont 。}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 随}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont 很}\allowbreak{}{\cjkfont 重}\allowbreak{}{\cjkfont 要}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 但}\allowbreak{}{\cjkfont 简}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 模}\allowbreak{}{\cjkfont 型}\allowbreak{}{\cjkfont 在}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 仍}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 足}\allowbreak{}{\cjkfont 以}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 决}\allowbreak{}{\cjkfont 问}\allowbreak{}{\cjkfont 题}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{3. {\cjkfont 加}\allowbreak{}{\cjkfont 入}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 修}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 进}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 降}\allowbreak{}{\cjkfont 至}\allowbreak{}{\cjkfont 约}\allowbreak{} 347 mm{\cjkfont 。}\allowbreak{}{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 站}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 流}\allowbreak{}{\cjkfont 动}\allowbreak{}{\cjkfont 站}\allowbreak{}{\cjkfont 观}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 本}\allowbreak{}{\cjkfont 在}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 观}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 大}\allowbreak{}{\cjkfont 幅}\allowbreak{}{\cjkfont 抵}\allowbreak{}{\cjkfont 消}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 模}\allowbreak{}{\cjkfont 型}\allowbreak{}{\cjkfont 项}\allowbreak{}{\cjkfont 会}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 得}\allowbreak{}{\cjkfont 重}\allowbreak{}{\cjkfont 要}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 因}\allowbreak{}{\cjkfont 此}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 细}\allowbreak{}{\cjkfont 建}\allowbreak{}{\cjkfont 模}\allowbreak{}{\cjkfont 十}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 关}\allowbreak{}{\cjkfont 键}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{4. {\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 超}\allowbreak{}{\cjkfont 快}\allowbreak{}{\cjkfont 速}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 降}\allowbreak{}{\cjkfont 至}\allowbreak{}{\cjkfont 约}\allowbreak{} 134 mm{\cjkfont 。}\allowbreak{}{\cjkfont 更}\allowbreak{}{\cjkfont 好}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 信}\allowbreak{}{\cjkfont 息}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 显}\allowbreak{}{\cjkfont 降}\allowbreak{}{\cjkfont 低}\allowbreak{}{\cjkfont 了}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 结}\allowbreak{}{\cjkfont 果}\allowbreak{}{\cjkfont 更}\allowbreak{}{\cjkfont 低}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 但}\allowbreak{}{\cjkfont 由}\allowbreak{}{\cjkfont 于}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 条}\allowbreak{}{\cjkfont 件}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 此}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 独}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 较}\allowbreak{}{\cjkfont 算}\allowbreak{}{\cjkfont 法}\allowbreak{}{\cjkfont 优}\allowbreak{}{\cjkfont 劣}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{5. {\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 最}\allowbreak{}{\cjkfont 终}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 进}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 降}\allowbreak{}{\cjkfont 至}\allowbreak{}{\cjkfont 约}\allowbreak{} 105 mm{\cjkfont 。}\allowbreak{}{\cjkfont 在}\allowbreak{}{\cjkfont 该}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 再}\allowbreak{}{\cjkfont 是}\allowbreak{}{\cjkfont 主}\allowbreak{}{\cjkfont 要}\allowbreak{}{\cjkfont 瓶}\allowbreak{}{\cjkfont 颈}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 提}\allowbreak{}{\cjkfont 高}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 未}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 决}\allowbreak{}{\cjkfont 问}\allowbreak{}{\cjkfont 题}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{6. {\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 最}\allowbreak{}{\cjkfont 终}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont ：}\allowbreak{}} 300 {\cjkfont 秒}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 约}\allowbreak{} 20 mm{\cjkfont 。}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 报}\allowbreak{}{\cjkfont 告}\allowbreak{}{\cjkfont 将}\allowbreak{}{\cjkfont 剩}\allowbreak{}{\cjkfont 余}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 归}\allowbreak{}{\cjkfont 因}\allowbreak{}{\cjkfont 于}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 短}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 变}\allowbreak{}{\cjkfont 化}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 残}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 而}\allowbreak{}{\cjkfont 言}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 这}\allowbreak{}{\cjkfont 是}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 理}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 待}\allowbreak{}{\cjkfont 检}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 假}\allowbreak{}{\cjkfont 设}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 尚}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 因}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 事}\allowbreak{}{\cjkfont 后}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 产}\allowbreak{}{\cjkfont 品}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 视}\allowbreak{}{\cjkfont 为}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 极}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{{\cjkfont 我}\allowbreak{}{\cjkfont 们}\allowbreak{}{\cjkfont 学}\allowbreak{}{\cjkfont 到}\allowbreak{}{\cjkfont 了}\allowbreak{}{\cjkfont 什}\allowbreak{}{\cjkfont 么}\allowbreak{}{\cjkfont ？}\allowbreak{}} {\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 结}\allowbreak{}{\cjkfont 果}\allowbreak{}{\cjkfont 很}\allowbreak{}{\cjkfont 好}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 但}\allowbreak{}{\cjkfont 尚}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 经}\allowbreak{}{\cjkfont 达}\allowbreak{}{\cjkfont 到}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 极}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 线}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 增}\allowbreak{}{\cjkfont 长}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 唯}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 确}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 来}\allowbreak{}{\cjkfont 源}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{} P23A\_1 {\cjkfont 的}\allowbreak{} 0.0927 mm/s {\cjkfont 和}\allowbreak{} UM980 {\cjkfont 的}\allowbreak{} 0.1026 mm/s {\cjkfont 是}\allowbreak{}{\cjkfont 经}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 拟}\allowbreak{}{\cjkfont 合}\allowbreak{}{\cjkfont 斜}\allowbreak{}{\cjkfont 率}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 物}\allowbreak{}{\cjkfont 理}\allowbreak{}{\cjkfont 极}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+P23A\_1 {\cjkfont 在}\allowbreak{}{\cjkfont 长}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 优}\allowbreak{}{\cjkfont 势}\allowbreak{}{\cjkfont 缩}\allowbreak{}{\cjkfont 小}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 新}\allowbreak{}{\cjkfont 鲜}\allowbreak{}{\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont （}\allowbreak{}0 < dAge ≤10 {\cjkfont 秒}\allowbreak{}{\cjkfont ）}\allowbreak{}{\cjkfont 下}\allowbreak{} HRMS {\cjkfont 为}\allowbreak{} 4.2 mm {\cjkfont 对}\allowbreak{} 9.8 mm{\cjkfont ；}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 近}\allowbreak{} 300 {\cjkfont 秒}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 为}\allowbreak{} 34.2 mm {\cjkfont 对}\allowbreak{} 36.2 mm{\cjkfont 。}\allowbreak{}{\cjkfont 这}\allowbreak{}{\cjkfont 些}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 别}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 各}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 配}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 较}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{{\cjkfont 下}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 对}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 组}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 观}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 应}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}{\cjkfont 模}\allowbreak{}{\cjkfont 型}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 独}\allowbreak{}{\cjkfont 立}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 置}\allowbreak{}{\cjkfont 真}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 评}\allowbreak{}{\cjkfont 价}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 析}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 评}\allowbreak{}{\cjkfont 价}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 于}\allowbreak{} P23A\_0 {\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 周}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 留}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 共}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 被}\allowbreak{}{\cjkfont 掩}\allowbreak{}{\cjkfont 盖}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 因}\allowbreak{}{\cjkfont 此}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 它}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 了}\allowbreak{}{\cjkfont 良}\allowbreak{}{\cjkfont 好}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 尚}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 绝}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 极}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 。}\allowbreak{}
 \begin{figure}[p]\centering
 \resizebox{0.98\linewidth}{!}{%
 \setlength{\unitlength}{1bp}\begin{picture}(680.0,680.0)
@@ -805,6 +1021,75 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 \put(95.0,363.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
 \put(385.0,363.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
 \put(675.0,363.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{} dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 根}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} HRMS [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,523.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=523.0bp]{bericht/abbildungen/horizontal_dage_vergleich_zh.pdf}}
+\put(95.0,500.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS(dAge){\cjkfont ：}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 研}\allowbreak{}{\cjkfont 究}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 新}\allowbreak{}{\cjkfont 结}\allowbreak{}{\cjkfont 果}\allowbreak{}}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(269.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(443.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(617.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(791.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 400}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 500}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,104.57142857142856){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(87.0,143.1428571428571){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 400}}
+\put(87.0,181.71428571428572){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 600}}
+\put(87.0,220.28571428571428){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 800}}
+\put(87.0,258.8571428571429){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1000}}
+\put(87.0,297.42857142857144){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1200}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 1400}}
+\put(95.0,478.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(530.0,478.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(95.0,456.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(530.0,456.0){\makebox(0,0)[lb]{\color[HTML]{800000}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont （}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont ）}\allowbreak{}}}
+\put(95.0,434.0){\makebox(0,0)[lb]{\color[HTML]{666666}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 无}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}}}
+\put(530.0,434.0){\makebox(0,0)[lb]{\color[HTML]{a65e00}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}}}
+\put(95.0,412.0){\makebox(0,0)[lb]{\color[HTML]{800080}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 及}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 修}\allowbreak{}{\cjkfont 正}\allowbreak{}}}
+\put(530.0,412.0){\makebox(0,0)[lb]{\color[HTML]{c000c0}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 加}\allowbreak{}{\cjkfont 超}\allowbreak{}{\cjkfont 快}\allowbreak{}{\cjkfont 速}\allowbreak{}{\cjkfont 产}\allowbreak{}{\cjkfont 品}\allowbreak{}}}
+\put(95.0,390.0){\makebox(0,0)[lb]{\color[HTML]{000080}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 加}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}}}
+\put(530.0,390.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(95.0,368.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(530.0,368.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
+\put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
+\put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{} dAge [s]}}
+\put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 根}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} HRMS [mm]}}}
+\end{picture}}
+\end{figure}
+\begin{figure}[p]\centering
+\resizebox{0.98\linewidth}{!}{%
+\setlength{\unitlength}{1bp}\begin{picture}(1000.0,501.0)
+\put(0,0){\includegraphics[width=1000.0bp,height=501.0bp]{bericht/abbildungen/horizontal_dage_vergleich_detail_zh.pdf}}
+\put(95.0,478.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{16}{16}\selectfont HRMS(dAge){\cjkfont ：}\allowbreak{}{\cjkfont 局}\allowbreak{}{\cjkfont 部}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont （}\allowbreak{}0–300 {\cjkfont 秒}\allowbreak{}{\cjkfont ，}\allowbreak{}0–150 mm{\cjkfont ）}\allowbreak{}}}
+\put(95.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(240.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(385.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(530.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(675.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 200}}
+\put(820.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 250}}
+\put(965.0,50.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 300}}
+\put(87.0,66.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 0}}
+\put(87.0,111.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 25}}
+\put(87.0,156.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 50}}
+\put(87.0,201.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 75}}
+\put(87.0,246.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 100}}
+\put(87.0,291.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 125}}
+\put(87.0,336.0){\makebox(0,0)[rb]{\color{black}\sffamily\fontsize{12}{12}\selectfont 150}}
+\put(95.0,456.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0}}
+\put(530.0,456.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1}}
+\put(95.0,434.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980}}
+\put(530.0,434.0){\makebox(0,0)[lb]{\color[HTML]{800000}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont （}\allowbreak{}{\cjkfont 单}\allowbreak{}{\cjkfont 点}\allowbreak{}{\cjkfont ）}\allowbreak{}}}
+\put(95.0,412.0){\makebox(0,0)[lb]{\color[HTML]{c000c0}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 加}\allowbreak{}{\cjkfont 超}\allowbreak{}{\cjkfont 快}\allowbreak{}{\cjkfont 速}\allowbreak{}{\cjkfont 产}\allowbreak{}{\cjkfont 品}\allowbreak{}}}
+\put(530.0,412.0){\makebox(0,0)[lb]{\color[HTML]{000080}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 加}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}}}
+\put(95.0,390.0){\makebox(0,0)[lb]{\color{red}\sffamily\fontsize{12}{12}\selectfont P23A\_0: +0.1354 mm/s}}
+\put(530.0,390.0){\makebox(0,0)[lb]{\color{green}\sffamily\fontsize{12}{12}\selectfont P23A\_1: +0.0927 mm/s}}
+\put(95.0,368.0){\makebox(0,0)[lb]{\color{blue}\sffamily\fontsize{12}{12}\selectfont UM980: +0.1026 mm/s}}
 \put(103.0,78.0){\makebox(0,0)[lb]{\color{black}\sffamily\fontsize{12}{12}\selectfont (0,0)}}
 \put(530.0,12.0){\makebox(0,0)[cb]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{} dAge [s]}}
 \put(19.0,205.0){\rotatebox{90}{\makebox(0,0)[b]{\color{black}\sffamily\fontsize{12}{12}\selectfont {\cjkfont 水}\allowbreak{}{\cjkfont 平}\allowbreak{}{\cjkfont 均}\allowbreak{}{\cjkfont 方}\allowbreak{}{\cjkfont 根}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{} HRMS [mm]}}}

@@ -1,10 +1,21 @@
 """Additional English and Simplified Chinese report chapters and SVG labels."""
 from pathlib import Path
 import json
+import html
+import re
 
 # Exact report/axis phrases; numeric data and machine-readable field names stay unchanged.
 TRANSLATIONS = {
 'en': {
+'Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'Comparison with Figure 1, page 2 of “Frühere Outage Results.pdf”: historical curves are approximate reconstructions from PDF vector paths, not raw observations. The isolated point near 300 s and 20 mm uses final precise clocks and orbits. New results show 10-s-bin HRMS and linear fits restricted to observed ages. Different experimental conditions and references limit comparability. The detail view shows the two lower historical curves and the precise-clock point; the full view includes every historical curve.',
+'Alt: ohne SV-Uhr':'Earlier: no SV clock',
+'Alt: SV-Uhr + Relativität':'Earlier: SV clock + relativity',
+'Alt: SV-Uhr':'Earlier: SV clock',
+'Alt: + Ultra-Rapid':'Earlier: + ultra-rapid',
+'Alt: + präzise Bahnen':'Earlier: + precise orbits',
+'Alt: präzise Uhren (ein Punkt)':'Earlier: precise clocks (one point)',
+'HRMS(dAge): frühere Untersuchung und neue Ergebnisse':'HRMS(dAge): earlier study and new results',
+'HRMS(dAge): Vergleich im Detail (0–300 s, 0–150 mm)':'HRMS(dAge): comparison detail (0–300 s, 0–150 mm)',
 'Horizontaler Fehler über dAge: alle RTK-fixed-Einzelwerte':'Horizontal error versus dAge: all RTK-fixed samples',
 'Horizontaler Fehler [mm]':'Horizontal error [mm]',
 'dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer.':'dAge is the reported GGA correction age [s]. HRMS = sqrt(mean(east error² + north error²)) per 10-s interval (0,10], (10,20], …; age zero belongs to the first interval. Points use the mean observed age in each interval. Lines use unweighted least squares on interval HRMS values with a free intercept, restricted to the observed age range; slopes are in mm/s. All usable RTK-fixed epochs with valid dAge are included, without pairing receivers. dAge is not an externally measured outage duration.',
@@ -34,6 +45,15 @@ TRANSLATIONS = {
 'Soll (0,0)':'Expected (0,0)',
 },
 'zh': {
+'Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'与“Frühere Outage Results.pdf”第 2 页图 1 对比：历史曲线由 PDF 矢量线近似重建，并非原始观测数据。约 300 秒、20 mm 的孤立点使用最终精密钟差和轨道。新结果为每 10 秒区间的 HRMS 及仅限实际龄期范围的线性拟合。实验条件和参考基准不同，限制了可比性。局部图显示两条较低的历史曲线和精密钟差点；完整图包含全部历史曲线。',
+'Alt: ohne SV-Uhr':'历史：无卫星钟差',
+'Alt: SV-Uhr + Relativität':'历史：卫星钟差及相对论修正',
+'Alt: SV-Uhr':'历史：卫星钟差',
+'Alt: + Ultra-Rapid':'历史：加超快速产品',
+'Alt: + präzise Bahnen':'历史：加精密轨道',
+'Alt: präzise Uhren (ein Punkt)':'历史：精密钟差（单点）',
+'HRMS(dAge): frühere Untersuchung und neue Ergebnisse':'HRMS(dAge)：历史研究与新结果',
+'HRMS(dAge): Vergleich im Detail (0–300 s, 0–150 mm)':'HRMS(dAge)：局部对比（0–300 秒，0–150 mm）',
 'Horizontaler Fehler über dAge: alle RTK-fixed-Einzelwerte':'水平误差随 dAge 的变化：全部 RTK 固定解单点值',
 'Horizontaler Fehler [mm]':'水平误差 [mm]',
 'dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer.':'dAge 为 GGA 报告的改正数据龄期 [s]。每个 10 秒区间 (0,10]、(10,20] 等计算 HRMS = sqrt(平均值(东向误差² + 北向误差²))；零龄期计入首个区间。点的横坐标为各区间的平均龄期。对各区间 HRMS 采用不加权最小二乘直线拟合，截距自由，仅在实际龄期范围内绘制，斜率单位为 mm/s。包含具有有效 dAge 的全部可用 RTK 固定解历元，不要求接收机历元配对。dAge 并非外部测得的中断持续时间。',
@@ -111,4 +131,24 @@ def conclusion(summary, language):
     for name, values in stats.items():
         cells = [name, str(values['epochs'])]+[f"{100*values[k]:.2f}" for k in ['rms_m','median_m','p95_m','max_m']]
         table += '<tr>'+''.join(f'<td>{v}</td>' for v in cells)+'</tr>'
-    return f'<h2>{title}</h2><p>{result}</p><p>{method}</p>{table}</table>'
+    return f'<h2>{title}</h2><p>{result}</p><p>{method}</p>{table}</table>'+historical_assessment(language)
+
+
+def historical_assessment(language):
+    """Share the historical assessment with the Markdown/PDF report source."""
+    titles = {
+        'de': 'Bewertung anhand der früheren Untersuchung (Punkte 1–6)',
+        'en': 'Assessment against the earlier study (steps 1–6)',
+        'zh': '对照历史研究的评价（步骤 1–6）',
+    }
+    title = titles[language]
+    document = (Path(__file__).resolve().parent/'AUSWERTUNG.md').read_text()
+    section = re.search(r'^## '+re.escape(title)+r'\n(.*?)(?=^#|\Z)',
+                        document, re.MULTILINE | re.DOTALL)
+    if section is None:
+        raise ValueError(f'Missing historical assessment: {language}')
+    paragraphs = []
+    for paragraph in section[1].strip().split('\n\n'):
+        escaped = html.escape(paragraph)
+        paragraphs.append('<p>'+re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', escaped)+'</p>')
+    return '<h2>'+html.escape(title)+'</h2>'+''.join(paragraphs)
