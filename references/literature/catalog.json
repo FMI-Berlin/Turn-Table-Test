@@ -1,0 +1,86 @@
+[
+  {
+    "id": "R1",
+    "authors": "Sören Klose",
+    "date": "2005-07-18",
+    "title": "Frühere Outage Results",
+    "url": "",
+    "evidence_type": "historical experiment; date and Trimble GPS-only setup supplied by project owner"
+  },
+  {
+    "id": "R2",
+    "authors": "Bao Shu et al.",
+    "date": "2019",
+    "title": "Analysis of Factors Affecting Asynchronous RTK Positioning with GNSS Signals",
+    "url": "https://doi.org/10.3390/rs11101256",
+    "evidence_type": "peer-reviewed; Remote Sensing 11(10), 1256"
+  },
+  {
+    "id": "R3",
+    "authors": "V. Bhandari, K. O’Keefe, G. Lachapelle",
+    "date": "2013",
+    "title": "Assessment of Multi-constellation RTK Solutions During Differential Correction Data Outages",
+    "url": "https://www.ion.org/publications/abstract.cfm?articleID=11153",
+    "evidence_type": "research conference; ION GNSS+ 2013, pp. 3194–3204"
+  },
+  {
+    "id": "R4",
+    "authors": "Yuan Du et al.",
+    "date": "2019",
+    "title": "A New Asynchronous RTK Method to Mitigate Base Station Observation Outages",
+    "url": "https://doi.org/10.3390/s19153376",
+    "evidence_type": "peer-reviewed; Sensors 19(15), 3376; full text: https://pmc.ncbi.nlm.nih.gov/articles/PMC6696619/"
+  },
+  {
+    "id": "R5",
+    "authors": "Quectel",
+    "date": "accessed 2026-11-07",
+    "title": "LG290P series: RTK HOLD and multi-constellation support",
+    "url": "https://www.quectel.com/product/gnss-lg290p/",
+    "evidence_type": "manufacturer documentation, not independent validation"
+  },
+  {
+    "id": "R6",
+    "authors": "Unicore",
+    "date": "accessed 2026-11-07",
+    "title": "Core Technology: RTKKEEP",
+    "url": "https://en.unicorecomm.com/core-technology/",
+    "evidence_type": "manufacturer documentation, not independent validation"
+  },
+  {
+    "id": "R7",
+    "authors": "European Space Agency",
+    "date": "accessed 2026-11-07",
+    "title": "How the Galileo atomic clocks work",
+    "url": "https://www.esa.int/Applications/Satellite_navigation/How_the_Galileo_atomic_clocks_work",
+    "evidence_type": "technical background"
+  },
+  {
+    "id": "R8",
+    "authors": "J. Sanz Subirana, J. M. Juan Zornoza, M. Hernández-Pajares",
+    "date": "2011",
+    "title": "Combination of GNSS Measurements",
+    "url": "https://gssc.esa.int/navipedia/index.php?title=Combination_of_GNSS_Measurements",
+    "evidence_type": "ESA Navipedia technical reference"
+  },
+  {
+    "id": "R9",
+    "authors": "NovAtel",
+    "date": "User Manual v10; accessed 2026-11-07",
+    "title": "SMART7 Installation and Operation User Manual, section 3.9, page 47: RTK ASSIST",
+    "url": "https://docs.novatel.com/OEM7/Content/PDFs/PreviousVersions/SMART7_Installation_Operation_Manual_v10.pdf",
+    "evidence_type": "manufacturer documentation; uses additional TerraStar L-band corrections"
+  },
+  {
+    "id": "R10",
+    "authors": "ChatGPT; project-owner supplied",
+    "date": "2026-10-18",
+    "title": "GNSS Positioning During Reference Data Outages: Observation models, clock propagation and implementation",
+    "url": "",
+    "local_file": "references/literature/2026-10-18.gnss-reference-outage.pdf",
+    "sha256": "d1feb68c31a70925e4608c92e2b371c6bbca4092de8d48d067ebc9a0f155e3aa",
+    "related_image": "references/literature/2026-10-18.gnss-reference-outage.Image_20261018004027_50_24.jpg",
+    "related_image_sha256": "2705f276f6fd1fd42c4928ff00bb268ed93f82545601341b62a3d9586f017b9a",
+    "evidence_type": "AI-generated technical implementation note, not an independent experiment or a verified FMI firmware benchmark; discussed 0.36 m over 120 s on page 11; reproduced historical figures on pages 12–13"
+  }
+]

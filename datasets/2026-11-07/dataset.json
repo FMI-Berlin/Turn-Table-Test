@@ -1,0 +1,41 @@
+{
+  "id": "2026-11-07",
+  "date": "2026-11-07",
+  "reference_receiver": "P23M_0",
+  "receivers": [
+    {
+      "name": "P23M_0",
+      "file": "raw/P23M_continious.nmea",
+      "color": "red",
+      "firmware": null
+    },
+    {
+      "name": "P23M_1",
+      "file": "raw/P23M_outages.nmea",
+      "color": "green",
+      "firmware": null
+    },
+    {
+      "name": "UM980",
+      "file": "raw/UM980_outages.nmea",
+      "color": "blue",
+      "firmware": null
+    },
+    {
+      "name": "LG290P",
+      "file": "raw/LG290P_outages.nmea",
+      "color": "#d26900",
+      "firmware": null
+    }
+  ],
+  "analysis": {
+    "max_gap_s": 3.0
+  },
+  "assessment": "../../documentation/assessments/2026-11-07.md",
+  "conditions": {
+    "antenna": null,
+    "correction_cycle": null,
+    "notes": "Receiver roles inferred from supplied filenames; common rotating-antenna setup assumed as requested. Reference is approximately 10 Hz, outage recordings approximately 1 Hz."
+  },
+  "additional_raw_files": []
+}

@@ -9,3 +9,7 @@ Regenerate with `python3 references/historical-outage-results/extract_pdf_curves
 The detail view includes the two lower historical curves and the isolated precise-clock point. The full view includes all five historical curves.
 
 The source was originally named “Frühere Outage Results.pdf”; the original filenames were normalised during repository organisation. Document contents are unchanged.
+
+## Historical experiment context
+
+Measurement date: **18 July 2005**. Receiver family: **Trimble**, operated **GPS-only**, according to the project owner. These details are supplied context, not inferred from the document export metadata. The 2026 PDF creation date is not the measurement date. Original document contents remain unchanged.

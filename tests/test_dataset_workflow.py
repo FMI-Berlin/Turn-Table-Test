@@ -11,7 +11,8 @@ ANALYSIS = Path(__file__).resolve().parents[1] / 'analysis'
 sys.path.insert(0, str(ANALYSIS))
 from dataset import load_dataset
 from build_report import automatic_report, markdown_report
-from report_languages import conclusion, historical_assessment
+from report_languages import conclusion, historical_assessment, report_intro
+from turn_table import common_outage_epochs, svg_plot
 
 
 class DatasetWorkflowTests(unittest.TestCase):
@@ -94,6 +95,47 @@ class DatasetWorkflowTests(unittest.TestCase):
             latex = markdown_report(markdown, self.directory)
         self.assertEqual(latex.count(r'\begin{tabular}'), 3)
         self.assertIn('1.000', latex)
+
+    def test_accepts_four_receivers_and_hex_color(self):
+        (self.directory/'raw/c.nmea').write_text('fixture')
+        self.config['receivers'].append({'name':'OUT_C','file':'raw/c.nmea','color':'#d26900'})
+        dataset=load_dataset(self.save())
+        self.assertEqual(len(dataset.receivers),4)
+        self.assertEqual(dataset.receivers[0][0],'REF')
+        self.config['receivers'][-1]['color']='red;bad'
+        with self.assertRaises(ValueError):
+            load_dataset(self.save())
+
+    def test_common_outage_epochs_checks_every_receiver(self):
+        def row(t,age=11):
+            return dict(utc_seconds=t,correction_age_s=age,horizontal_error_m=.01)
+        receivers=[('A','green',[row(1),row(2),row(3),row(4),row(5),row(6)]),
+                   ('B','blue',[row(1),row(2),row(4),row(5),row(6)]),
+                   ('C','#d26900',[row(2),row(3),row(4,10),row(5,None),row(6,float('nan'))])]
+        paired,times=common_outage_epochs(receivers)
+        self.assertEqual(len(paired),3)
+        self.assertEqual(times,[2])
+        _,two_receiver_times=common_outage_epochs(receivers[:2])
+        self.assertEqual(two_receiver_times,[1,2,4,5,6])
+
+    def test_intro_preserves_all_receiver_labels(self):
+        summary=dict(reference_receiver='P23M_0',files={name:{} for name in ('P23M_0','P23M_1','UM980','LG290P')},
+                     receiver_colors={'LG290P':'#d26900'},radius_m=.33,mean_rotation_period_s=170,
+                     rotation_period_count=70,common_start_utc_seconds=6000,common_end_utc_seconds=19000,date='2026-11-07')
+        for lang in ('de','en','zh'):
+            rendered=report_intro(summary,lang)
+            for name in summary['files']:
+                self.assertIn(name,rendered)
+            self.assertNotIn('P23A_',rendered)
+
+    def test_four_receiver_spatial_plot_keeps_equal_scale(self):
+        series=[(name,color,[(0,0),(.01,.01)]) for name,color in
+                [('R','red'),('A','green'),('B','blue'),('C','#d26900')]]
+        path=self.directory/'spatial.svg'
+        svg_plot(path,series,'East [m]','North [m]','Spatial',equal=True)
+        text=path.read_text()
+        self.assertIn('v550',text)
+        self.assertIn('h550',text)
 
     def test_builder_rejects_other_dataset_results(self):
         config_path = self.save()

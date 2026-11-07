@@ -35,8 +35,8 @@ def load_dataset(path=DEFAULT_DATASET):
     date = dt.date.fromisoformat(config['date']).isoformat()
     receivers = config['receivers']
     names = [r['name'] for r in receivers]
-    if len(receivers) != 3 or len(set(names)) != 3:
-        raise ValueError('Exactly three receivers with unique names are required')
+    if len(receivers) < 3 or len(set(names)) != len(receivers):
+        raise ValueError('A reference and at least two outage receivers with unique names are required')
     if any(not re.fullmatch(r'[A-Za-z0-9_-]+', name) for name in names):
         raise ValueError('Receiver names must be safe filename stems')
     reference = config['reference_receiver']
@@ -48,8 +48,8 @@ def load_dataset(path=DEFAULT_DATASET):
         file = (directory / receiver['file']).resolve()
         if not file.is_file():
             raise FileNotFoundError(f'Missing receiver input: {file}')
-        if receiver['color'] not in ('red', 'green', 'blue'):
-            raise ValueError('Receiver colors must be red, green or blue')
+        if receiver['color'] not in ('red', 'green', 'blue') and not re.fullmatch(r'#[0-9a-fA-F]{6}', receiver['color']):
+            raise ValueError('Receiver colors must be red, green, blue or a six-digit hex color')
         files.append((receiver['name'], file, receiver['color']))
     gap = float(config.get('analysis', {}).get('max_gap_s', 3))
     if not math.isfinite(gap) or gap <= 0:

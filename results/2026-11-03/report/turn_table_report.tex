@@ -13,6 +13,13 @@
 \setlength{\parskip}{6pt}
 \setlength{\emergencystretch}{3em}
 \begin{document}
+\setcounter{tocdepth}{2}
+\makeatletter
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.2em}}
+\makeatother
+\renewcommand{\contentsname}{Contents / Inhaltsverzeichnis / {\cjkfont 目录}}
+{\small\tableofcontents}
+\clearpage
 \clearpage\section{Turn-Table-Test — 03.11.2026}
 
 Ausführen (Python 3.10 oder neuer, keine Zusatzpakete):
@@ -101,6 +108,36 @@ Quelle: „references/\allowbreak{}historical-outage-results/\allowbreak{}origin
 Der Vorteil von P23A\_1 wird bei langen Outages kleiner: Mit frischen Korrekturen (0 < dAge ≤10 s) betragen die HRMS-Werte 4,2 gegenüber 9,8 mm; nahe 300 s sind es 34,2 gegenüber 36,2 mm. Diese Altersklassen enthalten jeweils die verwendbaren Fixed-Epochen des einzelnen Receivers und sind kein gepaarter Vergleich.
 
 \textbf{Nächster Nachweis:} Dieselben Outage-Rohdaten mit unterschiedlichen Satellitenuhr- und Bahnmodellen auswerten, eine unabhängige Positionsreferenz verwenden und die Fixed-Verfügbarkeit mitbewerten. Unsere aktuelle Auswertung bewertet erhaltene Fixed-Lösungen relativ zum P23A\_0-Sollkreis. Gemeinsame Fehler können verborgen bleiben. Sie belegt gute relative Outage-Genauigkeit, aber keine absolute Genauigkeitsgrenze.
+
+\subsection{Ergänzter historischer Kontext}
+
+Der Projektinhaber datiert den historischen Vergleich auf den \textbf{18.07.2005}, mit \textbf{Trimble-Receivern im GPS-only-Betrieb}. Die damaligen 20 mm mit präzisen Uhren sind keine universelle heutige Grenze. Die ausführliche Erklärung zu Broadcast-Restfehlern, aktueller Literatur und dem Vier-Receiver-Vergleich steht im Bericht zum 07.11.2026. [R1]
+
+\subsection{Referenzen und Quellenstatus}
+
+Quellen wurden am 07.11.2026 geprüft. Wissenschaftliche Arbeiten, Herstellerangaben und eigene Messungen werden getrennt bewertet; keine Quelle repliziert exakt unseren Versuchsaufbau.
+
+\textbf{[R1]} Sören Klose. Frühere Outage Results. Trimble GPS-only; measurement 18 July 2005 (project-owner context). Files: {\small\texttt{original.docx}}, {\small\texttt{original.pdf}}. Folder: references/\allowbreak{}historical-outage-results/\allowbreak{}.
+
+\textbf{[R2]} Bao Shu et al. (2019). \href{https://doi.org/10.3390/rs11101256}{Analysis of Factors Affecting Asynchronous RTK Positioning with GNSS Signals}. peer-reviewed; Remote Sensing 11(10), 1256. DOI: \href{https://doi.org/10.3390/rs11101256}{10.3390/\allowbreak{}rs11101256}.
+
+\textbf{[R3]} V. Bhandari, K. O’Keefe, G. Lachapelle (2013). \href{https://www.ion.org/publications/abstract.cfm?articleID=11153}{Assessment of Multi-constellation RTK Solutions During Differential Correction Data Outages}. research conference; ION GNSS+ 2013, pp. 3194–3204.
+
+\textbf{[R4]} Yuan Du et al. (2019). \href{https://doi.org/10.3390/s19153376}{A New Asynchronous RTK Method to Mitigate Base Station Observation Outages}. peer-reviewed; Sensors 19(15), 3376. DOI: \href{https://doi.org/10.3390/s19153376}{10.3390/\allowbreak{}s19153376}; full text: https:/\allowbreak{}/\allowbreak{}pmc.ncbi.nlm.nih.gov/\allowbreak{}articles/\allowbreak{}PMC6696619/\allowbreak{}.
+
+\textbf{[R5]} Quectel (accessed 2026-11-07). \href{https://www.quectel.com/product/gnss-lg290p/}{LG290P series: RTK HOLD and multi-constellation support}. manufacturer documentation, not independent validation.
+
+\textbf{[R6]} Unicore (accessed 2026-11-07). \href{https://en.unicorecomm.com/core-technology/}{Core Technology: RTKKEEP}. manufacturer documentation, not independent validation.
+
+\textbf{[R7]} European Space Agency (accessed 2026-11-07). \href{https://www.esa.int/Applications/Satellite_navigation/How_the_Galileo_atomic_clocks_work}{How the Galileo atomic clocks work}. technical background.
+
+\textbf{[R8]} J. Sanz Subirana, J. M. Juan Zornoza, M. Hernández-Pajares (2011). \href{https://gssc.esa.int/navipedia/index.php?title=Combination_of_GNSS_Measurements}{Combination of GNSS Measurements}. ESA Navipedia technical reference.
+
+\textbf{[R9]} NovAtel (User Manual v10; accessed 2026-11-07). \href{https://docs.novatel.com/OEM7/Content/PDFs/PreviousVersions/SMART7_Installation_Operation_Manual_v10.pdf}{SMART7 Installation and Operation User Manual, section 3.9, page 47: RTK ASSIST}. manufacturer documentation; uses additional TerraStar L-band corrections.
+
+Ergänzend liegt die ChatGPT-Implementierungsnotiz vom 18.10.2026 jetzt als [R10] vor. Die dort diskutierten 0,36 m in 120 s sind keine direkt vergleichbare HRMS-Messreihe; die ausführliche Einordnung steht im Bericht zum 07.11.2026.
+
+\textbf{[R10]} ChatGPT. GNSS Positioning During Reference Data Outages: Observation models, clock propagation and implementation. Technical implementation note, 18 October 2026, 14 pp. Local file: {\small\texttt{2026-10-18.gnss-reference-outage.pdf}} in references/\allowbreak{}literature/\allowbreak{}. AI-generated discussion, not an independent FMI benchmark.
 
 \begin{figure}[p]\centering
 \resizebox{0.98\linewidth}{!}{%
@@ -463,6 +500,36 @@ P23A\_1's advantage narrows during long outages: with fresh corrections (0 < dAg
 
 \textbf{Next verification:} Process the same outage raw observations with different satellite clock and orbit models, use independent position truth, and assess fixed-solution availability. Our current analysis evaluates retained fixed solutions relative to the P23A\_0 expected circle. Common errors can remain hidden. It demonstrates good relative outage accuracy, not an absolute accuracy limit.
 
+\subsection{Updated historical context}
+
+The project owner dates the historical experiment to \textbf{18 July 2005}, using \textbf{Trimble receivers in GPS-only operation}. Its 20 mm precise-clock result is not a universal current limit. Detailed broadcast-error discussion, literature and the four-receiver assessment are in the November 7 report. [R1]
+
+\subsection{References and evidence status}
+
+Sources checked on 7 November 2026. Research, manufacturer claims and our measurements have different evidential roles; none exactly replicates this experiment.
+
+\textbf{[R1]} Sören Klose. Frühere Outage Results. Trimble GPS-only; measurement 18 July 2005 (project-owner context). Files: {\small\texttt{original.docx}}, {\small\texttt{original.pdf}}. Folder: references/\allowbreak{}historical-outage-results/\allowbreak{}.
+
+\textbf{[R2]} Bao Shu et al. (2019). \href{https://doi.org/10.3390/rs11101256}{Analysis of Factors Affecting Asynchronous RTK Positioning with GNSS Signals}. peer-reviewed; Remote Sensing 11(10), 1256. DOI: \href{https://doi.org/10.3390/rs11101256}{10.3390/\allowbreak{}rs11101256}.
+
+\textbf{[R3]} V. Bhandari, K. O’Keefe, G. Lachapelle (2013). \href{https://www.ion.org/publications/abstract.cfm?articleID=11153}{Assessment of Multi-constellation RTK Solutions During Differential Correction Data Outages}. research conference; ION GNSS+ 2013, pp. 3194–3204.
+
+\textbf{[R4]} Yuan Du et al. (2019). \href{https://doi.org/10.3390/s19153376}{A New Asynchronous RTK Method to Mitigate Base Station Observation Outages}. peer-reviewed; Sensors 19(15), 3376. DOI: \href{https://doi.org/10.3390/s19153376}{10.3390/\allowbreak{}s19153376}; full text: https:/\allowbreak{}/\allowbreak{}pmc.ncbi.nlm.nih.gov/\allowbreak{}articles/\allowbreak{}PMC6696619/\allowbreak{}.
+
+\textbf{[R5]} Quectel (accessed 2026-11-07). \href{https://www.quectel.com/product/gnss-lg290p/}{LG290P series: RTK HOLD and multi-constellation support}. manufacturer documentation, not independent validation.
+
+\textbf{[R6]} Unicore (accessed 2026-11-07). \href{https://en.unicorecomm.com/core-technology/}{Core Technology: RTKKEEP}. manufacturer documentation, not independent validation.
+
+\textbf{[R7]} European Space Agency (accessed 2026-11-07). \href{https://www.esa.int/Applications/Satellite_navigation/How_the_Galileo_atomic_clocks_work}{How the Galileo atomic clocks work}. technical background.
+
+\textbf{[R8]} J. Sanz Subirana, J. M. Juan Zornoza, M. Hernández-Pajares (2011). \href{https://gssc.esa.int/navipedia/index.php?title=Combination_of_GNSS_Measurements}{Combination of GNSS Measurements}. ESA Navipedia technical reference.
+
+\textbf{[R9]} NovAtel (User Manual v10; accessed 2026-11-07). \href{https://docs.novatel.com/OEM7/Content/PDFs/PreviousVersions/SMART7_Installation_Operation_Manual_v10.pdf}{SMART7 Installation and Operation User Manual, section 3.9, page 47: RTK ASSIST}. manufacturer documentation; uses additional TerraStar L-band corrections.
+
+The ChatGPT implementation note dated 18 October 2026 is now available as [R10]. Its discussed 0.36 m over 120 s is not a directly comparable HRMS measurement series; the November 7 report contains the detailed assessment.
+
+\textbf{[R10]} ChatGPT. GNSS Positioning During Reference Data Outages: Observation models, clock propagation and implementation. Technical implementation note, 18 October 2026, 14 pp. Local file: {\small\texttt{2026-10-18.gnss-reference-outage.pdf}} in references/\allowbreak{}literature/\allowbreak{}. AI-generated discussion, not an independent FMI benchmark.
+
 \begin{figure}[p]\centering
 \resizebox{0.98\linewidth}{!}{%
 \setlength{\unitlength}{1bp}\begin{picture}(680.0,680.0)
@@ -823,6 +890,36 @@ UM980 & 2.69 cm & 1.90 cm & 5.42 cm & 7.94 cm\\
 P23A\_1 {\cjkfont 在}\allowbreak{}{\cjkfont 长}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 优}\allowbreak{}{\cjkfont 势}\allowbreak{}{\cjkfont 缩}\allowbreak{}{\cjkfont 小}\allowbreak{}{\cjkfont ：}\allowbreak{}{\cjkfont 新}\allowbreak{}{\cjkfont 鲜}\allowbreak{}{\cjkfont 改}\allowbreak{}{\cjkfont 正}\allowbreak{}{\cjkfont 数}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont （}\allowbreak{}0 < dAge ≤10 {\cjkfont 秒}\allowbreak{}{\cjkfont ）}\allowbreak{}{\cjkfont 下}\allowbreak{} HRMS {\cjkfont 为}\allowbreak{} 4.2 mm {\cjkfont 对}\allowbreak{} 9.8 mm{\cjkfont ；}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 近}\allowbreak{} 300 {\cjkfont 秒}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 为}\allowbreak{} 34.2 mm {\cjkfont 对}\allowbreak{} 36.2 mm{\cjkfont 。}\allowbreak{}{\cjkfont 这}\allowbreak{}{\cjkfont 些}\allowbreak{}{\cjkfont 龄}\allowbreak{}{\cjkfont 期}\allowbreak{}{\cjkfont 区}\allowbreak{}{\cjkfont 间}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 别}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 各}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 元}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 配}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 较}\allowbreak{}{\cjkfont 。}\allowbreak{}
 
 \textbf{{\cjkfont 下}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 步}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont ：}\allowbreak{}} {\cjkfont 对}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 一}\allowbreak{}{\cjkfont 组}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 原}\allowbreak{}{\cjkfont 始}\allowbreak{}{\cjkfont 观}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 应}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 卫}\allowbreak{}{\cjkfont 星}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 轨}\allowbreak{}{\cjkfont 道}\allowbreak{}{\cjkfont 模}\allowbreak{}{\cjkfont 型}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 采}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 独}\allowbreak{}{\cjkfont 立}\allowbreak{}{\cjkfont 位}\allowbreak{}{\cjkfont 置}\allowbreak{}{\cjkfont 真}\allowbreak{}{\cjkfont 值}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 并}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 评}\allowbreak{}{\cjkfont 价}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 用}\allowbreak{}{\cjkfont 性}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 分}\allowbreak{}{\cjkfont 析}\allowbreak{}{\cjkfont 仅}\allowbreak{}{\cjkfont 评}\allowbreak{}{\cjkfont 价}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 于}\allowbreak{} P23A\_0 {\cjkfont 理}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 圆}\allowbreak{}{\cjkfont 周}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 保}\allowbreak{}{\cjkfont 留}\allowbreak{}{\cjkfont 固}\allowbreak{}{\cjkfont 定}\allowbreak{}{\cjkfont 解}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 共}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 被}\allowbreak{}{\cjkfont 掩}\allowbreak{}{\cjkfont 盖}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 因}\allowbreak{}{\cjkfont 此}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 它}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 了}\allowbreak{}{\cjkfont 良}\allowbreak{}{\cjkfont 好}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 相}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 中}\allowbreak{}{\cjkfont 断}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 尚}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 能}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 绝}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 度}\allowbreak{}{\cjkfont 极}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\subsection{{\cjkfont 补}\allowbreak{}{\cjkfont 充}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 背}\allowbreak{}{\cjkfont 景}\allowbreak{}}
+
+{\cjkfont 项}\allowbreak{}{\cjkfont 目}\allowbreak{}{\cjkfont 负}\allowbreak{}{\cjkfont 责}\allowbreak{}{\cjkfont 人}\allowbreak{}{\cjkfont 确}\allowbreak{}{\cjkfont 认}\allowbreak{}{\cjkfont 历}\allowbreak{}{\cjkfont 史}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 为}\allowbreak{} \textbf{2005{\cjkfont 年}\allowbreak{}7{\cjkfont 月}\allowbreak{}18{\cjkfont 日}\allowbreak{}}{\cjkfont ，}\allowbreak{}{\cjkfont 使}\allowbreak{}{\cjkfont 用}\allowbreak{} \textbf{Trimble {\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 仅}\allowbreak{} GPS {\cjkfont 模}\allowbreak{}{\cjkfont 式}\allowbreak{}}{\cjkfont 。}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 时}\allowbreak{}{\cjkfont 精}\allowbreak{}{\cjkfont 密}\allowbreak{}{\cjkfont 钟}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 的}\allowbreak{}20 mm{\cjkfont 结}\allowbreak{}{\cjkfont 果}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 是}\allowbreak{}{\cjkfont 当}\allowbreak{}{\cjkfont 前}\allowbreak{}{\cjkfont 普}\allowbreak{}{\cjkfont 适}\allowbreak{}{\cjkfont 极}\allowbreak{}{\cjkfont 限}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 广}\allowbreak{}{\cjkfont 播}\allowbreak{}{\cjkfont 误}\allowbreak{}{\cjkfont 差}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 制}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont 献}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 四}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 收}\allowbreak{}{\cjkfont 机}\allowbreak{}{\cjkfont 对}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 的}\allowbreak{}{\cjkfont 详}\allowbreak{}{\cjkfont 细}\allowbreak{}{\cjkfont 讨}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 见}\allowbreak{}11{\cjkfont 月}\allowbreak{}7{\cjkfont 日}\allowbreak{}{\cjkfont 报}\allowbreak{}{\cjkfont 告}\allowbreak{}{\cjkfont 。}\allowbreak{}[R1]
+
+\subsection{{\cjkfont 参}\allowbreak{}{\cjkfont 考}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont 献}\allowbreak{}{\cjkfont 与}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 类}\allowbreak{}{\cjkfont 型}\allowbreak{}}
+
+{\cjkfont 来}\allowbreak{}{\cjkfont 源}\allowbreak{}{\cjkfont 于}\allowbreak{}2026{\cjkfont 年}\allowbreak{}11{\cjkfont 月}\allowbreak{}7{\cjkfont 日}\allowbreak{}{\cjkfont 核}\allowbreak{}{\cjkfont 查}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 科}\allowbreak{}{\cjkfont 研}\allowbreak{}{\cjkfont 文}\allowbreak{}{\cjkfont 献}\allowbreak{}{\cjkfont 、}\allowbreak{}{\cjkfont 制}\allowbreak{}{\cjkfont 造}\allowbreak{}{\cjkfont 商}\allowbreak{}{\cjkfont 说}\allowbreak{}{\cjkfont 明}\allowbreak{}{\cjkfont 和}\allowbreak{}{\cjkfont 本}\allowbreak{}{\cjkfont 次}\allowbreak{}{\cjkfont 测}\allowbreak{}{\cjkfont 量}\allowbreak{}{\cjkfont 具}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 不}\allowbreak{}{\cjkfont 同}\allowbreak{}{\cjkfont 证}\allowbreak{}{\cjkfont 据}\allowbreak{}{\cjkfont 角}\allowbreak{}{\cjkfont 色}\allowbreak{}{\cjkfont ；}\allowbreak{}{\cjkfont 没}\allowbreak{}{\cjkfont 有}\allowbreak{}{\cjkfont 来}\allowbreak{}{\cjkfont 源}\allowbreak{}{\cjkfont 完}\allowbreak{}{\cjkfont 全}\allowbreak{}{\cjkfont 复}\allowbreak{}{\cjkfont 现}\allowbreak{}{\cjkfont 本}\allowbreak{}{\cjkfont 实}\allowbreak{}{\cjkfont 验}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{[R1]} Sören Klose. Frühere Outage Results. Trimble GPS-only; measurement 18 July 2005 (project-owner context). Files: {\small\texttt{original.docx}}, {\small\texttt{original.pdf}}. Folder: references/\allowbreak{}historical-outage-results/\allowbreak{}.
+
+\textbf{[R2]} Bao Shu et al. (2019). \href{https://doi.org/10.3390/rs11101256}{Analysis of Factors Affecting Asynchronous RTK Positioning with GNSS Signals}. peer-reviewed; Remote Sensing 11(10), 1256. DOI: \href{https://doi.org/10.3390/rs11101256}{10.3390/\allowbreak{}rs11101256}.
+
+\textbf{[R3]} V. Bhandari, K. O’Keefe, G. Lachapelle (2013). \href{https://www.ion.org/publications/abstract.cfm?articleID=11153}{Assessment of Multi-constellation RTK Solutions During Differential Correction Data Outages}. research conference; ION GNSS+ 2013, pp. 3194–3204.
+
+\textbf{[R4]} Yuan Du et al. (2019). \href{https://doi.org/10.3390/s19153376}{A New Asynchronous RTK Method to Mitigate Base Station Observation Outages}. peer-reviewed; Sensors 19(15), 3376. DOI: \href{https://doi.org/10.3390/s19153376}{10.3390/\allowbreak{}s19153376}; full text: https:/\allowbreak{}/\allowbreak{}pmc.ncbi.nlm.nih.gov/\allowbreak{}articles/\allowbreak{}PMC6696619/\allowbreak{}.
+
+\textbf{[R5]} Quectel (accessed 2026-11-07). \href{https://www.quectel.com/product/gnss-lg290p/}{LG290P series: RTK HOLD and multi-constellation support}. manufacturer documentation, not independent validation.
+
+\textbf{[R6]} Unicore (accessed 2026-11-07). \href{https://en.unicorecomm.com/core-technology/}{Core Technology: RTKKEEP}. manufacturer documentation, not independent validation.
+
+\textbf{[R7]} European Space Agency (accessed 2026-11-07). \href{https://www.esa.int/Applications/Satellite_navigation/How_the_Galileo_atomic_clocks_work}{How the Galileo atomic clocks work}. technical background.
+
+\textbf{[R8]} J. Sanz Subirana, J. M. Juan Zornoza, M. Hernández-Pajares (2011). \href{https://gssc.esa.int/navipedia/index.php?title=Combination_of_GNSS_Measurements}{Combination of GNSS Measurements}. ESA Navipedia technical reference.
+
+\textbf{[R9]} NovAtel (User Manual v10; accessed 2026-11-07). \href{https://docs.novatel.com/OEM7/Content/PDFs/PreviousVersions/SMART7_Installation_Operation_Manual_v10.pdf}{SMART7 Installation and Operation User Manual, section 3.9, page 47: RTK ASSIST}. manufacturer documentation; uses additional TerraStar L-band corrections.
+
+2026{\cjkfont 年}\allowbreak{}10{\cjkfont 月}\allowbreak{}18{\cjkfont 日}\allowbreak{} ChatGPT {\cjkfont 实}\allowbreak{}{\cjkfont 现}\allowbreak{}{\cjkfont 笔}\allowbreak{}{\cjkfont 记}\allowbreak{}{\cjkfont 现}\allowbreak{}{\cjkfont 已}\allowbreak{}{\cjkfont 作}\allowbreak{}{\cjkfont 为}\allowbreak{}[R10]{\cjkfont 提}\allowbreak{}{\cjkfont 供}\allowbreak{}{\cjkfont 。}\allowbreak{}{\cjkfont 其}\allowbreak{}{\cjkfont 所}\allowbreak{}{\cjkfont 讨}\allowbreak{}{\cjkfont 论}\allowbreak{}{\cjkfont 的}\allowbreak{}120{\cjkfont 秒}\allowbreak{}0.36 m{\cjkfont 并}\allowbreak{}{\cjkfont 非}\allowbreak{}{\cjkfont 可}\allowbreak{}{\cjkfont 直}\allowbreak{}{\cjkfont 接}\allowbreak{}{\cjkfont 比}\allowbreak{}{\cjkfont 较}\allowbreak{}{\cjkfont 的}\allowbreak{} HRMS {\cjkfont 序}\allowbreak{}{\cjkfont 列}\allowbreak{}{\cjkfont ，}\allowbreak{}{\cjkfont 详}\allowbreak{}{\cjkfont 细}\allowbreak{}{\cjkfont 评}\allowbreak{}{\cjkfont 价}\allowbreak{}{\cjkfont 见}\allowbreak{}11{\cjkfont 月}\allowbreak{}7{\cjkfont 日}\allowbreak{}{\cjkfont 报}\allowbreak{}{\cjkfont 告}\allowbreak{}{\cjkfont 。}\allowbreak{}
+
+\textbf{[R10]} ChatGPT. GNSS Positioning During Reference Data Outages: Observation models, clock propagation and implementation. Technical implementation note, 18 October 2026, 14 pp. Local file: {\small\texttt{2026-10-18.gnss-reference-outage.pdf}} in references/\allowbreak{}literature/\allowbreak{}. AI-generated discussion, not an independent FMI benchmark.
 \begin{figure}[p]\centering
 \resizebox{0.98\linewidth}{!}{%
 \setlength{\unitlength}{1bp}\begin{picture}(680.0,680.0)

@@ -160,6 +160,8 @@ def age_hrms(points, bin_width=10):
 
 def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, extent_m=None,
              lines=(), legend_columns=None, bounds=None):
+    if legend_columns is None and len(series)>3:
+        legend_columns=2
     allpoints=[p for _,_,pts in list(series)+list(lines) for p in pts if p is not None]
     allpoints.append((0,0))
     xmin,xmax=min(p[0] for p in allpoints),max(p[0] for p in allpoints)
@@ -186,7 +188,7 @@ def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, exten
         series_rows=math.ceil(len(series)/legend_columns)
         line_rows=math.ceil(len(lines)/legend_columns)
         top=45+(series_rows+line_rows)*22+6
-        ph=270; h=top+ph+70
+        ph=pw if equal else 270; h=top+ph+70
     def xy(x,y): return left+(x-xmin)/(xmax-xmin)*pw,top+ph-(y-ymin)/(ymax-ymin)*ph
     def tick_label(value): return '0' if abs(value)<1e-12 else f'{value:.8g}'
     elements=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><rect width="100%" height="100%" fill="white"/>',
@@ -251,6 +253,25 @@ def historical_comparison(output, rms_series, fit_lines):
              'Korrekturdatenalter dAge [s]','Horizontaler RMS-Fehler HRMS [mm]',
              'HRMS(dAge): Vergleich im Detail (0–300 s, 0–150 mm)',
              lines=detail+fit_lines,legend_columns=2,bounds=(0,300,0,150))
+
+
+def common_outage_epochs(receivers, threshold=10):
+    """Identical fixed epochs with stale corrections at every outage receiver."""
+    paired=[{r['utc_seconds']:r for r in rows} for _,_,rows in receivers]
+    if not paired:
+        return paired, []
+    common=set.intersection(*(set(points) for points in paired))
+    times=sorted(t for t in common if all(
+        p[t]['correction_age_s'] is not None and math.isfinite(p[t]['correction_age_s'])
+        and p[t]['correction_age_s']>threshold for p in paired))
+    return paired, times
+
+
+def write_html_report(output, summary, assessment=None, has_age=True):
+    age_plot = ('<div><img src="plots/horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="plots/horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="plots/historical_comparison.svg" style="max-width:100%"></div><div><img src="plots/historical_comparison_detail.svg" style="max-width:100%"></div>') if has_age else ''
+    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>REPORT_INTRO_TOKEN<h2>Diagramme</h2>'+''.join(f'<div><img src="plots/{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','rotation.svg','east_time.svg','north_time.svg','horizontal_time.svg'])+age_plot+'</body></html>')
+    from report_languages import append_report_chapters
+    append_report_chapters(output, assessment)
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -369,11 +390,8 @@ def main():
     with (data_dir/'reference_angle.csv').open('w',newline='') as f:
         writer=csv.writer(f);writer.writerow(['utc_seconds','angle_deg_from_east_unwrapped','revolutions_since_first_reference','segment'])
         writer.writerows(zip(times,map(math.degrees,angles),((a-angles[0])/(2*math.pi) for a in angles),segments))
-    # Paired comparison: both receivers fixed and both correction ages >10 s.
-    paired = [{r['utc_seconds']: r for r in rows} for _, _, rows in residuals[1:]]
-    paired_times = sorted(t for t in paired[0].keys() & paired[1].keys()
-                          if all(p[t]['correction_age_s'] is not None and
-                                 p[t]['correction_age_s'] > 10 for p in paired))
+    # Fair comparison on common epochs across every outage receiver.
+    paired, paired_times = common_outage_epochs(residuals[1:])
     outage_stats = {}
     for name, points in zip([name for name, _, _ in files[1:]], paired):
         errors = sorted(points[t]['horizontal_error_m'] for t in paired_times)
@@ -384,13 +402,10 @@ def main():
     with (data_dir/'outage_comparison.csv').open('w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['utc_seconds']+[f'{name}_horizontal_error_m' for name, _, _ in files[1:]])
-        writer.writerows((t,paired[0][t]['horizontal_error_m'],paired[1][t]['horizontal_error_m']) for t in paired_times)
-    summary=dict(dataset_id=dataset.identifier, reference_receiver=files[0][0], dage_hrms=dict(bin_width_s=10, bin_convention='(lower, upper]; age zero included in first bin', fit_method='unweighted OLS of bin HRMS versus mean age, free intercept', fits=age_fits),outage_comparison=dict(correction_age_threshold_s=10,criterion="both RTK-fixed, both correction ages > threshold, identical UTC epochs",statistics=outage_stats),mean_rotation_period_s=mean_period,rotation_period_count=len(periods),rotation_period_std_s=st.pstdev(durations),rotation_period_min_s=min(durations),rotation_period_max_s=max(durations),displayed_quality=4,radius_m=radius,center_lat_deg=lat0+math.degrees(cy/m),center_lon_deg=lon0+math.degrees(cx/(n*math.cos(phi))),origin_lat_deg=lat0,origin_lon_deg=lon0,center_east_m=cx,center_north_m=cy,robust_radial_sigma_m=scale,reference_fixed_epochs=len(ref),reference_angle_epochs=len(good),reference_segments=segment+1,unknown_full_turns_across_reference_gaps=True,max_interpolation_gap_s=args.max_gap,common_start_utc_seconds=start,common_end_utc_seconds=end,date=dataset.date,files=info,statistics=stats)
+        writer.writerows([t]+[points[t]['horizontal_error_m'] for points in paired] for t in paired_times)
+    summary=dict(dataset_id=dataset.identifier, reference_receiver=files[0][0], receiver_colors={name:color for name,_,color in files}, outage_receivers=[name for name,_,_ in files[1:]], dage_hrms=dict(bin_width_s=10, bin_convention='(lower, upper]; age zero included in first bin', fit_method='unweighted OLS of bin HRMS versus mean age, free intercept', fits=age_fits),outage_comparison=dict(correction_age_threshold_s=10,criterion="all outage receivers RTK-fixed, all correction ages > threshold, identical UTC epochs",statistics=outage_stats),mean_rotation_period_s=mean_period,rotation_period_count=len(periods),rotation_period_std_s=st.pstdev(durations),rotation_period_min_s=min(durations),rotation_period_max_s=max(durations),displayed_quality=4,radius_m=radius,center_lat_deg=lat0+math.degrees(cy/m),center_lon_deg=lon0+math.degrees(cx/(n*math.cos(phi))),origin_lat_deg=lat0,origin_lon_deg=lon0,center_east_m=cx,center_north_m=cy,robust_radial_sigma_m=scale,reference_fixed_epochs=len(ref),reference_angle_epochs=len(good),reference_segments=segment+1,unknown_full_turns_across_reference_gaps=segment>0,max_interpolation_gap_s=args.max_gap,common_start_utc_seconds=start,common_end_utc_seconds=end,date=dataset.date,files=info,statistics=stats)
     (data_dir/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
-    age_plot = ('<div><img src="plots/horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="plots/horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="plots/historical_comparison.svg" style="max-width:100%"></div><div><img src="plots/historical_comparison_detail.svg" style="max-width:100%"></div>') if any(points for _, _, points in age_series) else ''
-    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>'+f'<p>Radius: {radius:.5f} m. Mittlere Umdrehungsdauer: {mean_period:.3f} s ({len(periods)} vollständige Umdrehungen, ohne Referenzlücken). UTC: {dt.timedelta(seconds=start)} bis {dt.timedelta(seconds=end)}. Datum: {summary["date"]} (aus UM980; gleicher Tag für P23A angenommen).</p><p>Rot: P23A_0; grün: P23A_1; blau: UM980; schwarzes Kreuz: Sollposition. Nur RTK-fixed-Positionen (GGA-Qualität 4) sind enthalten. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360° als Anzahl der Vollkreise.</p><p>Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in reference_angle.csv).</p>'+''.join(f'<div><img src="plots/{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','rotation.svg','east_time.svg','north_time.svg','horizontal_time.svg'])+age_plot+'</body></html>')
-    from report_languages import append_report_chapters
-    append_report_chapters(output, dataset.assessment, [name for name, _, _ in files])
+    write_html_report(output, summary, dataset.assessment, any(points for _, _, points in age_series))
     print(json.dumps(summary,indent=2))
 
 if __name__=='__main__':

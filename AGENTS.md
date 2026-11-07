@@ -4,6 +4,7 @@
 
 - `analysis/turn_table.py`: standard-library GNSS parsing, circle fitting, time alignment, statistics, and SVG/CSV/JSON generation.
 - `analysis/report_languages.py`: English and Simplified Chinese translations of the German HTML/SVG report.
+- `analysis/report_markdown.py`: shared escaped HTML rendering, source links, and contents navigation.
 - `analysis/build_report.py`: LaTeX and PDF generation from `documentation/assessments/<dataset-id>.md` and generated diagrams.
 - `datasets/<dataset-id>/raw/`: measurement inputs; preserve original filenames, including `p23a_continious.nmea`. The `.rawpb` file is additional raw data.
 - `results/<dataset-id>/`: generated HTML, SVG plots, CSV measurements, and JSON statistics.
@@ -25,7 +26,7 @@ Dataset configurations live in `datasets/<dataset-id>/dataset.json`. Shared meth
 
 ## Coding Style & Naming Conventions
 
-Use four-space indentation, `snake_case` functions and variables, and uppercase constants. Keep analysis dependencies within Python's standard library. Preserve machine-readable field names and unit suffixes such as `_m`, `_mm`, and `_s`. Translate new report labels into all three languages. Retain visible origins, zero lines, rounded grid steps, and the raw dAge scatter plot before its HRMS/fit plot.
+Use four-space indentation, `snake_case` functions and variables, and uppercase constants. Keep analysis dependencies within Python's standard library. Preserve machine-readable field names and unit suffixes such as `_m`, `_mm`, and `_s`. Translate new report labels into all three languages. Keep citations linked in HTML and PDF; identify research, manufacturer claims, and project-owner context separately. Retain visible origins, zero lines, rounded grid steps, and the raw dAge scatter plot before its HRMS/fit plot.
 
 ## Testing Guidelines
 

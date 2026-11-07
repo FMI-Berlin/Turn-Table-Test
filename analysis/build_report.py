@@ -30,10 +30,20 @@ def tex(text):
 
 
 def inline(text):
-    tokens = re.split(r'(\*\*.*?\*\*|`[^`]+`)', text)
-    return ''.join(r'\textbf{'+tex(t[2:-2])+'}' if t.startswith('**') else
-                   r'{\small\texttt{'+tex(t[1:-1]).replace(r'\_',r'\_\allowbreak{}')+'}}' if t.startswith('`') else tex(t)
-                   for t in tokens)
+    tokens = re.split(r'(\*\*.*?\*\*|`[^`]+`|\[[^\]]+\]\(https?://[^\s)]+\))', text)
+    result=[]
+    for token in tokens:
+        if token.startswith('**'):
+            result.append(r'\textbf{'+inline(token[2:-2])+'}')
+        elif token.startswith('`'):
+            result.append(r'{\small\texttt{'+tex(token[1:-1]).replace(r'\_',r'\_\allowbreak{}')+'}}')
+        elif (match:=re.fullmatch(r'\[([^\]]+)\]\((https?://[^\s)]+)\)',token)):
+            url=match[2].replace('%',r'\%').replace('#',r'\#')
+            result.append(r'\href{'+url+'}{'+tex(match[1])+'}')
+        else:
+            result.append(tex(token))
+    return ''.join(result)
+
 
 
 def pdf_geometry(svg, destination):
@@ -119,6 +129,7 @@ def markdown_report(markdown, results):
             if chapter>=0: output.append(diagrams(language, results))
             chapter+=1;language=['de','en','zh'][chapter]
             output.append(r'\clearpage\section{'+inline(line[2:])+'}')
+        elif line.startswith('### '): output.append(r'\subsubsection{'+inline(line[4:])+'}')
         elif line.startswith('## '): output.append(r'\subsection{'+inline(line[3:])+'}')
         elif line.startswith('```'):
             block=[];i+=1
@@ -191,6 +202,13 @@ def main():
 \setlength{\parskip}{6pt}
 \setlength{\emergencystretch}{3em}
 \begin{document}
+\setcounter{tocdepth}{2}
+\makeatletter
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.2em}}
+\makeatother
+\renewcommand{\contentsname}{Contents / Inhaltsverzeichnis / {\cjkfont 目录}}
+{\small\tableofcontents}
+\clearpage
 '''
     preamble=preamble.replace('2026-11-03',dataset.date)
     source=out/'turn_table_report.tex'
@@ -208,7 +226,7 @@ def main():
                     '-interaction=nonstopmode','-halt-on-error','xelatex.ini'],
                     cwd=out,check=True,stdout=log,stderr=subprocess.STDOUT)
         engine = ['xetex',f'-fmt={fmt}','-progname=xelatex']
-    for _ in range(2):
+    for _ in range(3):
         subprocess.run(engine + ['-interaction=nonstopmode','-halt-on-error',
                         f'-output-directory={out}',source.name],cwd=out,check=True,
                        stdout=(out/'build.log').open('w'),stderr=subprocess.STDOUT)

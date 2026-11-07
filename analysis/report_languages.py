@@ -1,12 +1,16 @@
 """Additional English and Simplified Chinese report chapters and SVG labels."""
 from pathlib import Path
 import json
+import datetime as dt
 import html
 import re
+
+from report_markdown import add_contents, markdown_html
 
 # Exact report/axis phrases; numeric data and machine-readable field names stay unchanged.
 TRANSLATIONS = {
 'en': {
+'Diagramme':'Plots',
 'Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'Comparison with Figure 1, page 2 of “Frühere Outage Results.pdf”: historical curves are approximate reconstructions from PDF vector paths, not raw observations. The isolated point near 300 s and 20 mm uses final precise clocks and orbits. New results show 10-s-bin HRMS and linear fits restricted to observed ages. Different experimental conditions and references limit comparability. The detail view shows the two lower historical curves and the precise-clock point; the full view includes every historical curve.',
 'Alt: ohne SV-Uhr':'Earlier: no SV clock',
 'Alt: SV-Uhr + Relativität':'Earlier: SV clock + relativity',
@@ -45,6 +49,7 @@ TRANSLATIONS = {
 'Soll (0,0)':'Expected (0,0)',
 },
 'zh': {
+'Diagramme':'图表',
 'Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'与“Frühere Outage Results.pdf”第 2 页图 1 对比：历史曲线由 PDF 矢量线近似重建，并非原始观测数据。约 300 秒、20 mm 的孤立点使用最终精密钟差和轨道。新结果为每 10 秒区间的 HRMS 及仅限实际龄期范围的线性拟合。实验条件和参考基准不同，限制了可比性。局部图显示两条较低的历史曲线和精密钟差点；完整图包含全部历史曲线。',
 'Alt: ohne SV-Uhr':'历史：无卫星钟差',
 'Alt: SV-Uhr + Relativität':'历史：卫星钟差及相对论修正',
@@ -87,7 +92,28 @@ def translate(text, language):
         text = text.replace(source, target)
     return text
 
-def append_report_chapters(output, assessment=None, receiver_names=None):
+
+def report_intro(summary, language):
+    """Dataset-derived metadata and legend; no assumed receiver count or names."""
+    reference=html.escape(summary.get('reference_receiver', next(iter(summary['files']))))
+    colors=summary.get('receiver_colors', {})
+    legend='; '.join(f'<span style="color:{colors.get(name,"black")}">{html.escape(name)}</span>' for name in summary['files'])
+    values=(summary['radius_m'],summary['mean_rotation_period_s'],summary['rotation_period_count'],
+            str(dt.timedelta(seconds=summary['common_start_utc_seconds'])),
+            str(dt.timedelta(seconds=summary['common_end_utc_seconds'])),summary['date'])
+    metadata={
+        'de': 'Radius: {:.6f} m. Mittlere Umdrehungsdauer: {:.3f} s ({} vollständige Umdrehungen). UTC: {} bis {}. Datum: {} (Konfiguration, mit vorhandenen RMC-Daten abgeglichen).',
+        'en': 'Radius: {:.6f} m. Mean rotation period: {:.3f} s ({} complete revolutions). UTC: {} to {}. Date: {} (configuration, checked against available RMC dates).',
+        'zh': '半径：{:.6f} m。平均旋转周期：{:.3f} s（{} 次完整旋转）。UTC：{} 至 {}。日期：{}（配置日期，已与可用 RMC 日期核对）。',
+    }
+    notes={
+        'de': 'Nur RTK-fixed-Positionen (GGA-Qualität 4) werden verwendet. Das schwarze Kreuz markiert den Ursprung. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360°. Referenz: {}. Ihr tangentialer Eigenfehler ist nicht unabhängig messbar; ihre Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken und keine nachträgliche Zeitverschiebung. Ganze Umdrehungen über Referenzlücken bleiben unbekannt (reference_angle.csv).',
+        'en': 'Only RTK-fixed positions (GGA quality 4) are included. The black cross marks the origin. The rotation plot shows angle divided by 360°. Reference: {}. Its tangential error is not independently observable; its trace mainly represents radial residuals. No extrapolation or interpolation across large reference gaps and no subsequent time shift. Complete turns across reference gaps remain unknown (reference_angle.csv).',
+        'zh': '仅采用 RTK 固定解（GGA 质量 4）。黑色十字标出原点。旋转图表示转角除以 360°。参考接收机：{}。其切向误差无法独立观测，其轨迹主要反映径向残差。不进行外推、不跨越较大参考缺口插值，也不事后平移时间。参考缺口期间完整旋转圈数未知（reference_angle.csv）。',
+    }
+    return '<p>'+metadata[language].format(*values)+'</p><p>'+legend+'</p><p>'+notes[language].format(reference)+'</p>'
+
+def append_report_chapters(output, assessment=None):
     output = Path(output)
     index = output / 'index.html'
     original = index.read_text()
@@ -96,10 +122,11 @@ def append_report_chapters(output, assessment=None, receiver_names=None):
     original = original.replace('<title>Turn-Table-Test</title>', f'<title>Turn-Table-Test — {date}</title>')
     original = original.replace('<h1>Turn-Table-Test</h1>', f'<h1>Turn-Table-Test — {date}</h1>')
     body = original.split(f'<h1>Turn-Table-Test — {date}</h1>', 1)[1].split('</body>', 1)[0]
+    original = original.replace('REPORT_INTRO_TOKEN', report_intro(summary, 'de'))
     original = original.replace('</body>', conclusion(summary, 'de', assessment)+'</body>')
     chapters = []
     for language, label, tag in [('en', 'English', 'en'), ('zh', '中文（简体）', 'zh-Hans')]:
-        translated = translate(body, language)
+        translated = translate(body, language).replace('REPORT_INTRO_TOKEN', report_intro(summary, language))
         for svg in sorted((output/'plots').glob('*.svg')):
             if svg.stem.endswith(('_en', '_zh')):
                 continue
@@ -108,28 +135,22 @@ def append_report_chapters(output, assessment=None, receiver_names=None):
             translated = translated.replace(f'src="plots/{svg.name}"', f'src="plots/{destination.name}"')
         chapters.append(f'<section lang="{tag}"><h1>{label} — {date}</h1>{translated}{conclusion(summary, language, assessment)}</section>')
     final=original.replace('</body>', ''.join(chapters)+'</body>')
-    # Existing explanatory prose uses canonical receiver roles. Substitute labels
-    # after translation so translation keys continue to match.
-    for i, canonical in enumerate(('P23A_0', 'P23A_1', 'UM980')):
-        final=final.replace(canonical, f'RECEIVERLABELTOKEN{i}')
-    for i, name in enumerate(receiver_names or ('P23A_0', 'P23A_1', 'UM980')):
-        final=final.replace(f'RECEIVERLABELTOKEN{i}', html.escape(name))
-    index.write_text(final, encoding='utf-8')
+    index.write_text(add_contents(final), encoding='utf-8')
 
 def conclusion(summary, language, assessment=None):
     """Comparison text and table, based on paired stale-correction epochs."""
     texts = {
         'de': ('Ergebnis und Fazit',
-               'P23A_1 kommt in diesem Test bei den typischen horizontalen Abweichungen besser mit Referenzdaten-Outages zurecht als UM980 (kleinerer RMS, Median und 95%-Quantil). UM980 hat dagegen den kleineren maximalen Einzelfehler. P23A_0 dient mit kontinuierlichen Referenzdaten als Referenz und ist kein Outage-Vergleichskandidat.',
-               'Verglichen werden ausschließlich identische UTC-Epochen, an denen beide Empfänger RTK-fixed sind und beide ein Korrekturdatenalter über 10 s melden. Dies kennzeichnet veraltete Korrekturdaten, nicht extern protokollierte Schaltzeiten. Nicht-fixed-Positionen und Referenzlücken sind ausgeschlossen; das Fazit bewertet daher die Genauigkeit der verbleibenden Fixed-Lösungen, nicht die vollständige Verfügbarkeit während aller Outages.',
+               '',
+               'Verglichen werden ausschließlich identische UTC-Epochen, an denen alle Outage-Empfänger RTK-fixed sind und alle ein Korrekturdatenalter über 10 s melden. Dies kennzeichnet veraltete Korrekturdaten, nicht extern protokollierte Schaltzeiten. Nicht-fixed-Positionen und Referenzlücken sind ausgeschlossen; das Fazit bewertet daher die Genauigkeit der verbleibenden Fixed-Lösungen, nicht die vollständige Verfügbarkeit während aller Outages.',
                ['Receiver', 'Epochen', 'RMS [cm]', 'Median [cm]', '95%-Quantil [cm]', 'Maximum [cm]']),
         'en': ('Results and conclusion',
-               'In this test, P23A_1 handles reference-data outages better than UM980 in terms of typical horizontal errors (lower RMS, median and 95th percentile). UM980 has the smaller maximum individual error. P23A_0 has continuous reference data and serves as the reference, rather than as an outage comparison candidate.',
-               'The comparison uses only identical UTC epochs where both receivers are RTK-fixed and both report a correction age greater than 10 s. This indicates stale corrections, rather than externally logged switching times. Non-fixed positions and reference gaps are excluded; the conclusion therefore assesses the accuracy of the remaining fixed solutions, not overall availability throughout all outages.',
+               '',
+               'The comparison uses only identical UTC epochs where all outage receivers are RTK-fixed and all report a correction age greater than 10 s. This indicates stale corrections, rather than externally logged switching times. Non-fixed positions and reference gaps are excluded; the conclusion therefore assesses the accuracy of the remaining fixed solutions, not overall availability throughout all outages.',
                ['Receiver', 'Epochs', 'RMS [cm]', 'Median [cm]', '95th percentile [cm]', 'Maximum [cm]']),
         'zh': ('结果与结论',
-               '在本次测试中，按典型水平误差衡量，P23A_1 应对参考数据中断的表现优于 UM980（均方根、误差中位数和第 95 百分位数均更小）。但 UM980 的最大单次误差更小。P23A_0 持续接收参考数据，仅作为参考基准，不参与中断性能排名。',
-               '比较仅采用相同 UTC 历元，并要求两个接收机均为 RTK 固定解，且均报告超过 10 秒的改正数据龄期。该条件表示改正数据已过时，而非外部日志记录的实际中断切换时刻。非固定解位置及参考数据缺口均被排除，因此本结论评价的是保留的固定解精度，而非整个中断期间的完整可用性。',
+               '',
+               '比较仅采用相同 UTC 历元，并要求全部中断接收机均为 RTK 固定解，且均报告超过 10 秒的改正数据龄期。该条件表示改正数据已过时，而非外部日志记录的实际中断切换时刻。非固定解位置及参考数据缺口均被排除，因此本结论评价的是保留的固定解精度，而非整个中断期间的完整可用性。',
                ['接收机', '历元数', '均方根 [cm]', '中位数 [cm]', '第95百分位数 [cm]', '最大值 [cm]']),
     }
     title, result, method, headers = texts[language]
@@ -155,22 +176,11 @@ def conclusion(summary, language, assessment=None):
 
 
 def historical_assessment(language, assessment=None):
-    """Share the historical assessment with the Markdown/PDF report source."""
-    titles = {
-        'de': 'Bewertung anhand der früheren Untersuchung (Punkte 1–6)',
-        'en': 'Assessment against the earlier study (steps 1–6)',
-        'zh': '对照历史研究的评价（步骤 1–6）',
-    }
-    title = titles[language]
+    """Render the complete language chapter, including references and discussion."""
     if assessment is None:
         return ''
-    document = Path(assessment).read_text()
-    section = re.search(r'^## '+re.escape(title)+r'\n(.*?)(?=^#|\Z)',
-                        document, re.MULTILINE | re.DOTALL)
-    if section is None:
-        return ''
-    paragraphs = []
-    for paragraph in section[1].strip().split('\n\n'):
-        escaped = html.escape(paragraph)
-        paragraphs.append('<p>'+re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', escaped)+'</p>')
-    return '<h2>'+html.escape(title)+'</h2>'+''.join(paragraphs)
+    document=Path(assessment).read_text()
+    chapters=re.split(r'^# [^\n]*\n',document,flags=re.MULTILINE)[1:]
+    if len(chapters)!=3:
+        raise ValueError('Assessment must contain German, English and Chinese top-level chapters')
+    return markdown_html(chapters[{'de':0,'en':1,'zh':2}[language]])

@@ -2,7 +2,7 @@
 
 ## Inputs and reference
 
-Each dataset contains three receiver recordings and a `dataset.json` configuration. Original filenames and recording bytes are preserved. The continuously corrected receiver provides the reference circle and rotation angle; the other two receivers are the outage candidates.
+Each dataset contains a reference recording and at least two outage receiver recordings and a `dataset.json` configuration. Original filenames and recording bytes are preserved. The continuously corrected receiver provides the reference circle and rotation angle; the remaining receivers are the outage candidates.
 
 NMEA checksums and fields are validated. GGA UTC epochs establish alignment; midnight rollovers are tracked. RMC dates, when present, must match the configured date. Receivers without dates are assumed to belong to that day. No positional time-shift fitting is performed.
 
@@ -18,7 +18,7 @@ Horizontal error is the distance between a measured position and the time-aligne
 
 `dAge` is reported GGA correction age in seconds, not an independently logged outage duration. The scatter plot includes every usable fixed epoch with finite, nonnegative age. HRMS bins use `(0,10]`, `(10,20]`, etc.; age zero belongs to the first bin. Each point uses the mean observed age and `sqrt(mean(east_error² + north_error²))`, expressed in millimetres.
 
-An unweighted least-squares line with a free intercept is fitted across bin HRMS values. Slopes are in mm/s; lines stop at observed mean ages. These are empirical trends, not physical limits. The paired outage comparison separately requires identical UTC epochs, both receivers fixed, and both correction ages above 10 seconds.
+An unweighted least-squares line with a free intercept is fitted across bin HRMS values. Slopes are in mm/s; lines stop at observed mean ages. These are empirical trends, not physical limits. The paired outage comparison separately requires identical UTC epochs, all outage receivers fixed, and every correction age above 10 seconds.
 
 ## Limits and historical comparisons
 

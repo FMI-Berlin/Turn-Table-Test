@@ -1,0 +1,177 @@
+{
+  "dataset_id": "2026-11-07",
+  "reference_receiver": "P23M_0",
+  "receiver_colors": {
+    "P23M_0": "red",
+    "P23M_1": "green",
+    "UM980": "blue",
+    "LG290P": "#d26900"
+  },
+  "outage_receivers": [
+    "P23M_1",
+    "UM980",
+    "LG290P"
+  ],
+  "dage_hrms": {
+    "bin_width_s": 10,
+    "bin_convention": "(lower, upper]; age zero included in first bin",
+    "fit_method": "unweighted OLS of bin HRMS versus mean age, free intercept",
+    "fits": {
+      "P23M_1": {
+        "slope_mm_per_s": 0.04923892341044939,
+        "intercept_mm": 9.381592013868307,
+        "bins": 30,
+        "min_age_s": 1.2550879272870974,
+        "max_age_s": 295.0
+      },
+      "UM980": {
+        "slope_mm_per_s": 0.07812068840864814,
+        "intercept_mm": 10.911384857488308,
+        "bins": 30,
+        "min_age_s": 1.2549675388550068,
+        "max_age_s": 295.5
+      },
+      "LG290P": {
+        "slope_mm_per_s": 0.046638471424373495,
+        "intercept_mm": 10.111614662359537,
+        "bins": 30,
+        "min_age_s": 1.2576601671309193,
+        "max_age_s": 295.5
+      }
+    }
+  },
+  "outage_comparison": {
+    "correction_age_threshold_s": 10,
+    "criterion": "all outage receivers RTK-fixed, all correction ages > threshold, identical UTC epochs",
+    "statistics": {
+      "P23M_1": {
+        "epochs": 7655,
+        "rms_m": 0.017590760936208174,
+        "median_m": 0.013738640845389607,
+        "p95_m": 0.03226482962908715,
+        "max_m": 0.05890914766693728
+      },
+      "UM980": {
+        "epochs": 7655,
+        "rms_m": 0.024055180283492298,
+        "median_m": 0.01844351047961059,
+        "p95_m": 0.0415898238163204,
+        "max_m": 0.09251070561525107
+      },
+      "LG290P": {
+        "epochs": 7655,
+        "rms_m": 0.017842776613807076,
+        "median_m": 0.01408046908052767,
+        "p95_m": 0.03226585021864761,
+        "max_m": 0.05560907027977657
+      }
+    }
+  },
+  "mean_rotation_period_s": 181.21505667544656,
+  "rotation_period_count": 72,
+  "rotation_period_std_s": 9.23970907227305,
+  "rotation_period_min_s": 172.53005192539058,
+  "rotation_period_max_s": 247.4291983436051,
+  "displayed_quality": 4,
+  "radius_m": 0.30486514397667586,
+  "center_lat_deg": 40.06558460998477,
+  "center_lon_deg": 116.22836100467286,
+  "origin_lat_deg": 40.06558466,
+  "origin_lon_deg": 116.22836110666667,
+  "center_east_m": -0.008701305662748406,
+  "center_north_m": -0.005553486140573713,
+  "robust_radial_sigma_m": 0.0034087729770985067,
+  "reference_fixed_epochs": 131115,
+  "reference_angle_epochs": 131114,
+  "reference_segments": 1,
+  "unknown_full_turns_across_reference_gaps": false,
+  "max_interpolation_gap_s": 3.0,
+  "common_start_utc_seconds": 6013.0,
+  "common_end_utc_seconds": 19108.0,
+  "date": "2026-11-07",
+  "files": {
+    "P23M_0": {
+      "positions": 131288,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [],
+      "quality_counts": {
+        "1": 134,
+        "2": 7,
+        "4": 131115,
+        "5": 32
+      }
+    },
+    "P23M_1": {
+      "positions": 13096,
+      "invalid_checksums_or_fields": 45,
+      "duplicate_epochs": 0,
+      "dates": [
+        "2026-11-07"
+      ],
+      "quality_counts": {
+        "1": 354,
+        "4": 12742
+      }
+    },
+    "UM980": {
+      "positions": 13096,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [
+        "2026-11-07"
+      ],
+      "quality_counts": {
+        "1": 275,
+        "2": 31,
+        "4": 12790
+      }
+    },
+    "LG290P": {
+      "positions": 13096,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [
+        "2026-11-07"
+      ],
+      "quality_counts": {
+        "2": 364,
+        "4": 12732
+      }
+    }
+  },
+  "statistics": {
+    "P23M_0": {
+      "epochs": 130915,
+      "excluded_epochs": 373,
+      "rms_m": 0.0037465924303676135,
+      "median_m": 0.0023226870366377115,
+      "p95_m": 0.007584325737570466,
+      "max_m": 0.016118568322252898
+    },
+    "P23M_1": {
+      "epochs": 12742,
+      "excluded_epochs": 354,
+      "rms_m": 0.013903168279609399,
+      "median_m": 0.007386287851890258,
+      "p95_m": 0.028533615250355752,
+      "max_m": 0.05890914766693728
+    },
+    "UM980": {
+      "epochs": 12790,
+      "excluded_epochs": 306,
+      "rms_m": 0.018934650143732044,
+      "median_m": 0.010482685950699566,
+      "p95_m": 0.035399573389371115,
+      "max_m": 0.09251070561525107
+    },
+    "LG290P": {
+      "epochs": 12732,
+      "excluded_epochs": 364,
+      "rms_m": 0.014220614184406859,
+      "median_m": 0.00768573341572421,
+      "p95_m": 0.02926551501891862,
+      "max_m": 0.06727153646754026
+    }
+  }
+}
