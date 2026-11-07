@@ -31,7 +31,7 @@ TRANSLATIONS = {
 '(aus UM980; gleicher Tag für P23A angenommen).':'(from UM980; the same date is assumed for P23A).',
 'Rot: P23A_0; grün: P23A_1; blau: UM980; schwarzes Kreuz: Sollposition.':'Red: P23A_0; green: P23A_1; blue: UM980; black cross: expected position.',
 'Nur RTK-fixed-Positionen (GGA-Qualität 4) sind enthalten. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360° als Anzahl der Vollkreise.':'Only RTK-fixed positions (GGA quality 4) are included. The rotation plot shows the angle divided by 360° as the number of revolutions.',
-'Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in referenz_winkel.csv).':'The reference angle is derived from P23A_0. Its tangential error cannot be measured independently; the red trace mainly shows the radial residual. There is no extrapolation or interpolation across large reference gaps and no subsequent receiver time shift. The number of complete turns during reference gaps is unknown; the unwrapped angle resumes at the nearest equivalent angle (segment number in referenz_winkel.csv).',
+'Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in reference_angle.csv).':'The reference angle is derived from P23A_0. Its tangential error cannot be measured independently; the red trace mainly shows the radial residual. There is no extrapolation or interpolation across large reference gaps and no subsequent receiver time shift. The number of complete turns during reference gaps is unknown; the unwrapped angle resumes at the nearest equivalent angle (segment number in reference_angle.csv).',
 'Ost-Abweichung [m]':'East error [m]', 'Nord-Abweichung [m]':'North error [m]',
 'Horizontale Abweichungen vom zeitgleichen Sollkreis':'Horizontal errors relative to the time-aligned expected circle',
 'Detail ±0,10 m (größere Abweichungen ausgeblendet)':'Detail ±0.10 m (larger errors hidden)',
@@ -68,7 +68,7 @@ TRANSLATIONS = {
 '(aus UM980; gleicher Tag für P23A angenommen).':'（来自 UM980；假定 P23A 的数据采集于同一天）。',
 'Rot: P23A_0; grün: P23A_1; blau: UM980; schwarzes Kreuz: Sollposition.':'红色：P23A_0；绿色：P23A_1；蓝色：UM980；黑色十字：理论位置。',
 'Nur RTK-fixed-Positionen (GGA-Qualität 4) sind enthalten. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360° als Anzahl der Vollkreise.':'仅包含 RTK 固定解位置（GGA 质量标识为 4）。旋转图以转角除以 360°，表示旋转圈数。',
-'Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in referenz_winkel.csv).':'参考角由 P23A_0 推导，因此无法独立测量其切向误差；红色轨迹主要表示径向残差。不进行外推，也不跨越较大的参考数据缺口进行插值，不对接收机时间进行事后平移。参考数据缺口期间的完整旋转圈数未知；缺口后展开角采用最接近的等效角继续（分段编号见 referenz_winkel.csv）。',
+'Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in reference_angle.csv).':'参考角由 P23A_0 推导，因此无法独立测量其切向误差；红色轨迹主要表示径向残差。不进行外推，也不跨越较大的参考数据缺口进行插值，不对接收机时间进行事后平移。参考数据缺口期间的完整旋转圈数未知；缺口后展开角采用最接近的等效角继续（分段编号见 reference_angle.csv）。',
 'Ost-Abweichung [m]':'东向误差 [m]', 'Nord-Abweichung [m]':'北向误差 [m]',
 'Horizontale Abweichungen vom zeitgleichen Sollkreis':'相对于同一时刻理论圆周位置的水平误差',
 'Detail ±0,10 m (größere Abweichungen ausgeblendet)':'局部视图 ±0.10 m（不显示范围外的误差）',
@@ -87,29 +87,36 @@ def translate(text, language):
         text = text.replace(source, target)
     return text
 
-def append_report_chapters(output):
+def append_report_chapters(output, assessment=None, receiver_names=None):
     output = Path(output)
     index = output / 'index.html'
     original = index.read_text()
-    summary = json.loads((output / 'auswertung.json').read_text())
+    summary = json.loads((output / 'data' / 'summary.json').read_text())
     date = summary['date'] or 'Unknown date'
     original = original.replace('<title>Turn-Table-Test</title>', f'<title>Turn-Table-Test — {date}</title>')
     original = original.replace('<h1>Turn-Table-Test</h1>', f'<h1>Turn-Table-Test — {date}</h1>')
     body = original.split(f'<h1>Turn-Table-Test — {date}</h1>', 1)[1].split('</body>', 1)[0]
-    original = original.replace('</body>', conclusion(summary, 'de')+'</body>')
+    original = original.replace('</body>', conclusion(summary, 'de', assessment)+'</body>')
     chapters = []
     for language, label, tag in [('en', 'English', 'en'), ('zh', '中文（简体）', 'zh-Hans')]:
         translated = translate(body, language)
-        for svg in sorted(output.glob('*.svg')):
+        for svg in sorted((output/'plots').glob('*.svg')):
             if svg.stem.endswith(('_en', '_zh')):
                 continue
             destination = svg.with_name(f'{svg.stem}_{language}.svg')
             destination.write_text(translate(svg.read_text(), language), encoding='utf-8')
-            translated = translated.replace(f'src="{svg.name}"', f'src="{destination.name}"')
-        chapters.append(f'<section lang="{tag}"><h1>{label} — {date}</h1>{translated}{conclusion(summary, language)}</section>')
-    index.write_text(original.replace('</body>', ''.join(chapters)+'</body>'), encoding='utf-8')
+            translated = translated.replace(f'src="plots/{svg.name}"', f'src="plots/{destination.name}"')
+        chapters.append(f'<section lang="{tag}"><h1>{label} — {date}</h1>{translated}{conclusion(summary, language, assessment)}</section>')
+    final=original.replace('</body>', ''.join(chapters)+'</body>')
+    # Existing explanatory prose uses canonical receiver roles. Substitute labels
+    # after translation so translation keys continue to match.
+    for i, canonical in enumerate(('P23A_0', 'P23A_1', 'UM980')):
+        final=final.replace(canonical, f'RECEIVERLABELTOKEN{i}')
+    for i, name in enumerate(receiver_names or ('P23A_0', 'P23A_1', 'UM980')):
+        final=final.replace(f'RECEIVERLABELTOKEN{i}', html.escape(name))
+    index.write_text(final, encoding='utf-8')
 
-def conclusion(summary, language):
+def conclusion(summary, language, assessment=None):
     """Comparison text and table, based on paired stale-correction epochs."""
     texts = {
         'de': ('Ergebnis und Fazit',
@@ -127,14 +134,27 @@ def conclusion(summary, language):
     }
     title, result, method, headers = texts[language]
     stats = summary['outage_comparison']['statistics']
+    winners=[]
+    for metric in ('rms_m', 'median_m', 'p95_m', 'max_m'):
+        if not stats:
+            winners.append('—')
+            continue
+        best=min(values[metric] for values in stats.values())
+        winners.append(' / '.join(name for name,values in stats.items() if values[metric]==best))
+    templates={
+        'de': 'Kleinster RMS: {}; kleinster Median: {}; kleinstes 95%-Quantil: {}; kleinster Maximalfehler: {}. Bewertet werden nur die gepaarten Fixed-Lösungen.',
+        'en': 'Lowest RMS: {}; lowest median: {}; lowest 95th percentile: {}; lowest maximum error: {}. Only paired fixed solutions are assessed.',
+        'zh': '最低均方根：{}；最低中位数：{}；最低第95百分位数：{}；最低最大误差：{}。仅评价配对的固定解。',
+    }
+    result=html.escape(templates[language].format(*winners))
     table = '<table border="1" cellpadding="6"><tr>'+''.join(f'<th>{h}</th>' for h in headers)+'</tr>'
     for name, values in stats.items():
         cells = [name, str(values['epochs'])]+[f"{100*values[k]:.2f}" for k in ['rms_m','median_m','p95_m','max_m']]
         table += '<tr>'+''.join(f'<td>{v}</td>' for v in cells)+'</tr>'
-    return f'<h2>{title}</h2><p>{result}</p><p>{method}</p>{table}</table>'+historical_assessment(language)
+    return f'<h2>{title}</h2><p>{result}</p><p>{method}</p>{table}</table>'+historical_assessment(language, assessment)
 
 
-def historical_assessment(language):
+def historical_assessment(language, assessment=None):
     """Share the historical assessment with the Markdown/PDF report source."""
     titles = {
         'de': 'Bewertung anhand der früheren Untersuchung (Punkte 1–6)',
@@ -142,11 +162,13 @@ def historical_assessment(language):
         'zh': '对照历史研究的评价（步骤 1–6）',
     }
     title = titles[language]
-    document = (Path(__file__).resolve().parent/'AUSWERTUNG.md').read_text()
+    if assessment is None:
+        return ''
+    document = Path(assessment).read_text()
     section = re.search(r'^## '+re.escape(title)+r'\n(.*?)(?=^#|\Z)',
                         document, re.MULTILINE | re.DOTALL)
     if section is None:
-        raise ValueError(f'Missing historical assessment: {language}')
+        return ''
     paragraphs = []
     for paragraph in section[1].strip().split('\n\n'):
         escaped = html.escape(paragraph)

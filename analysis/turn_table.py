@@ -11,11 +11,10 @@ from pathlib import Path
 import re
 import statistics as st
 
+from dataset import DEFAULT_DATASET, ROOT, load_dataset
+
 DAGE_NOTE = ('dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer.')
 
-FILES = [('P23A_0', 'p23a_continious.nmea', 'red'),
-         ('P23A_1', 'p23a_outages.nmea', 'green'),
-         ('UM980', 'um980_outages.nmea', 'blue')]
 
 def parse(path):
     # Auch Dateien mit wörtlichen \\r\\n statt echten Zeilenumbrüchen lesen.
@@ -222,7 +221,7 @@ COMPARISON_NOTE = ('Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Re
 
 
 def historical_comparison(output, rms_series, fit_lines):
-    source=Path(__file__).resolve().parent/'vergleich'/'fruehere_outage_hrms.csv'
+    source=ROOT/'references'/'historical-outage-results'/'hrms.csv'
     groups={}
     with source.open() as stream:
         for row in csv.DictReader(stream):
@@ -243,31 +242,40 @@ def historical_comparison(output, rms_series, fit_lines):
                 result.append((limit,y0+(y1-y0)*(limit-x0)/(x1-x0)))
                 break
         return result
-    svg_plot(output/'horizontal_dage_vergleich.svg',rms_series+[precise],
+    svg_plot(output/'historical_comparison.svg',rms_series+[precise],
              'Korrekturdatenalter dAge [s]','Horizontaler RMS-Fehler HRMS [mm]',
              'HRMS(dAge): frühere Untersuchung und neue Ergebnisse',
              lines=old_lines+fit_lines,legend_columns=2,bounds=(0,500,0,1400))
     detail=[(label,color,through_age(pts,300)) for label,color,pts in old_lines[-2:]]
-    svg_plot(output/'horizontal_dage_vergleich_detail.svg',rms_series+[precise],
+    svg_plot(output/'historical_comparison_detail.svg',rms_series+[precise],
              'Korrekturdatenalter dAge [s]','Horizontaler RMS-Fehler HRMS [mm]',
              'HRMS(dAge): Vergleich im Detail (0–300 s, 0–150 mm)',
              lines=detail+fit_lines,legend_columns=2,bounds=(0,300,0,150))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--input-dir',type=Path,default=Path(__file__).resolve().parent)
-    parser.add_argument('--output-dir',type=Path,default=Path('ergebnisse'))
-    parser.add_argument('--max-gap',type=float,default=3.,help='Maximale Lücke zwischen Referenzpunkten [s]')
+    parser.add_argument('--dataset', type=Path, default=DEFAULT_DATASET, help='Dataset directory or dataset.json')
+    parser.add_argument('--input-dir',type=Path,help='Optional raw-input directory override')
+    parser.add_argument('--output-dir',type=Path,help='Override results/<dataset-id>')
+    parser.add_argument('--max-gap',type=float,help='Override maximum reference interpolation gap [s]')
     args=parser.parse_args()
-    if args.max_gap <= 0: parser.error('--max-gap muss positiv sein')
-    output=args.output_dir; output.mkdir(parents=True,exist_ok=True)
+    dataset=load_dataset(args.dataset)
+    files=dataset.receivers
+    args.max_gap=dataset.max_gap_s if args.max_gap is None else args.max_gap
+    if not math.isfinite(args.max_gap) or args.max_gap <= 0:
+        parser.error('--max-gap must be finite and positive')
+    output=(args.output_dir or dataset.results).resolve()
+    plots=output/'plots'; data_dir=output/'data'
+    plots.mkdir(parents=True,exist_ok=True); data_dir.mkdir(parents=True,exist_ok=True)
     data=[]; info={}; dates=set()
-    for name,file,_ in FILES:
-        rows,ds,bad,duplicates=parse(args.input_dir/file)
+    for name,file,_ in files:
+        rows,ds,bad,duplicates=parse(args.input_dir/file.name if args.input_dir else file)
         if not rows: raise ValueError(f'Keine gültigen Positionen: {file}')
         data.append(rows); dates.update(ds)
         info[name]=dict(positions=len(rows),invalid_checksums_or_fields=bad,duplicate_epochs=duplicates,dates=ds,
                         quality_counts={str(q):sum(r['q']==q for r in rows) for q in sorted({r['q'] for r in rows})})
+    if dates and dates != {dataset.date}:
+        raise ValueError('RMC date does not match dataset.json; check day assignment')
     if len(dates)>1: raise ValueError('Mehrere RMC-Daten: Tageszuordnung vor Auswertung prüfen.')
     ref=[r for r in data[0] if r['q']==4]
     if len(ref)<10: raise ValueError('Zu wenige RTK-fixed-Referenzpositionen.')
@@ -299,7 +307,7 @@ def main():
         raise ValueError('Keine vollständige Umdrehung innerhalb eines Referenzsegments.')
     durations = [p['duration_s'] for p in periods]
     mean_period = st.mean(durations)
-    with (output/'umdrehungsdauer.csv').open('w', newline='') as f:
+    with (data_dir/'rotation_periods.csv').open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=list(periods[0]))
         writer.writeheader(); writer.writerows(periods)
     def angle_at(t):
@@ -309,7 +317,7 @@ def main():
         f=(t-times[j-1])/(times[j]-times[j-1])
         return angles[j-1]+f*(angles[j]-angles[j-1])
     residuals=[]; stats={}
-    for (name,_,color),rows in zip(FILES,data):
+    for (name,_,color),rows in zip(files,data):
         result=[]
         for r in rows:
             if r['q'] != 4 or not start<=r['t']<=end: continue
@@ -318,16 +326,16 @@ def main():
             se=cx+radius*math.cos(angle); sn=cy+radius*math.sin(angle)
             result.append(dict(utc_seconds=r['t'],seconds_since_start=r['t']-start,quality=r['q'],correction_age_s=r['age'],angle_deg=math.degrees(angle),revolutions=(angle-angles[0])/(2*math.pi),east_m=r['e'],north_m=r['n'],expected_east_m=se,expected_north_m=sn,error_east_m=r['e']-se,error_north_m=r['n']-sn,horizontal_error_m=math.hypot(r['e']-se,r['n']-sn)))
         if not result: raise ValueError(f'Keine zeitlich zuordenbaren Positionen: {name}')
-        with (output/f'{name}.csv').open('w',newline='') as f:
+        with (data_dir/f'{name}.csv').open('w',newline='') as f:
             writer=csv.DictWriter(f,fieldnames=list(result[0])); writer.writeheader(); writer.writerows(result)
         errors=sorted(r['horizontal_error_m'] for r in result)
         stats[name]=dict(epochs=len(result),excluded_epochs=len(rows)-len(result),rms_m=math.sqrt(st.mean(x*x for x in errors)),median_m=st.median(errors),p95_m=errors[math.ceil(.95*len(errors))-1],max_m=max(errors))
         residuals.append((name,color,result))
-    svg_plot(output/'horizontal.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Horizontale Abweichungen vom zeitgleichen Sollkreis',equal=True,zero=True)
-    svg_plot(output/'horizontal_detail.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Detail ±0,10 m (größere Abweichungen ausgeblendet)',equal=True,zero=True,extent_m=.10)
+    svg_plot(plots/'horizontal.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Horizontale Abweichungen vom zeitgleichen Sollkreis',equal=True,zero=True)
+    svg_plot(plots/'horizontal_detail.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Detail ±0,10 m (größere Abweichungen ausgeblendet)',equal=True,zero=True,extent_m=.10)
     for coord,label in [('east','Ost'),('north','Nord'),('horizontal','Horizontal')]:
         field='horizontal_error_m' if coord=='horizontal' else f'error_{coord}_m'
-        svg_plot(output/f'{coord}_zeit.svg',[(name,color,[(r['seconds_since_start']/60,r[field]) for r in rows]) for name,color,rows in residuals],'Zeit seit gemeinsamem Beginn [min]',f'{label}-Abweichung [m]',f'{label}-Abweichung über der Zeit')
+        svg_plot(plots/f'{coord}_time.svg',[(name,color,[(r['seconds_since_start']/60,r[field]) for r in rows]) for name,color,rows in residuals],'Zeit seit gemeinsamem Beginn [min]',f'{label}-Abweichung [m]',f'{label}-Abweichung über der Zeit')
     # dAge is the reported GGA correction age, not a reconstructed switch time.
     age_series = [(name, color, [(r['correction_age_s'], r['horizontal_error_m'])
                    for r in rows if r['correction_age_s'] is not None
@@ -343,22 +351,22 @@ def main():
             ends = [fit['min_age_s'], fit['max_age_s']]
             fit_lines.append((f"{name}: {fit['slope_mm_per_s']:+.4f} mm/s", color,
                               [(x, fit['intercept_mm']+fit['slope_mm_per_s']*x) for x in ends]))
-    with (output/'horizontal_dage_hrms.csv').open('w', newline='') as f:
+    with (data_dir/'horizontal_dage_hrms.csv').open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=['receiver', 'age_lower_s', 'age_upper_s',
                                               'epochs', 'mean_age_s', 'hrms_mm'])
         writer.writeheader(); writer.writerows(age_bins)
     if any(points for _, _, points in age_series):
-        svg_plot(output/'horizontal_dage_scatter.svg',
+        svg_plot(plots/'horizontal_dage_scatter.svg',
                  [(name, color, [(age, error*1000) for age, error in points])
                   for name, color, points in age_series],
                  'Korrekturdatenalter dAge [s]', 'Horizontaler Fehler [mm]',
                  'Horizontaler Fehler über dAge: alle RTK-fixed-Einzelwerte')
-        svg_plot(output/'horizontal_dage.svg', rms_series,
+        svg_plot(plots/'horizontal_dage.svg', rms_series,
                  'Korrekturdatenalter dAge [s]', 'Horizontaler RMS-Fehler HRMS [mm]',
                  'HRMS über dAge: 10-s-Intervalle und linearer Fit', lines=fit_lines)
-        historical_comparison(output, rms_series, fit_lines)
-    svg_plot(output/'winkel.svg',[('P23A_0','red',[((t-start)/60,(ang-angles[0])/(2*math.pi)) for t,ang in zip(times,angles) if start<=t<=end])],'Zeit seit gemeinsamem Beginn [min]','Anzahl der Vollkreise seit erstem Referenzpunkt','Umdrehungen: positiv von Ost nach Nord')
-    with (output/'referenz_winkel.csv').open('w',newline='') as f:
+        historical_comparison(plots, rms_series, fit_lines)
+    svg_plot(plots/'rotation.svg',[(files[0][0],files[0][2],[((t-start)/60,(ang-angles[0])/(2*math.pi)) for t,ang in zip(times,angles) if start<=t<=end])],'Zeit seit gemeinsamem Beginn [min]','Anzahl der Vollkreise seit erstem Referenzpunkt','Umdrehungen: positiv von Ost nach Nord')
+    with (data_dir/'reference_angle.csv').open('w',newline='') as f:
         writer=csv.writer(f);writer.writerow(['utc_seconds','angle_deg_from_east_unwrapped','revolutions_since_first_reference','segment'])
         writer.writerows(zip(times,map(math.degrees,angles),((a-angles[0])/(2*math.pi) for a in angles),segments))
     # Paired comparison: both receivers fixed and both correction ages >10 s.
@@ -367,22 +375,22 @@ def main():
                           if all(p[t]['correction_age_s'] is not None and
                                  p[t]['correction_age_s'] > 10 for p in paired))
     outage_stats = {}
-    for name, points in zip(['P23A_1', 'UM980'], paired):
+    for name, points in zip([name for name, _, _ in files[1:]], paired):
         errors = sorted(points[t]['horizontal_error_m'] for t in paired_times)
         if errors:
             outage_stats[name] = dict(epochs=len(errors),
                 rms_m=math.sqrt(st.mean(x*x for x in errors)), median_m=st.median(errors),
                 p95_m=errors[math.ceil(.95*len(errors))-1], max_m=max(errors))
-    with (output/'outage_vergleich.csv').open('w', newline='') as f:
+    with (data_dir/'outage_comparison.csv').open('w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['utc_seconds','P23A_1_horizontal_error_m','UM980_horizontal_error_m'])
+        writer.writerow(['utc_seconds']+[f'{name}_horizontal_error_m' for name, _, _ in files[1:]])
         writer.writerows((t,paired[0][t]['horizontal_error_m'],paired[1][t]['horizontal_error_m']) for t in paired_times)
-    summary=dict(dage_hrms=dict(bin_width_s=10, bin_convention='(lower, upper]; age zero included in first bin', fit_method='unweighted OLS of bin HRMS versus mean age, free intercept', fits=age_fits),outage_comparison=dict(correction_age_threshold_s=10,criterion="both RTK-fixed, both correction ages > threshold, identical UTC epochs",statistics=outage_stats),mean_rotation_period_s=mean_period,rotation_period_count=len(periods),rotation_period_std_s=st.pstdev(durations),rotation_period_min_s=min(durations),rotation_period_max_s=max(durations),displayed_quality=4,radius_m=radius,center_lat_deg=lat0+math.degrees(cy/m),center_lon_deg=lon0+math.degrees(cx/(n*math.cos(phi))),origin_lat_deg=lat0,origin_lon_deg=lon0,center_east_m=cx,center_north_m=cy,robust_radial_sigma_m=scale,reference_fixed_epochs=len(ref),reference_angle_epochs=len(good),reference_segments=segment+1,unknown_full_turns_across_reference_gaps=True,max_interpolation_gap_s=args.max_gap,common_start_utc_seconds=start,common_end_utc_seconds=end,date=next(iter(dates),None),files=info,statistics=stats)
-    (output/'auswertung.json').write_text(json.dumps(summary,indent=2)+'\n')
-    age_plot = ('<div><img src="horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="horizontal_dage_vergleich.svg" style="max-width:100%"></div><div><img src="horizontal_dage_vergleich_detail.svg" style="max-width:100%"></div>') if any(points for _, _, points in age_series) else ''
-    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>'+f'<p>Radius: {radius:.5f} m. Mittlere Umdrehungsdauer: {mean_period:.3f} s ({len(periods)} vollständige Umdrehungen, ohne Referenzlücken). UTC: {dt.timedelta(seconds=start)} bis {dt.timedelta(seconds=end)}. Datum: {summary["date"]} (aus UM980; gleicher Tag für P23A angenommen).</p><p>Rot: P23A_0; grün: P23A_1; blau: UM980; schwarzes Kreuz: Sollposition. Nur RTK-fixed-Positionen (GGA-Qualität 4) sind enthalten. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360° als Anzahl der Vollkreise.</p><p>Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in referenz_winkel.csv).</p>'+''.join(f'<div><img src="{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','winkel.svg','east_zeit.svg','north_zeit.svg','horizontal_zeit.svg'])+age_plot+'</body></html>')
+    summary=dict(dataset_id=dataset.identifier, reference_receiver=files[0][0], dage_hrms=dict(bin_width_s=10, bin_convention='(lower, upper]; age zero included in first bin', fit_method='unweighted OLS of bin HRMS versus mean age, free intercept', fits=age_fits),outage_comparison=dict(correction_age_threshold_s=10,criterion="both RTK-fixed, both correction ages > threshold, identical UTC epochs",statistics=outage_stats),mean_rotation_period_s=mean_period,rotation_period_count=len(periods),rotation_period_std_s=st.pstdev(durations),rotation_period_min_s=min(durations),rotation_period_max_s=max(durations),displayed_quality=4,radius_m=radius,center_lat_deg=lat0+math.degrees(cy/m),center_lon_deg=lon0+math.degrees(cx/(n*math.cos(phi))),origin_lat_deg=lat0,origin_lon_deg=lon0,center_east_m=cx,center_north_m=cy,robust_radial_sigma_m=scale,reference_fixed_epochs=len(ref),reference_angle_epochs=len(good),reference_segments=segment+1,unknown_full_turns_across_reference_gaps=True,max_interpolation_gap_s=args.max_gap,common_start_utc_seconds=start,common_end_utc_seconds=end,date=dataset.date,files=info,statistics=stats)
+    (data_dir/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+    age_plot = ('<div><img src="plots/horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="plots/horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="plots/historical_comparison.svg" style="max-width:100%"></div><div><img src="plots/historical_comparison_detail.svg" style="max-width:100%"></div>') if any(points for _, _, points in age_series) else ''
+    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>'+f'<p>Radius: {radius:.5f} m. Mittlere Umdrehungsdauer: {mean_period:.3f} s ({len(periods)} vollständige Umdrehungen, ohne Referenzlücken). UTC: {dt.timedelta(seconds=start)} bis {dt.timedelta(seconds=end)}. Datum: {summary["date"]} (aus UM980; gleicher Tag für P23A angenommen).</p><p>Rot: P23A_0; grün: P23A_1; blau: UM980; schwarzes Kreuz: Sollposition. Nur RTK-fixed-Positionen (GGA-Qualität 4) sind enthalten. Die Winkelgrafik zeigt den Drehwinkel geteilt durch 360° als Anzahl der Vollkreise.</p><p>Der Referenzwinkel wird aus P23A_0 abgeleitet. Dessen tangentialer Fehler ist damit nicht unabhängig messbar; die rote Spur beschreibt hauptsächlich den radialen Restfehler. Keine Extrapolation oder Interpolation über große Referenzlücken. Keine nachträgliche Zeitverschiebung der Empfänger. Über Referenzlücken ist die Anzahl ganzer Umdrehungen unbekannt; der entfaltete Winkel setzt danach mit dem nächstliegenden Winkel fort (Segmentnummer in reference_angle.csv).</p>'+''.join(f'<div><img src="plots/{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','rotation.svg','east_time.svg','north_time.svg','horizontal_time.svg'])+age_plot+'</body></html>')
     from report_languages import append_report_chapters
-    append_report_chapters(output)
+    append_report_chapters(output, dataset.assessment, [name for name, _, _ in files])
     print(json.dumps(summary,indent=2))
 
 if __name__=='__main__':

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Create a trilingual LaTeX report from AUSWERTUNG.md and the generated SVG plots.
+"""Create a dataset-specific trilingual LaTeX/PDF report from generated SVG plots.
 Run from any directory; XeLaTeX and fonts are needed only for PDF compilation.
 """
+import argparse
+import json
 import re
 import shutil
 import subprocess
@@ -9,15 +11,15 @@ import xml.etree.ElementTree as ET
 import zlib
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-OUT = ROOT / 'bericht'
+from dataset import DEFAULT_DATASET, load_dataset
 
 
 def tex(text):
     """Escape text and give CJK characters a font plus legal line-break points."""
     escapes = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '$': r'\$',
                '#': r'\#', '_': r'\_', '{': r'\{', '}': r'\}',
-               '~': r'\textasciitilde{}', '^': r'\textasciicircum{}'}
+               '~': r'\textasciitilde{}', '^': r'\textasciicircum{}',
+               '/': r'/\allowbreak{}'}
     result = []
     for c in text:
         if ord(c) >= 0x2e80:
@@ -30,7 +32,7 @@ def tex(text):
 def inline(text):
     tokens = re.split(r'(\*\*.*?\*\*|`[^`]+`)', text)
     return ''.join(r'\textbf{'+tex(t[2:-2])+'}' if t.startswith('**') else
-                   r'{\small\texttt{'+tex(t[1:-1]).replace('/',r'/\allowbreak{}').replace(r'\_',r'\_\allowbreak{}')+'}}' if t.startswith('`') else tex(t)
+                   r'{\small\texttt{'+tex(t[1:-1]).replace(r'\_',r'\_\allowbreak{}')+'}}' if t.startswith('`') else tex(t)
                    for t in tokens)
 
 
@@ -75,11 +77,11 @@ def pdf_geometry(svg, destination):
     destination.write_bytes(result)
 
 
-def figure(stem):
-    svg=ET.parse(ROOT/'ergebnisse'/f'{stem}.svg').getroot()
+def figure(stem, results):
+    svg=ET.parse(results/'plots'/f'{stem}.svg').getroot()
     w,h=float(svg.attrib['width']),float(svg.attrib['height'])
-    pdf=OUT/'abbildungen'/f'{stem}.pdf';pdf_geometry(svg,pdf)
-    path=pdf.relative_to(ROOT).as_posix()
+    pdf=results/'report'/'figures'/f'{stem}.pdf';pdf_geometry(svg,pdf)
+    path=pdf.relative_to(results/'report').as_posix()
     lines=[r'\begin{figure}[p]\centering',r'\resizebox{0.98\linewidth}{!}{%',
            rf'\setlength{{\unitlength}}{{1bp}}\begin{{picture}}({w},{h})',
            rf'\put(0,0){{\includegraphics[width={w}bp,height={h}bp]{{{path}}}}}']
@@ -101,19 +103,20 @@ def figure(stem):
     return '\n'.join(lines)
 
 
-def diagrams(language):
+def diagrams(language, results):
     suffix={'de':'','en':'_en','zh':'_zh'}[language]
-    return '\n'.join(figure(stem+suffix) for stem in
-                     ['horizontal','horizontal_detail','winkel','east_zeit','north_zeit','horizontal_zeit','horizontal_dage_scatter','horizontal_dage','horizontal_dage_vergleich','horizontal_dage_vergleich_detail'])+r'\clearpage'
+    return '\n'.join(figure(stem+suffix, results) for stem in
+                     ['horizontal','horizontal_detail','rotation','east_time','north_time','horizontal_time','horizontal_dage_scatter','horizontal_dage','historical_comparison','historical_comparison_detail']
+                     if (results/'plots'/f'{stem}{suffix}.svg').is_file())+r'\clearpage'
 
 
-def markdown_report():
-    lines=(ROOT/'AUSWERTUNG.md').read_text().splitlines()
+def markdown_report(markdown, results):
+    lines=markdown.splitlines()
     output=[];i=0;chapter=-1;language='de'
     while i<len(lines):
         line=lines[i]
         if line.startswith('# '):
-            if chapter>=0: output.append(diagrams(language))
+            if chapter>=0: output.append(diagrams(language, results))
             chapter+=1;language=['de','en','zh'][chapter]
             output.append(r'\clearpage\section{'+inline(line[2:])+'}')
         elif line.startswith('## '): output.append(r'\subsection{'+inline(line[3:])+'}')
@@ -136,12 +139,43 @@ def markdown_report():
             output.append(r'\bottomrule\end{tabular}\end{center}')
         else: output.append(inline(line))
         i+=1
-    output.append(diagrams(language))
+    output.append(diagrams(language, results))
     return '\n'.join(output)
 
 
+
+def automatic_report(summary):
+    """Numerical report for datasets without a manually written assessment."""
+    labels=[('Turn-Table-Test','Ergebnisse','Receiver | Epochen | HRMS [mm] | Maximum [mm]',
+             'Nur erhaltene RTK-fixed-Positionen werden relativ zum Sollkreis bewertet. Das Korrekturdatenalter ist keine extern protokollierte Outage-Dauer. Eine datensatzspezifische historische Bewertung liegt noch nicht vor.'),
+            ('Turn-table test — English','Results','Receiver | Epochs | HRMS [mm] | Maximum [mm]',
+             'The reference angle is derived from the reference receiver. Common errors and its tangential error are not independently observable. Fixed-solution availability requires a separate assessment.'),
+            ('转台测试','结果','接收机 | 历元数 | HRMS [mm] | 最大值 [mm]',
+             '仅评价相对于参考圆周的保留 RTK 固定解。改正龄期并非外部记录的中断时长。尚无本次数据的历史比较评价。')]
+    parts=[]
+    for title,heading,columns,note in labels:
+        parts.extend([f"# {title} — {summary['date']}", '',
+                      f"Radius: {summary['radius_m']:.6f} m. Rotation period: {summary['mean_rotation_period_s']:.3f} s.", '',
+                      f'## {heading}', '', '| '+columns+' |', '|---|---:|---:|---:|'])
+        for name,values in summary['statistics'].items():
+            parts.append(f"| {name} | {values['epochs']} | {1000*values['rms_m']:.3f} | {1000*values['max_m']:.3f} |")
+        parts.extend(['',note,''])
+    return '\n'.join(parts)
+
 def main():
-    OUT.mkdir(exist_ok=True);(OUT/'abbildungen').mkdir(exist_ok=True)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--dataset',type=Path,default=DEFAULT_DATASET)
+    parser.add_argument('--results-dir','--output-dir',dest='results_dir',type=Path,
+                        help='Analysis results directory, default results/<dataset-id>')
+    args=parser.parse_args()
+    dataset=load_dataset(args.dataset)
+    results=(args.results_dir or dataset.results).resolve()
+    summary=json.loads((results/'data'/'summary.json').read_text())
+    if summary.get('dataset_id') != dataset.identifier or summary['date'] != dataset.date:
+        parser.error('Results do not match the selected dataset; run its analysis first')
+    out=results/'report'
+    out.mkdir(exist_ok=True);(out/'figures').mkdir(exist_ok=True)
+    markdown=dataset.assessment.read_text() if dataset.assessment else automatic_report(summary)
     preamble=r'''\documentclass[11pt,a4paper]{article}
 \usepackage[margin=23mm]{geometry}
 \usepackage{fontspec}
@@ -158,12 +192,13 @@ def main():
 \setlength{\emergencystretch}{3em}
 \begin{document}
 '''
-    source=OUT/'turn_table_report.tex'
-    source.write_text(preamble+markdown_report()+'\n'+r'\end{document}'+'\n',encoding='utf-8')
+    preamble=preamble.replace('2026-11-03',dataset.date)
+    source=out/'turn_table_report.tex'
+    source.write_text(preamble+markdown_report(markdown, results)+'\n'+r'\end{document}'+'\n',encoding='utf-8')
     if shutil.which('xelatex'):
         engine = ['xelatex']
     else:
-        cache = OUT/'tex-cache'
+        cache = out/'tex-cache'
         cache.mkdir(exist_ok=True)
         fmt = cache/'xelatex.fmt'
         if not fmt.exists():
@@ -171,13 +206,13 @@ def main():
                 subprocess.run(['xetex','-ini','-etex','-jobname=xelatex',
                     f'-output-directory={cache}','-progname=xelatex',
                     '-interaction=nonstopmode','-halt-on-error','xelatex.ini'],
-                    cwd=ROOT,check=True,stdout=log,stderr=subprocess.STDOUT)
+                    cwd=out,check=True,stdout=log,stderr=subprocess.STDOUT)
         engine = ['xetex',f'-fmt={fmt}','-progname=xelatex']
     for _ in range(2):
         subprocess.run(engine + ['-interaction=nonstopmode','-halt-on-error',
-                        '-output-directory=bericht',str(source.relative_to(ROOT))],cwd=ROOT,check=True,
-                       stdout=(OUT/'build.log').open('w'),stderr=subprocess.STDOUT)
-    print(OUT/'turn_table_report.pdf')
+                        f'-output-directory={out}',source.name],cwd=out,check=True,
+                       stdout=(out/'build.log').open('w'),stderr=subprocess.STDOUT)
+    print(out/'turn_table_report.pdf')
 
 if __name__=='__main__':
     main()

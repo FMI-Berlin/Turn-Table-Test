@@ -7,7 +7,7 @@ import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent
 COLORS = {
     '100%,0%,0%': 'no_sv_clock',
     '0%,100%,0%': 'sv_clock',
@@ -23,7 +23,7 @@ def main():
     with tempfile.TemporaryDirectory() as temporary:
         svg = Path(temporary) / 'page2.svg'
         subprocess.run(['pdftocairo', '-f', '2', '-l', '2', '-svg',
-                        str(ROOT / 'Frühere Outage Results.pdf'), str(svg)], check=True)
+                        str(ROOT / 'original.pdf'), str(svg)], check=True)
         root = ET.parse(svg).getroot()
     # Figure 1 axis corners in the PDF's pre-transform coordinate system.
     left, right, bottom, top = 179.350458, 673.429790, 765.671863, 432.729502
@@ -51,7 +51,7 @@ def main():
             hrms = (bottom-(py-offset)/scale)/(bottom-top)*1400
             found[key].append((max(0, age), max(0, hrms)))
     assert all(found.values()), 'Missing historical series'
-    destination = ROOT / 'vergleich' / 'fruehere_outage_hrms.csv'
+    destination = ROOT / 'hrms.csv'
     with destination.open('w', newline='') as stream:
         writer = csv.writer(stream, lineterminator='\n')
         writer.writerow(['variant', 'dage_s', 'hrms_mm'])

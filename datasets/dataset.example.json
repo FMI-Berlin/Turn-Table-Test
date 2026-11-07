@@ -1,0 +1,34 @@
+{
+  "id": "YYYY-MM-DD",
+  "date": "YYYY-MM-DD",
+  "reference_receiver": "P23A_0",
+  "receivers": [
+    {
+      "name": "P23A_0",
+      "file": "raw/p23a_continious.nmea",
+      "color": "red",
+      "firmware": null
+    },
+    {
+      "name": "P23A_1",
+      "file": "raw/p23a_outages.nmea",
+      "color": "green",
+      "firmware": null
+    },
+    {
+      "name": "UM980",
+      "file": "raw/um980_outages.nmea",
+      "color": "blue",
+      "firmware": null
+    }
+  ],
+  "analysis": {
+    "max_gap_s": 3.0
+  },
+  "assessment": null,
+  "conditions": {
+    "antenna": null,
+    "correction_cycle": null
+  },
+  "additional_raw_files": []
+}

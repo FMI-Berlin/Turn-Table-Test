@@ -1,9 +1,0 @@
-# Historical outage comparison
-
-`fruehere_outage_hrms.csv` contains approximate coordinates extracted from the vector paths of Figure 1, page 2 of `Frühere Outage Results.pdf`. These are plotted curve coordinates, not original observations. Calibration uses the figure's 0–500 s and 0–1400 mm axes. Displayed precision does not imply measurement precision.
-
-Regenerate with `python3 vergleich/extract_pdf_curves.py` (requires Poppler's `pdftocairo`). The standard analysis reads the committed CSV and needs no PDF tools.
-
-`precise_clocks_300s` is one isolated point at approximately 300 s and 20 mm, not a curve. It uses final precise products in the earlier experiment. Historical curves cover 500 s; current measurements end at 299/300 s. The comparison never extends current fits beyond their observed age range. Test geometry, receivers, reference truth and selection criteria differ or are incompletely specified, so the overlay is descriptive rather than a controlled performance ranking.
-
-The detail view includes the two lower historical curves and the isolated precise-clock point. The full view includes all five historical curves.

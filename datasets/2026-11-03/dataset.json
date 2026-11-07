@@ -1,0 +1,36 @@
+{
+  "id": "2026-11-03",
+  "date": "2026-11-03",
+  "reference_receiver": "P23A_0",
+  "receivers": [
+    {
+      "name": "P23A_0",
+      "file": "raw/p23a_continious.nmea",
+      "color": "red",
+      "firmware": null
+    },
+    {
+      "name": "P23A_1",
+      "file": "raw/p23a_outages.nmea",
+      "color": "green",
+      "firmware": null
+    },
+    {
+      "name": "UM980",
+      "file": "raw/um980_outages.nmea",
+      "color": "blue",
+      "firmware": null
+    }
+  ],
+  "analysis": {
+    "max_gap_s": 3.0
+  },
+  "assessment": "../../documentation/assessments/2026-11-03.md",
+  "conditions": {
+    "antenna": "Shared rotating antenna connected through a splitter",
+    "correction_cycle": "Approximately 3 minutes on, 5 minutes off; switching times not independently logged"
+  },
+  "additional_raw_files": [
+    "raw/p23a_continious.rawpb"
+  ]
+}

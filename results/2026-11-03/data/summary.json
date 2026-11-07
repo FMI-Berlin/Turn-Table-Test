@@ -1,4 +1,6 @@
 {
+  "dataset_id": "2026-11-03",
+  "reference_receiver": "P23A_0",
   "dage_hrms": {
     "bin_width_s": 10,
     "bin_convention": "(lower, upper]; age zero included in first bin",

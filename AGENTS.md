@@ -2,24 +2,26 @@
 
 ## Project Structure & Module Organization
 
-- `turn_table.py`: standard-library GNSS parsing, circle fitting, time alignment, statistics, and SVG/CSV/JSON generation.
-- `report_languages.py`: English and Simplified Chinese translations of the German HTML/SVG report.
-- `build_report.py`: LaTeX and PDF generation from `AUSWERTUNG.md` and generated diagrams.
-- Root-level `.nmea` files: measurement inputs; preserve original filenames, including `p23a_continious.nmea`. The `.rawpb` file is additional raw data.
-- `ergebnisse/`: generated HTML, SVG plots, CSV measurements, and JSON statistics.
-- `bericht/`: report source, PDF, and vector assets in `abbildungen/`.
+- `analysis/turn_table.py`: standard-library GNSS parsing, circle fitting, time alignment, statistics, and SVG/CSV/JSON generation.
+- `analysis/report_languages.py`: English and Simplified Chinese translations of the German HTML/SVG report.
+- `analysis/build_report.py`: LaTeX and PDF generation from `documentation/assessments/<dataset-id>.md` and generated diagrams.
+- `datasets/<dataset-id>/raw/`: measurement inputs; preserve original filenames, including `p23a_continious.nmea`. The `.rawpb` file is additional raw data.
+- `results/<dataset-id>/`: generated HTML, SVG plots, CSV measurements, and JSON statistics.
+- `results/<dataset-id>/report/`: report source, PDF, and vector assets in `figures/`.
 
 ## Build, Test, and Development Commands
 
 Run from the repository root with Python 3.10 or newer:
 
 ```bash
-python3 turn_table.py
-python3 turn_table.py --output-dir /tmp/turn-table-check --max-gap 3
-python3 build_report.py
+python3 analysis/turn_table.py --dataset datasets/2026-11-03
+python3 analysis/turn_table.py --dataset datasets/2026-11-03 --output-dir /tmp/turn-table-check --max-gap 3
+python3 analysis/build_report.py --dataset datasets/2026-11-03
 ```
 
-The first command regenerates `ergebnisse/`; the second produces an isolated analysis for comparison. Open `ergebnisse/index.html` to inspect results. The PDF builder reads the repository's `ergebnisse/`, requiring XeLaTeX, the packages and fonts listed in `README.md`, or the documented XeTeX fallback.
+The first command regenerates `results/<dataset-id>/`; the second produces an isolated analysis for comparison. Open `results/2026-11-03/index.html` to inspect results. The PDF builder reads the selected dataset's `results/<dataset-id>/`, requiring XeLaTeX, the packages and fonts listed in `README.md`, or the documented XeTeX fallback.
+
+Dataset configurations live in `datasets/<dataset-id>/dataset.json`. Shared methodology is in `documentation/methodology.md`; historical source documents and extracted curves are in `references/historical-outage-results/`.
 
 ## Coding Style & Naming Conventions
 
@@ -27,8 +29,8 @@ Use four-space indentation, `snake_case` functions and variables, and uppercase 
 
 ## Testing Guidelines
 
-No automated test suite, test framework, coverage threshold, or formatter/linter is configured. Validate numerical changes with synthetic cases covering known circles, time gaps, midnight rollover, RMS bins, or regression as appropriate. Run the complete analysis and compare CSV/JSON results. For plot changes, inspect HTML and PDF in all languages, checking units, labels, ordering, and point counts.
+Run `python3 -m unittest discover -s tests -v` for the standard-library dataset and report regression tests. No coverage threshold or formatter/linter is configured. Validate numerical changes with synthetic cases covering known circles, time gaps, midnight rollover, RMS bins, or regression as appropriate. Run the complete analysis and compare CSV/JSON results. For plot changes, inspect HTML and PDF in all languages, checking units, labels, ordering, and point counts.
 
 ## Commit & Pull Request Guidelines
 
-The brief history uses descriptive English subjects, for example `Document GitHub remote and support standard clones`; follow that style. In this managed workspace, use `./git-local status` and `./git-local diff --check`; ordinary clones use standard Git commands. PRs should explain the change, validation, and numerical effects, with plot previews for visual changes. Regenerate affected artifacts together. Update result text in `AUSWERTUNG.md` manually when numbers change: the PDF builder does not recalculate that prose.
+The brief history uses descriptive English subjects, for example `Document GitHub remote and support standard clones`; follow that style. In this managed workspace, use `./git-local status` and `./git-local diff --check`; ordinary clones use standard Git commands. PRs should explain the change, validation, and numerical effects, with plot previews for visual changes. Regenerate affected artifacts together. Update result text in `documentation/assessments/<dataset-id>.md` manually when numbers change: the PDF builder does not recalculate that prose.
