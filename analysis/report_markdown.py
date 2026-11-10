@@ -2,7 +2,9 @@
 import html
 import re
 
-TOKENS = re.compile(r'(\*\*.*?\*\*|`[^`]+`|\[[^\]]+\]\(https?://[^\s)]+\))')
+from report_equations import equation_html
+
+TOKENS = re.compile(r'(\*\*.*?\*\*|`[^`]+`|\[[^\]]+\]\(https?://[^\s)]+\)|\[R\d+\])')
 
 
 def inline_html(text):
@@ -12,6 +14,9 @@ def inline_html(text):
             pieces.append('<strong>'+inline_html(token[2:-2])+'</strong>')
         elif token.startswith('`') and token.endswith('`'):
             pieces.append('<code>'+html.escape(token[1:-1])+'</code>')
+        elif re.fullmatch(r'\[R\d+\](?:\(https?://[^\s)]+\))?',token):
+            ref=re.match(r'\[(R\d+)\]',token)[1]
+            pieces.append(f'<a class="citation" href="#ref-{ref}">[{ref}]</a>')
         elif (match:=re.fullmatch(r'\[([^\]]+)\]\((https?://[^\s)]+)\)',token)):
             pieces.append('<a href="'+html.escape(match[2],quote=True)+'">'+html.escape(match[1])+'</a>')
         else:
@@ -19,11 +24,17 @@ def inline_html(text):
     return ''.join(pieces)
 
 
-def markdown_html(document):
+def markdown_html(document, figures=None):
     lines=document.splitlines(); output=[];i=0
     while i<len(lines):
         line=lines[i].strip()
         if not line:
+            i+=1;continue
+        if line.startswith(':::equation '):
+            output.append(equation_html(line.split(maxsplit=1)[1]))
+            i+=1;continue
+        if line.startswith(':::figures '):
+            if figures:output.append(figures(line.split(maxsplit=1)[1]))
             i+=1;continue
         if line.startswith('```'):
             block=[];i+=1
@@ -47,7 +58,7 @@ def markdown_html(document):
                 output.append('<tr>'+''.join(f'<{tag}>'+inline_html(cell)+f'</{tag}>' for cell in row)+'</tr>')
             output.append('</table>');continue
         paragraph=[line];i+=1
-        while i<len(lines) and lines[i].strip() and not re.match(r'^(#|\||```)',lines[i].strip()):
+        while i<len(lines) and lines[i].strip() and not re.match(r'^(#|\||```|:::)',lines[i].strip()):
             paragraph.append(lines[i].strip());i+=1
         output.append('<p>'+inline_html(' '.join(paragraph))+'</p>')
     return ''.join(output)
@@ -65,4 +76,6 @@ def add_contents(document):
     navigation='<nav aria-label="Contents"><strong>Contents / Inhaltsverzeichnis / 目录</strong><ul>'
     navigation+=''.join(f'<li style="margin-left:{(level-1)*18}px"><a href="#{anchor}">{label}</a></li>' for level,anchor,label in entries)
     navigation+='</ul></nav>'
+    if '<!--CONTENTS-->' in document:
+        return document.replace('<!--CONTENTS-->',navigation,1)
     return re.sub(r'(<body\b[^>]*>)',lambda m:m[1]+navigation,document,count=1)

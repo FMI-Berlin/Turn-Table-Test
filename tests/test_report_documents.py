@@ -16,14 +16,14 @@ from build_report import inline
 
 class ReportDocumentTests(unittest.TestCase):
     def test_html_links_and_untrusted_text_are_escaped(self):
-        text=inline_html('[R2](https://doi.org/10.3390/rs11101256) **clock** `<script>`')
-        self.assertIn('<a href="https://doi.org/10.3390/rs11101256">R2</a>',text)
+        text=inline_html('[Paper](https://doi.org/10.3390/rs11101256) **clock** `<script>`')
+        self.assertIn('<a href="https://doi.org/10.3390/rs11101256">Paper</a>',text)
         self.assertIn('<strong>clock</strong>',text)
         self.assertNotIn('<script>',text)
         self.assertNotIn('href="javascript:',inline_html('[bad](javascript:alert)'))
 
     def test_assessment_tables_have_headers_and_links(self):
-        text=markdown_html('## Evidence\n\n| Source | Scope |\n|---|---|\n| [R2](https://example.org/paper) | 15 s |\n')
+        text=markdown_html('## Evidence\n\n| Source | Scope |\n|---|---|\n| [Paper](https://example.org/paper) | 15 s |\n')
         self.assertIn('<th>Source</th>',text)
         self.assertIn('<td>15 s</td>',text)
         self.assertEqual(text.count('<table'),1)
@@ -40,7 +40,7 @@ class ReportDocumentTests(unittest.TestCase):
 
     def test_latex_citations_are_real_links(self):
         text=inline('Evidence [R2](https://doi.org/10.3390/rs11101256), **fixed**, `dAge_s`.')
-        self.assertIn(r'\href{https://doi.org/10.3390/rs11101256}{R2}',text)
+        self.assertIn(r'\hyperlink{ref-R2}{[R2]}',text)
         self.assertIn(r'\textbf{fixed}',text)
         self.assertNotIn('](https',text)
 
@@ -53,8 +53,8 @@ class ReportDocumentTests(unittest.TestCase):
             self.assertIn('Trimble',text)
             self.assertIn('LG290P',text)
             self.assertIn('26',text)
-            self.assertIn('https://doi.org/10.3390/rs11101256',text)
-            self.assertIn('https://doi.org/10.3390/s19153376',text)
+            self.assertIn('href="#ref-R2"',text)
+            self.assertIn('href="#ref-R4"',text)
             self.assertIn('<table',text)
             self.assertNotIn('PERFORMANCE_TABLE',text)
             self.assertNotIn('](https',text)

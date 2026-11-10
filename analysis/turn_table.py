@@ -169,7 +169,7 @@ def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, exten
     ymin,ymax=min(p[1] for p in allpoints),max(p[1] for p in allpoints)
     if equal:
         extent=extent_m or max(abs(xmin),abs(xmax),abs(ymin),abs(ymax),.001)
-        step=nice_step(2*extent)
+        step=nice_step(2*extent, intervals=10 if extent_m is not None else 6)
         extent=math.ceil(extent/step-1e-10)*step
         xmin,xmax,xticks=axis_range(-extent,extent,step)
         ymin,ymax,yticks=axis_range(-extent,extent,step)
@@ -269,10 +269,9 @@ def common_outage_epochs(receivers, threshold=10):
 
 
 def write_html_report(output, summary, assessment=None, has_age=True):
-    age_plot = ('<div><img src="plots/horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="plots/horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="plots/historical_comparison.svg" style="max-width:100%"></div><div><img src="plots/historical_comparison_detail.svg" style="max-width:100%"></div>') if has_age else ''
-    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>REPORT_INTRO_TOKEN<h2>Diagramme</h2>'+''.join(f'<div><img src="plots/{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','rotation.svg','east_time.svg','north_time.svg','horizontal_time.svg','vertical_time.svg','vertical_time_vrms.svg','vertical_dage_scatter.svg','vertical_dage_vrms.svg'])+age_plot+'</body></html>')
-    from report_languages import append_report_chapters
-    append_report_chapters(output, assessment)
+    from report_document import write_html_report as write_structured_html
+    write_structured_html(output, summary, assessment)
+
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -354,7 +353,7 @@ def main():
         stats[name]=dict(epochs=len(result),excluded_epochs=len(rows)-len(result),rms_m=math.sqrt(st.mean(x*x for x in errors)),median_m=st.median(errors),p95_m=errors[math.ceil(.95*len(errors))-1],max_m=max(errors))
         residuals.append((name,color,result))
     svg_plot(plots/'horizontal.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Horizontale Abweichungen vom zeitgleichen Sollkreis',equal=True,zero=True)
-    svg_plot(plots/'horizontal_detail.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Detail ±0,10 m (größere Abweichungen ausgeblendet)',equal=True,zero=True,extent_m=.10)
+    svg_plot(plots/'horizontal_detail.svg',[(name,color,[(r['error_east_m'],r['error_north_m']) for r in rows]) for name,color,rows in residuals],'Ost-Abweichung [m]','Nord-Abweichung [m]','Vergrößerung ±0,05 m (Punkte außerhalb des Ausschnitts ausgeblendet)',equal=True,zero=True,extent_m=.05)
     for coord,label in [('east','Ost'),('north','Nord'),('horizontal','Horizontal')]:
         field='horizontal_error_m' if coord=='horizontal' else f'error_{coord}_m'
         svg_plot(plots/f'{coord}_time.svg',[(name,color,[(r['seconds_since_start']/60,r[field]) for r in rows]) for name,color,rows in residuals],'Zeit seit gemeinsamem Beginn [min]',f'{label}-Abweichung [m]',f'{label}-Abweichung über der Zeit')

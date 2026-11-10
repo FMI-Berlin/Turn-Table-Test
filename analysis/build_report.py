@@ -12,6 +12,8 @@ import zlib
 from pathlib import Path
 
 from dataset import DEFAULT_DATASET, load_dataset
+from report_document import (assemble, metadata, english_date, source_links, FIGURE_GROUPS, automatic_report)
+from report_equations import equation_latex
 
 
 def tex(text):
@@ -30,13 +32,16 @@ def tex(text):
 
 
 def inline(text):
-    tokens = re.split(r'(\*\*.*?\*\*|`[^`]+`|\[[^\]]+\]\(https?://[^\s)]+\))', text)
+    tokens = re.split(r'(\*\*.*?\*\*|`[^`]+`|\[[^\]]+\]\(https?://[^\s)]+\)|\[R\d+\])', text)
     result=[]
     for token in tokens:
         if token.startswith('**'):
             result.append(r'\textbf{'+inline(token[2:-2])+'}')
         elif token.startswith('`'):
             result.append(r'{\small\texttt{'+tex(token[1:-1]).replace(r'\_',r'\_\allowbreak{}')+'}}')
+        elif re.fullmatch(r'\[R\d+\](?:\(https?://[^\s)]+\))?',token):
+            ref=re.match(r'\[(R\d+)\]',token)[1]
+            result.append(r'\hyperlink{ref-'+ref+'}{['+ref+']}')
         elif (match:=re.fullmatch(r'\[([^\]]+)\]\((https?://[^\s)]+)\)',token)):
             url=match[2].replace('%',r'\%').replace('#',r'\#')
             result.append(r'\href{'+url+'}{'+tex(match[1])+'}')
@@ -87,14 +92,15 @@ def pdf_geometry(svg, destination):
     destination.write_bytes(result)
 
 
-def figure(stem, results, reuse_geometry=False):
+def figure(stem, results, reuse_geometry=False, inline_figure=False, language="en"):
     svg=ET.parse(results/'plots'/f'{stem}.svg').getroot()
     w,h=float(svg.attrib['width']),float(svg.attrib['height'])
     pdf=results/'report'/'figures'/f'{stem}.pdf'
     if not reuse_geometry or not pdf.is_file() or pdf.stat().st_mtime < (results/'plots'/f'{stem}.svg').stat().st_mtime:
         pdf_geometry(svg,pdf)
     path=pdf.relative_to(results/'report').as_posix()
-    lines=[r'\begin{figure}[p]\centering',r'\resizebox{0.98\linewidth}{!}{%',
+    opening=r'\begin{center}\begin{minipage}{\linewidth}\centering' if inline_figure else r'\begin{figure}[p]\centering'
+    lines=[opening,r'\resizebox{0.98\linewidth}{!}{%',
            rf'\setlength{{\unitlength}}{{1bp}}\begin{{picture}}({w},{h})',
            rf'\put(0,0){{\includegraphics[width={w}bp,height={h}bp]{{{path}}}}}']
     for el in svg.iter():
@@ -111,7 +117,13 @@ def figure(stem, results, reuse_geometry=False):
             x,y=float(el.attrib['x']),float(el.attrib['y'])
             label=rf'\makebox(0,0)[{anchor}b]{{{style}{text}}}'
         lines.append(rf'\put({x},{h-y}){{{label}}}')
-    lines += [r'\end{picture}}',r'\end{figure}']
+    caption=''.join(next(el for el in svg.iter() if el.tag.rsplit('}',1)[-1]=='text').itertext())
+    lines.append(r'\end{picture}}')
+    if inline_figure:
+        label={'de':'Abbildung','en':'Figure','zh':'图'}[language]
+        lines += [r'\par\smallskip\refstepcounter{figure}{\small '+tex(label)+r'~\thefigure. '+tex(caption)+r'\par}',r'\end{minipage}\end{center}']
+    else:
+        lines += [r'\caption{'+tex(caption)+'}',r'\end{figure}']
     return '\n'.join(lines)
 
 
@@ -128,9 +140,16 @@ def markdown_report(markdown, results, reuse_geometry=False):
     while i<len(lines):
         line=lines[i]
         if line.startswith('# '):
-            if chapter>=0: output.append(diagrams(language, results, reuse_geometry))
             chapter+=1;language=['de','en','zh'][chapter]
             output.append(r'\clearpage\section{'+inline(line[2:])+'}')
+        elif line.startswith(':::equation '):
+            name=line.split(maxsplit=1)[1]
+            output.append(r'\begin{equation}'+equation_latex(name)+r'\label{eq:'+language+'-'+name+r'}\end{equation}')
+        elif line.startswith(':::figures '):
+            group=line.split(maxsplit=1)[1]
+            suffix={'de':'','en':'_en','zh':'_zh'}[language]
+            output.extend(figure(stem+suffix,results,reuse_geometry,inline_figure=True,language=language)
+                          for stem in FIGURE_GROUPS[group] if (results/'plots'/f'{stem}{suffix}.svg').is_file())
         elif line.startswith('### '): output.append(r'\subsubsection{'+inline(line[4:])+'}')
         elif line.startswith('## '): output.append(r'\subsection{'+inline(line[3:])+'}')
         elif line.startswith('```'):
@@ -146,38 +165,84 @@ def markdown_report(markdown, results, reuse_geometry=False):
                 if not all(re.fullmatch(r'[-:]+',v) for v in cells): rows.append(cells)
                 i+=1
             i-=1
-            n=len(rows[0]);output.append(r'\begin{center}\small\begin{tabular}{l'+('r'*(n-1))+r'}\toprule')
+            n=len(rows[0]);output.append(r'\begin{center}\begin{lrbox}{\reporttable}\small\setlength{\tabcolsep}{4pt}\begin{tabular}{l'+('r'*(n-1))+r'}\toprule')
             for j,row in enumerate(rows):
                 output.append(' & '.join(inline(c) for c in row)+r'\\'+(r'\midrule' if j==0 else ''))
-            output.append(r'\bottomrule\end{tabular}\end{center}')
+            output.append(r'\bottomrule\end{tabular}\end{lrbox}\ifdim\wd\reporttable>\linewidth\resizebox{\linewidth}{!}{\usebox{\reporttable}}\else\usebox{\reporttable}\fi\end{center}')
         else: output.append(inline(line))
         i+=1
-    output.append(diagrams(language, results, reuse_geometry))
     return '\n'.join(output)
 
 
 
-def automatic_report(summary):
-    """Numerical report for datasets without a manually written assessment."""
-    labels=[('Turn-Table-Test','Ergebnisse','Receiver | Epochen | HRMS [mm] | Maximum [mm]',
-             'Nur erhaltene RTK-fixed-Positionen werden relativ zum Sollkreis bewertet. Das Korrekturdatenalter ist keine extern protokollierte Outage-Dauer. Eine datensatzspezifische historische Bewertung liegt noch nicht vor.'),
-            ('Turn-table test — English','Results','Receiver | Epochs | HRMS [mm] | Maximum [mm]',
-             'The reference angle is derived from the reference receiver. Common errors and its tangential error are not independently observable. Fixed-solution availability requires a separate assessment.'),
-            ('转台测试','结果','接收机 | 历元数 | HRMS [mm] | 最大值 [mm]',
-             '仅评价相对于参考圆周的保留 RTK 固定解。改正龄期并非外部记录的中断时长。尚无本次数据的历史比较评价。')]
-    parts=[]
-    for title,heading,columns,note in labels:
-        parts.extend([f"# {title} — {summary['date']}", '',
-                      f"Radius: {summary['radius_m']:.6f} m. Rotation period: {summary['mean_rotation_period_s']:.3f} s.", '',
-                      f'## {heading}', '', '| '+columns+' |', '|---|---:|---:|---:|'])
-        for name,values in summary['statistics'].items():
-            parts.append(f"| {name} | {values['epochs']} | {1000*values['rms_m']:.3f} | {1000*values['max_m']:.3f} |")
-        parts.extend(['',note,''])
-    return '\n'.join(parts)
+
+
+def title_page(meta):
+    rows=[('Author',meta['author']),('Company',meta['company']),
+          ('Report date',english_date(meta['report_date'])),
+          ('Measurement date',english_date(meta['measurement_date'])),
+          ('Dataset',meta['dataset_id']),('Reference receiver',meta['reference_receiver'])]
+    table='\n'.join(r'\textbf{'+tex(label)+r'} & '+tex(value)+r'\\[7pt]' for label,value in rows)
+    return r"""\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+\vspace*{15mm}
+{\Large\sffamily\color{reportblue} Feyman\par}
+\vspace{22mm}
+{\Huge\bfseries\color{reportblue} Turn-Table GNSS\\[5mm]Outage Analysis\par}
+\vspace{8mm}
+{\Large Horizontal and Vertical Accuracy\par}
+\vspace{12mm}
+{\color{reportblue}\rule{0.8\linewidth}{1pt}\par}
+\vspace{12mm}
+\begin{tabular}{rp{0.65\linewidth}}
+"""+table+r"""
+\end{tabular}
+\vfill
+\begin{minipage}{0.87\linewidth}\centering\small
+Relative accuracy of retained RTK-fixed solutions under correction-data outages.
+German, English and Simplified Chinese editions with one shared English bibliography.
+\end{minipage}
+\vspace{15mm}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+"""
+
+
+def contents_page():
+    return r"""\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\makeatletter
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.2em}}
+\makeatother
+\renewcommand{\contentsname}{Contents / Inhaltsverzeichnis / {\cjkfont 目录}}
+{\small\tableofcontents}
+\clearpage
+\pagenumbering{arabic}
+"""
+
+
+def bibliography(entries, base):
+    lines=[r'\clearpage\section{References}',
+           'One shared bibliography for all three editions. Evidence scopes distinguish research, manufacturer documentation and project-owner material. Source files are linked relative to this report.', '']
+    for entry in entries:
+        links=source_links(entry,base)
+        target=links[0][1] if links else ''
+        def link(url,label):
+            return r'\href{'+url.replace('%',r'\%').replace('#',r'\#')+'}{'+tex(label)+'}'
+        title=link(target,entry['title']) if target else tex(entry['title'])
+        lines.append(r'\begin{samepage}\noindent\hangindent=4em\hangafter=1\makebox[4em][l]{\hypertarget{ref-'+entry['id']+r'}{\textbf{['+entry['id']+']}}}'+tex(entry['authors'])+' ('+tex(entry['date'])+'). '+title+'. '+tex(entry.get('evidence_type',''))+'.')
+        details=[link(url,label) for label,url in links]
+        doi=entry.get('doi') or (entry.get('url','').split('doi.org/',1)[1] if 'doi.org/' in entry.get('url','') else '')
+        if doi:details.append(link('https://doi.org/'+doi,'DOI: '+doi))
+        if entry.get('verified_date'):details.append('Verified '+english_date(entry['verified_date']))
+        lines += [r'{\small '+'; '.join(details)+r'\par}',r'\end{samepage}\medskip']
+    return '\n'.join(lines)+'\n'
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dataset',type=Path,default=DEFAULT_DATASET)
+    parser.add_argument('--report-date',help='Report issue date (ISO YYYY-MM-DD); measurement date remains dataset-specific')
     parser.add_argument('--reuse-figures', action='store_true',
                         help='Reuse geometry PDFs newer than their SVGs for layout-only rebuilds; omit after converter changes')
     parser.add_argument('--results-dir','--output-dir',dest='results_dir',type=Path,
@@ -191,14 +256,10 @@ def main():
     out=results/'report'
     out.mkdir(exist_ok=True);(out/'figures').mkdir(exist_ok=True)
     markdown=dataset.assessment.read_text() if dataset.assessment else automatic_report(summary)
-    from vertical import vertical_markdown
-    chapters = re.split(r'(?=^# )', markdown, flags=re.MULTILINE)
-    chapter_index = 0
-    for i, chapter in enumerate(chapters):
-        if chapter.startswith('# '):
-            chapters[i] = chapter.rstrip() + '\n\n' + vertical_markdown(summary, ['de','en','zh'][chapter_index]) + '\n'
-            chapter_index += 1
-    markdown = ''.join(chapters)
+    markdown, references = assemble(markdown, summary)
+    meta = metadata(summary, args.report_date)
+    from report_document import write_html_report
+    write_html_report(results, summary, dataset.assessment, meta['report_date'])
     preamble=r'''\documentclass[11pt,a4paper]{article}
 \usepackage[margin=23mm]{geometry}
 \usepackage{fontspec}
@@ -206,25 +267,24 @@ def main():
 \setsansfont{DejaVu Sans}
 \setmonofont{DejaVu Sans Mono}
 \newfontfamily\cjkfont{Droid Sans Fallback}[BoldFont={Droid Sans Fallback}]
-\usepackage{graphicx,xcolor,booktabs}
+\usepackage{graphicx,xcolor,booktabs,amsmath}
 \usepackage[unicode,hidelinks]{hyperref}
 \pdfstringdefDisableCommands{\def\cjkfont{}\def\allowbreak{}}
-\hypersetup{pdftitle={Turn-table test — 2026-11-03},pdfsubject={Deutsch / English / 简体中文}}
+\hypersetup{pdftitle={Turn-Table GNSS Outage Analysis — 2026-11-03},pdfauthor={REPORT_AUTHOR},pdfsubject={Feyman: horizontal and vertical RTK outage accuracy},pdfkeywords={GNSS, RTK, outage, HRMS, VRMS}}
+\definecolor{reportblue}{HTML}{163B5C}
+\hypersetup{colorlinks=true,linkcolor=reportblue,urlcolor=reportblue,citecolor=reportblue,filecolor=reportblue}
+\newsavebox{\reporttable}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 \setlength{\emergencystretch}{3em}
 \begin{document}
-\setcounter{tocdepth}{2}
-\makeatletter
-\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3.2em}}
-\makeatother
-\renewcommand{\contentsname}{Contents / Inhaltsverzeichnis / {\cjkfont 目录}}
-{\small\tableofcontents}
-\clearpage
 '''
-    preamble=preamble.replace('2026-11-03',dataset.date)
+    preamble=preamble.replace('2026-11-03',dataset.date).replace('REPORT_AUTHOR',tex(meta['author']))
     source=out/'turn_table_report.tex'
-    source.write_text(preamble+markdown_report(markdown, results, args.reuse_figures)+'\n'+r'\end{document}'+'\n',encoding='utf-8')
+    source.write_text(preamble+title_page(meta)+contents_page()+markdown_report(markdown, results, args.reuse_figures)+'\n'+bibliography(references,out)+r'\end{document}'+'\n',encoding='utf-8')
+    (out/'report_metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
     if shutil.which('xelatex'):
         engine = ['xelatex']
     else:

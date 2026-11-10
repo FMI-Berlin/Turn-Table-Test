@@ -41,7 +41,7 @@ python3 analysis/turn_table.py --dataset datasets/2026-11-03 --output-dir /tmp/t
 python3 analysis/build_report.py --dataset datasets/2026-11-03 --results-dir /tmp/turn-table-check
 ```
 
-The PDF builder requires XeLaTeX, `fontspec`, `geometry`, `graphicx`, `xcolor`, `booktabs`, `hyperref`, DejaVu fonts and Droid Sans Fallback. It can build a local format from `xetex` and `xelatex.ini` if `xelatex` is unavailable. No shell escape is used. LaTeX figure paths are relative to the report directory.
+The PDF builder requires XeLaTeX, `fontspec`, `geometry`, `graphicx`, `xcolor`, `booktabs`, `amsmath`, `hyperref`, DejaVu fonts and Droid Sans Fallback. It can build a local format from `xetex` and `xelatex.ini` if `xelatex` is unavailable. No shell escape is used. LaTeX figure paths are relative to the report directory.
 
 For layout-only PDF rebuilds, add `--reuse-figures` to the report command to reuse geometry PDFs newer than their SVG sources. Omit this option after changing the SVG-to-PDF converter. The first two LaTeX passes resolve the contents in XDV form; only the final pass renders the complete PDF.
 
@@ -74,6 +74,10 @@ python3 analysis/build_report.py --dataset datasets/2026-11-07
 P23M_0 is the approximately 10 Hz reference; P23M_1, UM980 and LG290P are approximately 1 Hz outage receivers. The radius is **0.304865 m**, with a mean period of **181.215 s** across 72 complete revolutions. On 7,655 common fixed epochs with every outage receiver's dAge above 10 s, HRMS is **17.59 mm**, **24.06 mm** and **17.84 mm**, respectively. The three-way selection differs from the older two-receiver comparison. P23M_1 and LG290P are close; no statistical significance is claimed for their small RMS difference.
 
 ## Report interpretation and references
+
+Reports start with an English title page naming **S. Klose**, **Feyman**, the report issue date and the separate measurement date. Each language edition places vertical accuracy directly after HRMS versus dAge; diagrams appear with their corresponding sections. A single English bibliography closes the whole document. In-text citations jump to that bibliography, which links online sources and local PDF/DOCX files. Keep the repository layout when sharing reports with local source links.
+
+The report assembler is `analysis/report_document.py`; the bibliography comes from `references/literature/catalog.json`. Named equations in `analysis/report_equations.py` produce native LaTeX mathematics and offline HTML MathML. Use `--report-date YYYY-MM-DD` when building the PDF to choose a reproducible issue date; the PDF command also refreshes the matching HTML.
 
 Reports include a linked table of contents and source links in HTML and PDF. The November 7 assessment explains broadcast-only outage bridging, distinguishes research evidence from manufacturer claims, and evaluates FMI P23A/M against UM980 and LG290P. The historical experiment is dated **18 July 2005**, Trimble GPS-only; the project-owner revision of 10 November 2026 now states this explicitly and names **U. Vollath and S. Klose** in its header. Its current source files are `references/historical-outage-results/trimble-report.docx` and `trimble-report.pdf`.
 

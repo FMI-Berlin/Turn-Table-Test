@@ -80,7 +80,8 @@ class HistoricalReferenceTests(unittest.TestCase):
             text=assessment.read_text()
             self.assertNotIn('original.pdf',text)
             self.assertNotIn('original.docx',text)
-            self.assertEqual(text.count('Files: `trimble-report.docx`, `trimble-report.pdf`'),3)
+            self.assertNotIn('**[R1]**',text)
+            self.assertNotIn('## References and evidence status',text)
 
 
 if __name__=='__main__':

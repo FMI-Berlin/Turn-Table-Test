@@ -19,3 +19,9 @@ No independently verified, method-matched comparison of FMI P23A/M, UM980 and LG
 The supplied PDF has 14 pages. Pages 3–8 discuss transmission times, complete clock changes, prediction and anchored delta-phase equivalence; page 11 discusses 0.36 m over 120 s (3 mm/s, 18 cm/min). This is a discussed position-change scale, not an HRMS series. Pages 12–13 reproduce earlier material, including the same historical clock plot as R1; they are not new FMI data.
 
 The companion JPG is a conceptual workflow, not a measurement plot. Source checksums are recorded in `catalog.json`. A single position change divided by time must not be equated to a slope of binned HRMS, nor used to infer a firmware improvement factor. The note identifies checks to investigate, not proven fixes in the current receiver implementation.
+
+## Rotation-rate and phase wind-up discussion (R11–R13)
+
+Both dataset reports now include the rotation-rate and phase wind-up questions and answers in all three languages. R11 supplies the carrier-phase model and cycle continuity; R12 distinguishes common yaw from geometry-dependent roll/pitch; R13's publisher abstract supports the corresponding RTK distinction. The ION primary record establishes R12 as the 2011 conference paper despite the later bibliographic wrapper on the available author PDF. Full text was inspected for R12; only the indexed publisher abstract was inspected for R13. The sources were checked on 10 November 2026.
+
+The numerical rates come from the local mean revolution periods. The L1 example is a range-equivalent phase term, not a position error or an HRMS/VRMS slope. Cancellation during outages is a conditional deduction from an unchanged double-difference model, not verification of FMI, Unicore or Quectel firmware. The shared antenna, unknown attitude and unavailable internal models limit interpretation.
