@@ -18,3 +18,5 @@ __pycache__/
 /results/*/report/*.out
 /results/*/report/*.toc
 /results/*/report/*.synctex.gz
+
+/results/*/report/*.xdv

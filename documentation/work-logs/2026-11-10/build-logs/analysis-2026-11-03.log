@@ -1,0 +1,238 @@
+{
+  "dataset_id": "2026-11-03",
+  "reference_receiver": "P23A_0",
+  "receiver_colors": {
+    "P23A_0": "red",
+    "P23A_1": "green",
+    "UM980": "blue"
+  },
+  "outage_receivers": [
+    "P23A_1",
+    "UM980"
+  ],
+  "dage_hrms": {
+    "bin_width_s": 10,
+    "bin_convention": "(lower, upper]; age zero included in first bin",
+    "fit_method": "unweighted OLS of bin HRMS versus mean age, free intercept",
+    "fits": {
+      "P23A_0": {
+        "slope_mm_per_s": 0.13541844382246082,
+        "intercept_mm": 3.953859459466236,
+        "bins": 3,
+        "min_age_s": 1.2025393911580236,
+        "max_age_s": 24.705882352941178
+      },
+      "P23A_1": {
+        "slope_mm_per_s": 0.09268385844979046,
+        "intercept_mm": 6.6587882579013264,
+        "bins": 30,
+        "min_age_s": 1.358188824662813,
+        "max_age_s": 295.0
+      },
+      "UM980": {
+        "slope_mm_per_s": 0.10261130996249866,
+        "intercept_mm": 8.480381418432522,
+        "bins": 30,
+        "min_age_s": 1.365698904056912,
+        "max_age_s": 295.5
+      }
+    }
+  },
+  "outage_comparison": {
+    "correction_age_threshold_s": 10,
+    "criterion": "all outage receivers RTK-fixed, all correction ages > threshold, identical UTC epochs",
+    "statistics": {
+      "P23A_1": {
+        "epochs": 6812,
+        "rms_m": 0.018850678352026425,
+        "median_m": 0.013053702724738386,
+        "p95_m": 0.03589180976380425,
+        "max_m": 0.09647436477596247
+      },
+      "UM980": {
+        "epochs": 6812,
+        "rms_m": 0.026847010474685976,
+        "median_m": 0.019024484267587523,
+        "p95_m": 0.05420715914123925,
+        "max_m": 0.07939007780418735
+      }
+    }
+  },
+  "mean_rotation_period_s": 169.59947439819925,
+  "rotation_period_count": 76,
+  "rotation_period_std_s": 15.028089030169335,
+  "rotation_period_min_s": 160.79682356968624,
+  "rotation_period_max_s": 292.5452858419394,
+  "displayed_quality": 4,
+  "radius_m": 0.3309662523412043,
+  "center_lat_deg": 40.065586191441504,
+  "center_lon_deg": 116.22835972241717,
+  "origin_lat_deg": 40.065586143333334,
+  "origin_lon_deg": 116.22835968166667,
+  "center_east_m": 0.00347651054873793,
+  "center_north_m": 0.005341733444459319,
+  "robust_radial_sigma_m": 0.003620280704929194,
+  "reference_fixed_epochs": 13191,
+  "reference_angle_epochs": 13191,
+  "reference_segments": 3,
+  "unknown_full_turns_across_reference_gaps": true,
+  "max_interpolation_gap_s": 3.0,
+  "common_start_utc_seconds": 13269.0,
+  "common_end_utc_seconds": 29708.0,
+  "date": "2026-11-03",
+  "files": {
+    "P23A_0": {
+      "positions": 13306,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [],
+      "quality_counts": {
+        "1": 82,
+        "4": 13191,
+        "5": 33
+      }
+    },
+    "P23A_1": {
+      "positions": 13280,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [],
+      "quality_counts": {
+        "1": 392,
+        "4": 12888
+      }
+    },
+    "UM980": {
+      "positions": 13308,
+      "invalid_checksums_or_fields": 0,
+      "duplicate_epochs": 0,
+      "dates": [
+        "2026-11-03"
+      ],
+      "quality_counts": {
+        "1": 331,
+        "2": 29,
+        "4": 12948
+      }
+    }
+  },
+  "statistics": {
+    "P23A_0": {
+      "epochs": 13191,
+      "excluded_epochs": 115,
+      "rms_m": 0.003829720586364178,
+      "median_m": 0.00244399306631564,
+      "p95_m": 0.007691942577626131,
+      "max_m": 0.01710447818539986
+    },
+    "P23A_1": {
+      "epochs": 12849,
+      "excluded_epochs": 431,
+      "rms_m": 0.017460123644202075,
+      "median_m": 0.007469756222397083,
+      "p95_m": 0.035421215355474996,
+      "max_m": 0.09647436477596247
+    },
+    "UM980": {
+      "epochs": 12908,
+      "excluded_epochs": 400,
+      "rms_m": 0.02070957930226668,
+      "median_m": 0.012375065867162307,
+      "p95_m": 0.042564280403893553,
+      "max_m": 0.07939007780418735
+    }
+  },
+  "vertical": {
+    "reference_receiver": "P23A_0",
+    "height_definition": "GGA altitude + geoid separation (ellipsoidal height)",
+    "residual_definition": "receiver ellipsoidal height minus time-aligned fixed reference height; no offset removal",
+    "reference_self_residual": "zero by construction; not an independent accuracy measurement",
+    "max_interpolation_gap_s": 3.0,
+    "statistics": {
+      "P23A_0": {
+        "epochs": 13191,
+        "bias_m": 0.0,
+        "vrms_m": 0.0,
+        "std_m": 0.0,
+        "p95_abs_m": 0.0,
+        "max_abs_m": 0.0
+      },
+      "P23A_1": {
+        "epochs": 12849,
+        "bias_m": 0.02929037279165665,
+        "vrms_m": 0.05708468189859331,
+        "std_m": 0.04899729552933883,
+        "p95_abs_m": 0.11200000000000188,
+        "max_abs_m": 0.28300000000000125
+      },
+      "UM980": {
+        "epochs": 12908,
+        "bias_m": -0.015085404400370709,
+        "vrms_m": 0.05493768313743683,
+        "std_m": 0.052825936835863944,
+        "p95_abs_m": 0.10869999999999891,
+        "max_abs_m": 0.22279999999999944
+      }
+    },
+    "paired_outage_statistics": {
+      "P23A_1": {
+        "epochs": 6812,
+        "bias_m": 0.05239239577216629,
+        "vrms_m": 0.068616552009191,
+        "std_m": 0.044308781013278904,
+        "p95_abs_m": 0.12199999999999989,
+        "max_abs_m": 0.25799999999999557
+      },
+      "UM980": {
+        "epochs": 6812,
+        "bias_m": -0.012831767469170854,
+        "vrms_m": 0.06825377301532796,
+        "std_m": 0.06703673078577924,
+        "p95_abs_m": 0.12449999999999761,
+        "max_abs_m": 0.22279999999999944
+      }
+    },
+    "fits": {
+      "dage": {
+        "bin_width_s": 10,
+        "method": "unweighted OLS of bin VRMS versus mean seconds, free intercept",
+        "receivers": {
+          "P23A_1": {
+            "slope_mm_per_s": 0.21185238696121464,
+            "intercept_mm": 38.34209606778339,
+            "bins": 30,
+            "min_age_s": 1.358188824662813,
+            "max_age_s": 295.0
+          },
+          "UM980": {
+            "slope_mm_per_s": 0.16832990150008956,
+            "intercept_mm": 37.346919909455664,
+            "bins": 30,
+            "min_age_s": 1.365698904056912,
+            "max_age_s": 295.5
+          }
+        }
+      },
+      "time": {
+        "bin_width_s": 60,
+        "method": "unweighted OLS of bin VRMS versus mean seconds, free intercept",
+        "receivers": {
+          "P23A_1": {
+            "slope_mm_per_s": 0.0005640541596622981,
+            "intercept_mm": 36.42159236094177,
+            "bins": 222,
+            "min_age_s": 30.0,
+            "max_age_s": 16410.0
+          },
+          "UM980": {
+            "slope_mm_per_s": -0.0008894845960662163,
+            "intercept_mm": 52.94028578936202,
+            "bins": 222,
+            "min_age_s": 30.0,
+            "max_age_s": 16410.0
+          }
+        }
+      }
+    }
+  }
+}

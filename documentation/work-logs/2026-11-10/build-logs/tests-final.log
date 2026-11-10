@@ -1,0 +1,31 @@
+test_accepts_four_receivers_and_hex_color (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_automatic_report_has_three_chapters_and_numerical_table (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_builder_rejects_other_dataset_results (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_common_outage_epochs_checks_every_receiver (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_distinct_identifiers_keep_results_separate (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_four_receiver_spatial_plot_keeps_equal_scale (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_intro_preserves_all_receiver_labels (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_new_dataset_does_not_inherit_historical_assessment (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_paths_and_reference_order (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_rejects_invalid_gap (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_rejects_missing_input_and_unknown_reference (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_rejects_unsafe_identifier_and_receiver_name (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_verdict_follows_current_measurements (test_dataset_workflow.DatasetWorkflowTests) ... ok
+test_all_language_chapters_include_new_discussion_and_references (test_report_documents.ReportDocumentTests) ... ok
+test_assessment_tables_have_headers_and_links (test_report_documents.ReportDocumentTests) ... ok
+test_contents_links_are_unique_and_resolve (test_report_documents.ReportDocumentTests) ... ok
+test_html_links_and_untrusted_text_are_escaped (test_report_documents.ReportDocumentTests) ... ok
+test_latex_citations_are_real_links (test_report_documents.ReportDocumentTests) ... ok
+test_october_source_provenance_and_quoted_current_metrics (test_report_documents.ReportDocumentTests) ... ok
+test_bins_signed_rms_boundaries_and_slope_in_mm_per_second (test_vertical.VerticalTests) ... ok
+test_ellipsoidal_height_removes_different_geoid_offsets (test_vertical.VerticalTests) ... ok
+test_layout_rebuild_reuses_only_geometry_newer_than_svg (test_vertical.VerticalTests) ... ok
+test_parser_keeps_horizontal_position_when_height_is_missing (test_vertical.VerticalTests) ... ok
+test_reference_interpolation_rejects_gaps_and_extrapolation (test_vertical.VerticalTests) ... ok
+test_vertical_pipeline_uses_fixed_reference_and_common_outage_epochs (test_vertical.VerticalTests) ... ok
+test_vrms_includes_bias_and_signed_errors (test_vertical.VerticalTests) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 2.077s
+
+OK

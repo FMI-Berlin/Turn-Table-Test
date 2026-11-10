@@ -12,6 +12,7 @@ import re
 import statistics as st
 
 from dataset import DEFAULT_DATASET, ROOT, load_dataset
+from vertical import gga_height, vertical_analysis
 
 DAGE_NOTE = ('dAge ist das gemeldete GGA-Korrekturdatenalter [s]. HRMS = sqrt(Mittelwert(Ostfehler² + Nordfehler²)) je 10-s-Intervall (0,10], (10,20], …; dAge=0 zählt zum ersten Intervall. Punkte liegen beim mittleren dAge je Intervall. Die Geraden werden ungewichtet an die Intervall-HRMS-Werte angepasst, mit freiem Achsenabschnitt und nur im belegten Altersbereich; ihre Steigungen stehen in mm/s. Alle verwendbaren RTK-fixed-Epochen mit gültigem dAge sind enthalten, ohne Paarung der Receiver. dAge ist keine extern gemessene Outage-Dauer.')
 
@@ -47,7 +48,7 @@ def parse(path):
                 v = float(value)
                 return (int(v/100) + (v % 100)/60) * (-1 if sign in ('S','W') else 1)
             rows.append(dict(t=utc+day, lat=deg(f[2],f[3]), lon=deg(f[4],f[5]),
-                             q=quality, age=float(f[13]) if f[13] else None))
+                             q=quality, age=float(f[13]) if f[13] else None, height_m=gga_height(f)))
         except (ValueError, IndexError):
             bad += 1
     # Ein Positionswert je UTC-Epoche; keine Verschiebung anhand von Positionen.
@@ -219,7 +220,7 @@ def svg_plot(path, series, xlabel, ylabel, title, equal=False, zero=False, exten
     path.write_text('\n'.join(elements))
 
 
-COMPARISON_NOTE = ('Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.')
+COMPARISON_NOTE = ('Vergleich mit Abbildung 1, Seite 2 von „trimble-report.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.')
 
 
 def historical_comparison(output, rms_series, fit_lines):
@@ -269,7 +270,7 @@ def common_outage_epochs(receivers, threshold=10):
 
 def write_html_report(output, summary, assessment=None, has_age=True):
     age_plot = ('<div><img src="plots/horizontal_dage_scatter.svg" style="max-width:100%"></div><p>'+DAGE_NOTE+'</p><div><img src="plots/horizontal_dage.svg" style="max-width:100%"></div><p>'+COMPARISON_NOTE+'</p><div><img src="plots/historical_comparison.svg" style="max-width:100%"></div><div><img src="plots/historical_comparison_detail.svg" style="max-width:100%"></div>') if has_age else ''
-    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>REPORT_INTRO_TOKEN<h2>Diagramme</h2>'+''.join(f'<div><img src="plots/{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','rotation.svg','east_time.svg','north_time.svg','horizontal_time.svg'])+age_plot+'</body></html>')
+    (output/'index.html').write_text('<!doctype html><html lang="de"><meta charset="utf-8"><title>Turn-Table-Test</title><body style="font-family:sans-serif"><h1>Turn-Table-Test</h1>REPORT_INTRO_TOKEN<h2>Diagramme</h2>'+''.join(f'<div><img src="plots/{file}" style="max-width:100%"></div>' for file in ['horizontal.svg','horizontal_detail.svg','rotation.svg','east_time.svg','north_time.svg','horizontal_time.svg','vertical_time.svg','vertical_time_vrms.svg','vertical_dage_scatter.svg','vertical_dage_vrms.svg'])+age_plot+'</body></html>')
     from report_languages import append_report_chapters
     append_report_chapters(output, assessment)
 
@@ -404,6 +405,7 @@ def main():
         writer.writerow(['utc_seconds']+[f'{name}_horizontal_error_m' for name, _, _ in files[1:]])
         writer.writerows([t]+[points[t]['horizontal_error_m'] for points in paired] for t in paired_times)
     summary=dict(dataset_id=dataset.identifier, reference_receiver=files[0][0], receiver_colors={name:color for name,_,color in files}, outage_receivers=[name for name,_,_ in files[1:]], dage_hrms=dict(bin_width_s=10, bin_convention='(lower, upper]; age zero included in first bin', fit_method='unweighted OLS of bin HRMS versus mean age, free intercept', fits=age_fits),outage_comparison=dict(correction_age_threshold_s=10,criterion="all outage receivers RTK-fixed, all correction ages > threshold, identical UTC epochs",statistics=outage_stats),mean_rotation_period_s=mean_period,rotation_period_count=len(periods),rotation_period_std_s=st.pstdev(durations),rotation_period_min_s=min(durations),rotation_period_max_s=max(durations),displayed_quality=4,radius_m=radius,center_lat_deg=lat0+math.degrees(cy/m),center_lon_deg=lon0+math.degrees(cx/(n*math.cos(phi))),origin_lat_deg=lat0,origin_lon_deg=lon0,center_east_m=cx,center_north_m=cy,robust_radial_sigma_m=scale,reference_fixed_epochs=len(ref),reference_angle_epochs=len(good),reference_segments=segment+1,unknown_full_turns_across_reference_gaps=segment>0,max_interpolation_gap_s=args.max_gap,common_start_utc_seconds=start,common_end_utc_seconds=end,date=dataset.date,files=info,statistics=stats)
+    summary['vertical'] = vertical_analysis(output, data, residuals, args.max_gap, svg_plot, age_hrms)
     (data_dir/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     write_html_report(output, summary, dataset.assessment, any(points for _, _, points in age_series))
     print(json.dumps(summary,indent=2))

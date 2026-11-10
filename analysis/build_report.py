@@ -87,10 +87,12 @@ def pdf_geometry(svg, destination):
     destination.write_bytes(result)
 
 
-def figure(stem, results):
+def figure(stem, results, reuse_geometry=False):
     svg=ET.parse(results/'plots'/f'{stem}.svg').getroot()
     w,h=float(svg.attrib['width']),float(svg.attrib['height'])
-    pdf=results/'report'/'figures'/f'{stem}.pdf';pdf_geometry(svg,pdf)
+    pdf=results/'report'/'figures'/f'{stem}.pdf'
+    if not reuse_geometry or not pdf.is_file() or pdf.stat().st_mtime < (results/'plots'/f'{stem}.svg').stat().st_mtime:
+        pdf_geometry(svg,pdf)
     path=pdf.relative_to(results/'report').as_posix()
     lines=[r'\begin{figure}[p]\centering',r'\resizebox{0.98\linewidth}{!}{%',
            rf'\setlength{{\unitlength}}{{1bp}}\begin{{picture}}({w},{h})',
@@ -113,20 +115,20 @@ def figure(stem, results):
     return '\n'.join(lines)
 
 
-def diagrams(language, results):
+def diagrams(language, results, reuse_geometry=False):
     suffix={'de':'','en':'_en','zh':'_zh'}[language]
-    return '\n'.join(figure(stem+suffix, results) for stem in
-                     ['horizontal','horizontal_detail','rotation','east_time','north_time','horizontal_time','horizontal_dage_scatter','horizontal_dage','historical_comparison','historical_comparison_detail']
+    return '\n'.join(figure(stem+suffix, results, reuse_geometry) for stem in
+                     ['horizontal','horizontal_detail','rotation','east_time','north_time','horizontal_time','vertical_time','vertical_time_vrms','vertical_dage_scatter','vertical_dage_vrms','horizontal_dage_scatter','horizontal_dage','historical_comparison','historical_comparison_detail']
                      if (results/'plots'/f'{stem}{suffix}.svg').is_file())+r'\clearpage'
 
 
-def markdown_report(markdown, results):
+def markdown_report(markdown, results, reuse_geometry=False):
     lines=markdown.splitlines()
     output=[];i=0;chapter=-1;language='de'
     while i<len(lines):
         line=lines[i]
         if line.startswith('# '):
-            if chapter>=0: output.append(diagrams(language, results))
+            if chapter>=0: output.append(diagrams(language, results, reuse_geometry))
             chapter+=1;language=['de','en','zh'][chapter]
             output.append(r'\clearpage\section{'+inline(line[2:])+'}')
         elif line.startswith('### '): output.append(r'\subsubsection{'+inline(line[4:])+'}')
@@ -150,7 +152,7 @@ def markdown_report(markdown, results):
             output.append(r'\bottomrule\end{tabular}\end{center}')
         else: output.append(inline(line))
         i+=1
-    output.append(diagrams(language, results))
+    output.append(diagrams(language, results, reuse_geometry))
     return '\n'.join(output)
 
 
@@ -176,6 +178,8 @@ def automatic_report(summary):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dataset',type=Path,default=DEFAULT_DATASET)
+    parser.add_argument('--reuse-figures', action='store_true',
+                        help='Reuse geometry PDFs newer than their SVGs for layout-only rebuilds; omit after converter changes')
     parser.add_argument('--results-dir','--output-dir',dest='results_dir',type=Path,
                         help='Analysis results directory, default results/<dataset-id>')
     args=parser.parse_args()
@@ -187,6 +191,14 @@ def main():
     out=results/'report'
     out.mkdir(exist_ok=True);(out/'figures').mkdir(exist_ok=True)
     markdown=dataset.assessment.read_text() if dataset.assessment else automatic_report(summary)
+    from vertical import vertical_markdown
+    chapters = re.split(r'(?=^# )', markdown, flags=re.MULTILINE)
+    chapter_index = 0
+    for i, chapter in enumerate(chapters):
+        if chapter.startswith('# '):
+            chapters[i] = chapter.rstrip() + '\n\n' + vertical_markdown(summary, ['de','en','zh'][chapter_index]) + '\n'
+            chapter_index += 1
+    markdown = ''.join(chapters)
     preamble=r'''\documentclass[11pt,a4paper]{article}
 \usepackage[margin=23mm]{geometry}
 \usepackage{fontspec}
@@ -212,7 +224,7 @@ def main():
 '''
     preamble=preamble.replace('2026-11-03',dataset.date)
     source=out/'turn_table_report.tex'
-    source.write_text(preamble+markdown_report(markdown, results)+'\n'+r'\end{document}'+'\n',encoding='utf-8')
+    source.write_text(preamble+markdown_report(markdown, results, args.reuse_figures)+'\n'+r'\end{document}'+'\n',encoding='utf-8')
     if shutil.which('xelatex'):
         engine = ['xelatex']
     else:
@@ -226,8 +238,10 @@ def main():
                     '-interaction=nonstopmode','-halt-on-error','xelatex.ini'],
                     cwd=out,check=True,stdout=log,stderr=subprocess.STDOUT)
         engine = ['xetex',f'-fmt={fmt}','-progname=xelatex']
-    for _ in range(3):
-        subprocess.run(engine + ['-interaction=nonstopmode','-halt-on-error',
+    # Resolve contents/page references before converting the large vector plots to PDF.
+    for pass_index in range(3):
+        output_mode = ['-no-pdf'] if pass_index < 2 else []
+        subprocess.run(engine + output_mode + ['-interaction=nonstopmode','-halt-on-error',
                         f'-output-directory={out}',source.name],cwd=out,check=True,
                        stdout=(out/'build.log').open('w'),stderr=subprocess.STDOUT)
     print(out/'turn_table_report.pdf')

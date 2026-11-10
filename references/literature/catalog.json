@@ -1,11 +1,17 @@
 [
   {
     "id": "R1",
-    "authors": "Sören Klose",
+    "authors": "U. Vollath; S. Klose",
     "date": "2005-07-18",
-    "title": "Frühere Outage Results",
+    "title": "GPS-only results from the report: RTK Positioning with Long Reference Data Outages",
     "url": "",
-    "evidence_type": "historical experiment; date and Trimble GPS-only setup supplied by project owner"
+    "evidence_type": "historical GPS-only experiment; date, Trimble and authors explicitly identified in project-owner revised header; body text unchanged; PDF export date is not the measurement date",
+    "local_file": "references/historical-outage-results/trimble-report.pdf",
+    "editable_file": "references/historical-outage-results/trimble-report.docx",
+    "revision_date": "2026-11-10",
+    "sha256": "c85d1bd77aac009cf806c466c4a575c953aede76d54ee16a20892ab1302d4be0",
+    "editable_file_sha256": "b97b5d0bcc8b3fdebe5db688f627be9200d6b1b3ab9904922381d2e133791fe4",
+    "verified_date": "2026-11-10"
   },
   {
     "id": "R2",

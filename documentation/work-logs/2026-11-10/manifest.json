@@ -1,0 +1,93 @@
+{
+  "exported_at_utc": "2026-11-10T05:38:43.170476+00:00",
+  "threads": [
+    {
+      "name": "initial-analysis",
+      "thread_id": "01a1afef-31b0-7720-acb9-1b1aaa17efa6",
+      "source_path": "/home/sok/.codex/sessions/2026/11/06/rollout-2026-11-06T09-17-31-01a1afef-31b0-7720-acb9-1b1aaa17efa6.jsonl",
+      "source_sha256_at_snapshot": "8fa120abb8a7bbbe6bf6c197429f067429ae2060d8b05a15ac3dd70bf9e78c21",
+      "records": 186,
+      "counts": {
+        "message": 46,
+        "custom_tool_call": 70,
+        "custom_tool_call_output": 70
+      },
+      "first_timestamp": "2026-11-06T09:06:59.658Z",
+      "last_timestamp": "2026-11-06T10:15:58.562Z"
+    },
+    {
+      "name": "project-conversation",
+      "thread_id": "01a1b0ca-4855-7ad0-a1ef-0c879fe873e1",
+      "source_path": "/home/sok/.codex/sessions/2026/11/06/rollout-2026-11-06T13-16-49-01a1b0ca-4855-7ad0-a1ef-0c879fe873e1.jsonl",
+      "source_sha256_at_snapshot": "c50f1e33195cb85046f55f2e3b3fc67dbc170824a88fd3d6e794bdba7ef9a120",
+      "records": 654,
+      "counts": {
+        "message": 119,
+        "custom_tool_call": 261,
+        "custom_tool_call_output": 260,
+        "function_call": 7,
+        "function_call_output": 7
+      },
+      "first_timestamp": "2026-11-06T12:20:41.704Z",
+      "last_timestamp": "2026-11-10T05:38:42.779Z"
+    }
+  ],
+  "logs": [
+    {
+      "file": "build-logs/analysis-2026-11-03.log",
+      "source": "/tmp/vertical-2026-11-03.log",
+      "sha256": "7633b6be1d8ae97682bf38f8f890bc1c924b8be535c19e3c650c91040f9d4949"
+    },
+    {
+      "file": "build-logs/analysis-2026-11-07.log",
+      "source": "/tmp/vertical-2026-11-07.log",
+      "sha256": "10f65bc897d356d06e8b7766b09800212a56d6e00209b6311cf6d2dc22b7e6a9"
+    },
+    {
+      "file": "build-logs/tests-final.log",
+      "source": "/tmp/vertical-tests-final.log",
+      "sha256": "d71b6b918580e3b2981984a1f8a93294acae4804a89e105d48508b94d31316d1"
+    },
+    {
+      "file": "build-logs/pdf-command-2026-11-03.log",
+      "source": "/tmp/vertical-pdf-2026-11-03.log",
+      "sha256": "26f237d1e68c6492e0bce077bf9dfee9b0746197cf3034446b9c483425e9e356"
+    },
+    {
+      "file": "build-logs/pdf-command-2026-11-07-final.log",
+      "source": "/tmp/vertical-pdf-2026-11-07-final.log",
+      "sha256": "f5d9dab19162ceb57d7a7d4251848e4206fd8efb04fc8b8254f90c0329c88e4a"
+    },
+    {
+      "file": "build-logs/pdf-info-2026-11-07.log",
+      "source": "/tmp/vertical-pdfinfo-final.txt",
+      "sha256": "d94eb256c24cbd5a198d72b753901b7fa07b6e64357af85e79f6032ba2fadcb8"
+    },
+    {
+      "file": "build-logs/2026-11-03-build.log",
+      "source": "/home/sok/git/Turn-Table-Test/results/2026-11-03/report/build.log",
+      "sha256": "dfc3cb0684fd764d135f0ed0991b27a5271a53b7571c2db254fe16127f22c859"
+    },
+    {
+      "file": "build-logs/2026-11-03-turn_table_report.log",
+      "source": "/home/sok/git/Turn-Table-Test/results/2026-11-03/report/turn_table_report.log",
+      "sha256": "be0f909315a05eb37500e586970ea7ea6ab47134d142d5888abfdc2fa5ba8d24"
+    },
+    {
+      "file": "build-logs/2026-11-07-build.log",
+      "source": "/home/sok/git/Turn-Table-Test/results/2026-11-07/report/build.log",
+      "sha256": "a8336c4ab9f4601691e6d2c8b833a84242d1dcddbdba55754e9442ce16a95c98"
+    },
+    {
+      "file": "build-logs/2026-11-07-turn_table_report.log",
+      "source": "/home/sok/git/Turn-Table-Test/results/2026-11-07/report/turn_table_report.log",
+      "sha256": "eced907f25ced9610608ddb5647a7f689510225f787bcfeb3c49483af5d8eda5"
+    }
+  ],
+  "export_files": {
+    "initial-analysis.jsonl": "4600a25c2075e842fceb9374a136896c46e95bcb26faa58965f40e287290d125",
+    "project-conversation.jsonl": "6c5c3bbbaab794e12adc46ec84bfdd57fe172f317142422bdb7674f374f998e0",
+    "initial-analysis.md": "8cc41263cb1feeac76111160a20d1a4fb73bdbeb0704783bb883f1255e4a039c",
+    "project-conversation.md": "d1a69a5212095daef57d43f9afedb122cee6a83d1e0ba6039642a113b14b200c"
+  }
+}

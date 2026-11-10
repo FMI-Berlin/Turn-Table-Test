@@ -6,12 +6,19 @@ import html
 import re
 
 from report_markdown import add_contents, markdown_html
+from vertical import vertical_markdown
 
 # Exact report/axis phrases; numeric data and machine-readable field names stay unchanged.
 TRANSLATIONS = {
 'en': {
+'Vertikale Abweichung [mm]':'Vertical residual [mm]',
+'Vertikale Abweichung über der Zeit':'Vertical residual over time',
+'Vertikale Abweichung über dAge: alle RTK-fixed-Einzelwerte':'Vertical residual versus dAge: all RTK-fixed samples',
+'Vertikaler RMS VRMS [mm]':'Vertical RMS VRMS [mm]',
+'VRMS über dAge: 10-s-Intervalle und linearer Fit':'VRMS versus dAge: 10-s bins and linear fit',
+'VRMS über Zeit: 60-s-Intervalle und linearer Fit':'VRMS versus time: 60-s bins and linear fit',
 'Diagramme':'Plots',
-'Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'Comparison with Figure 1, page 2 of “Frühere Outage Results.pdf”: historical curves are approximate reconstructions from PDF vector paths, not raw observations. The isolated point near 300 s and 20 mm uses final precise clocks and orbits. New results show 10-s-bin HRMS and linear fits restricted to observed ages. Different experimental conditions and references limit comparability. The detail view shows the two lower historical curves and the precise-clock point; the full view includes every historical curve.',
+'Vergleich mit Abbildung 1, Seite 2 von „trimble-report.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'Comparison with Figure 1, page 2 of “trimble-report.pdf”: historical curves are approximate reconstructions from PDF vector paths, not raw observations. The isolated point near 300 s and 20 mm uses final precise clocks and orbits. New results show 10-s-bin HRMS and linear fits restricted to observed ages. Different experimental conditions and references limit comparability. The detail view shows the two lower historical curves and the precise-clock point; the full view includes every historical curve.',
 'Alt: ohne SV-Uhr':'Earlier: no SV clock',
 'Alt: SV-Uhr + Relativität':'Earlier: SV clock + relativity',
 'Alt: SV-Uhr':'Earlier: SV clock',
@@ -49,8 +56,14 @@ TRANSLATIONS = {
 'Soll (0,0)':'Expected (0,0)',
 },
 'zh': {
+'Vertikale Abweichung [mm]':'垂直残差 [mm]',
+'Vertikale Abweichung über der Zeit':'垂直残差随时间的变化',
+'Vertikale Abweichung über dAge: alle RTK-fixed-Einzelwerte':'垂直残差随 dAge 的变化：全部 RTK 固定解单点值',
+'Vertikaler RMS VRMS [mm]':'垂直均方根 VRMS [mm]',
+'VRMS über dAge: 10-s-Intervalle und linearer Fit':'VRMS 随 dAge 的变化：10 秒区间及线性拟合',
+'VRMS über Zeit: 60-s-Intervalle und linearer Fit':'VRMS 随时间的变化：60 秒区间及线性拟合',
 'Diagramme':'图表',
-'Vergleich mit Abbildung 1, Seite 2 von „Frühere Outage Results.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'与“Frühere Outage Results.pdf”第 2 页图 1 对比：历史曲线由 PDF 矢量线近似重建，并非原始观测数据。约 300 秒、20 mm 的孤立点使用最终精密钟差和轨道。新结果为每 10 秒区间的 HRMS 及仅限实际龄期范围的线性拟合。实验条件和参考基准不同，限制了可比性。局部图显示两条较低的历史曲线和精密钟差点；完整图包含全部历史曲线。',
+'Vergleich mit Abbildung 1, Seite 2 von „trimble-report.pdf“: Alte Kurven sind aus PDF-Vektorlinien rekonstruierte Näherungen, keine Rohmesswerte. Der einzelne Punkt bei 300 s und etwa 20 mm verwendet finale präzise Uhren und Bahnen. Neu: HRMS je 10-s-Intervall und lineare Fits nur im gemessenen Altersbereich. Unterschiedliche Versuchsbedingungen und Referenzen begrenzen die Vergleichbarkeit. Die Detailansicht zeigt die zwei niedrigeren alten Kurven und den präzisen Uhrenpunkt; alle alten Kurven stehen in der Gesamtansicht.':'与“trimble-report.pdf”第 2 页图 1 对比：历史曲线由 PDF 矢量线近似重建，并非原始观测数据。约 300 秒、20 mm 的孤立点使用最终精密钟差和轨道。新结果为每 10 秒区间的 HRMS 及仅限实际龄期范围的线性拟合。实验条件和参考基准不同，限制了可比性。局部图显示两条较低的历史曲线和精密钟差点；完整图包含全部历史曲线。',
 'Alt: ohne SV-Uhr':'历史：无卫星钟差',
 'Alt: SV-Uhr + Relativität':'历史：卫星钟差及相对论修正',
 'Alt: SV-Uhr':'历史：卫星钟差',
@@ -131,7 +144,9 @@ def append_report_chapters(output, assessment=None):
             if svg.stem.endswith(('_en', '_zh')):
                 continue
             destination = svg.with_name(f'{svg.stem}_{language}.svg')
-            destination.write_text(translate(svg.read_text(), language), encoding='utf-8')
+            translated_svg = translate(svg.read_text(), language)
+            if not destination.exists() or destination.read_text() != translated_svg:
+                destination.write_text(translated_svg, encoding='utf-8')
             translated = translated.replace(f'src="plots/{svg.name}"', f'src="plots/{destination.name}"')
         chapters.append(f'<section lang="{tag}"><h1>{label} — {date}</h1>{translated}{conclusion(summary, language, assessment)}</section>')
     final=original.replace('</body>', ''.join(chapters)+'</body>')
@@ -172,7 +187,7 @@ def conclusion(summary, language, assessment=None):
     for name, values in stats.items():
         cells = [name, str(values['epochs'])]+[f"{100*values[k]:.2f}" for k in ['rms_m','median_m','p95_m','max_m']]
         table += '<tr>'+''.join(f'<td>{v}</td>' for v in cells)+'</tr>'
-    return f'<h2>{title}</h2><p>{result}</p><p>{method}</p>{table}</table>'+historical_assessment(language, assessment)
+    return f'<h2>{title}</h2><p>{result}</p><p>{method}</p>{table}</table>'+markdown_html(vertical_markdown(summary, language))+historical_assessment(language, assessment)
 
 
 def historical_assessment(language, assessment=None):

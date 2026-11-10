@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430"><rect width="100%" height="100%" fill="white"/>
+<g font-family="sans-serif" font-size="12">
+<text x="95" y="23" font-size="16">VRMS über dAge: 10-s-Intervalle und linearer Fit</text>
+<path d="M95.0,90v270" stroke="#ddd" fill="none"/>
+<text x="95.0" y="380" text-anchor="middle">0</text>
+<path d="M240.0,90v270" stroke="#ddd" fill="none"/>
+<text x="240.0" y="380" text-anchor="middle">50</text>
+<path d="M385.0,90v270" stroke="#ddd" fill="none"/>
+<text x="385.0" y="380" text-anchor="middle">100</text>
+<path d="M530.0,90v270" stroke="#ddd" fill="none"/>
+<text x="530.0" y="380" text-anchor="middle">150</text>
+<path d="M675.0,90v270" stroke="#ddd" fill="none"/>
+<text x="675.0" y="380" text-anchor="middle">200</text>
+<path d="M820.0,90v270" stroke="#ddd" fill="none"/>
+<text x="820.0" y="380" text-anchor="middle">250</text>
+<path d="M965.0,90v270" stroke="#ddd" fill="none"/>
+<text x="965.0" y="380" text-anchor="middle">300</text>
+<path d="M95,360.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="364.0" text-anchor="end">0</text>
+<path d="M95,315.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="319.0" text-anchor="end">20</text>
+<path d="M95,270.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="274.0" text-anchor="end">40</text>
+<path d="M95,225.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="229.0" text-anchor="end">60</text>
+<path d="M95,180.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="184.0" text-anchor="end">80</text>
+<path d="M95,135.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="139.0" text-anchor="end">100</text>
+<path d="M95,90.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="94.0" text-anchor="end">120</text>
+<path d="M95.0,90v270 M95,360.0h870" stroke="black" stroke-width="1.2" fill="none"/>
+<text x="95.0" y="45" fill="green">P23A_1</text>
+<path d="M98.94,343.75h0.1 M139.75,263.07h0.1 M168.75,252.92h0.1 M197.95,231.79h0.1 M226.95,230.88h0.1 M255.82,231.85h0.1 M284.95,235.94h0.1 M313.82,234.57h0.1 M342.95,223.07h0.1 M371.81,230.14h0.1 M401.07,216.66h0.1 M429.95,234.41h0.1 M458.95,224.09h0.1 M487.95,217.57h0.1 M516.95,211.19h0.1 M545.95,194.77h0.1 M574.95,192.69h0.1 M603.95,195.01h0.1 M632.95,182.64h0.1 M661.95,175.51h0.1 M690.95,168.45h0.1 M719.95,163.68h0.1 M748.95,164.11h0.1 M777.95,150.97h0.1 M806.95,140.23h0.1 M835.95,149.87h0.1 M864.95,147.26h0.1 M893.95,148.99h0.1 M922.95,158.54h0.1 M950.50,147.47h0.1" stroke="green" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="530.0" y="45" fill="blue">UM980</text>
+<path d="M98.96,279.16h0.1 M139.54,270.96h0.1 M168.72,272.97h0.1 M197.95,275.14h0.1 M226.95,273.16h0.1 M255.84,270.45h0.1 M284.95,270.26h0.1 M313.95,253.24h0.1 M342.95,242.56h0.1 M371.95,225.76h0.1 M400.95,217.78h0.1 M429.95,210.09h0.1 M458.95,210.84h0.1 M487.90,207.12h0.1 M516.95,205.83h0.1 M545.95,205.23h0.1 M574.90,202.38h0.1 M604.04,201.33h0.1 M632.95,203.27h0.1 M661.95,201.47h0.1 M690.95,202.78h0.1 M719.95,205.75h0.1 M748.95,202.82h0.1 M777.95,197.40h0.1 M806.90,192.45h0.1 M835.95,181.35h0.1 M864.95,174.62h0.1 M893.95,176.72h0.1 M922.95,171.38h0.1 M951.95,166.44h0.1" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="95.0" y="67" fill="green">P23A_1: +0.2119 mm/s</text>
+<path d="M98.94,273.08 L950.50,133.11" stroke="green" stroke-width="2" fill="none"/>
+<text x="530.0" y="67" fill="blue">UM980: +0.1683 mm/s</text>
+<path d="M98.96,275.45 L951.95,164.05" stroke="blue" stroke-width="2" fill="none"/>
+<path d="M90.0,360.0h10 M95.0,355.0v10" stroke="black" stroke-width="2"/><text x="103.0" y="352.0">(0,0)</text>
+<text x="530.0" y="418" text-anchor="middle">Korrekturdatenalter dAge [s]</text>
+<text transform="translate(19,225.0) rotate(-90)" text-anchor="middle">Vertikaler RMS VRMS [mm]</text>
+</g></svg>

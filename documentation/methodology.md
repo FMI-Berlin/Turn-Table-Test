@@ -24,4 +24,14 @@ An unweighted least-squares line with a free intercept is fitted across bin HRMS
 
 The reference receiver's tangential error is not independently observable; shared systematic errors may remain hidden. Statistics describe retained fixed solutions, not full outage availability or absolute accuracy.
 
-Historical curves are reconstructed from Figure 1 of `references/historical-outage-results/original.pdf`. The approximately 20 mm point near 300 seconds uses final precise clock/orbit products. Different test conditions limit direct rankings. Dataset-specific interpretations belong in `documentation/assessments/`, not shared numerical code.
+Historical curves are reconstructed from Figure 1 of `references/historical-outage-results/trimble-report.pdf`. The approximately 20 mm point near 300 seconds uses final precise clock/orbit products. Different test conditions limit direct rankings. Dataset-specific interpretations belong in `documentation/assessments/`, not shared numerical code.
+
+## Relative vertical accuracy
+
+Recover ellipsoidal height as `h = GGA altitude + GGA geoid separation` (both in metres). The recorded receivers use different geoid separations, including zero, so comparing altitude fields alone produces metre-scale artefacts. Missing, nonfinite, or non-metric height fields are excluded from vertical analysis without changing the horizontal selection.
+
+Use `delta_h = h_receiver - h_reference(t)` for the shared antenna. Interpolate only RTK-fixed reference heights, without extrapolation or bridging intervals longer than the configured `max_gap_s`. Apply the existing horizontal epoch selection first. No receiver-specific offset is removed. This is relative agreement, not independently measured absolute vertical accuracy; reference errors and correlated errors limit interpretation. The reference's own residual is zero by construction and is excluded from plots/fits.
+
+Plot signed raw height residuals over elapsed time and dAge before interpreting RMS. Define `VRMS = sqrt(mean(delta_h²))`, which includes bias, and separately report mean bias and population standard deviation (`VRMS² = bias² + STD²`). Export per-receiver heights/residuals in `data/*_vertical.csv`, 10-second dAge VRMS bins and 60-second elapsed-time VRMS bins in `data/vertical_*_vrms.csv`. Use the same interval boundary convention and unweighted OLS fit as HRMS, free intercept and observed mean bin coordinates. Fit slopes use mm/s even when the time axis is displayed in minutes. The full-record time slope includes repeated outages and is not a per-outage drift rate.
+
+The paired vertical comparison requires valid heights at identical UTC epochs across every outage receiver, with each dAge > 10 s. Binned plots use each receiver's own eligible epochs. Numerical statistics, fit coefficients, sample counts, and reference definitions are stored under `vertical` in `summary.json` and rendered into all three report languages.

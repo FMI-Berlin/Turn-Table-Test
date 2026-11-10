@@ -43,6 +43,8 @@ python3 analysis/build_report.py --dataset datasets/2026-11-03 --results-dir /tm
 
 The PDF builder requires XeLaTeX, `fontspec`, `geometry`, `graphicx`, `xcolor`, `booktabs`, `hyperref`, DejaVu fonts and Droid Sans Fallback. It can build a local format from `xetex` and `xelatex.ini` if `xelatex` is unavailable. No shell escape is used. LaTeX figure paths are relative to the report directory.
 
+For layout-only PDF rebuilds, add `--reuse-figures` to the report command to reuse geometry PDFs newer than their SVG sources. Omit this option after changing the SVG-to-PDF converter. The first two LaTeX passes resolve the contents in XDV form; only the final pass renders the complete PDF.
+
 ## Add a dataset
 
 1. Create `datasets/<dataset-id>/raw/` and copy the original recordings into it without renaming or editing them. For multiple runs on one date, use an identifier such as `2026-11-03_run-02`.
@@ -55,6 +57,8 @@ Do not reuse an existing dataset identifier for a different recording. The confi
 ## Existing results
 
 The `2026-11-03` dataset gives a radius of **0.330966 m** and a mean rotation period of **169.599 s** across 76 complete revolutions. For 6,812 paired fixed epochs with both correction ages above 10 s, horizontal RMS is **18.85 mm** for P23A_1 and **26.85 mm** for UM980.
+
+Vertical analysis adds signed height residuals, VRMS versus time (60-second bins) and dAge (10-second bins), and linear fits in mm/s. Heights are converted to ellipsoidal height before comparison with the time-aligned continuous reference. This measures relative height agreement, with bias retained; the reference itself is not an independent accuracy benchmark. CSV exports and `summary.json` include vertical statistics and coefficients.
 
 Plots include every retained fixed-position error, dAge scatter, 10-second HRMS bins, fitted slopes in mm/s, and historical comparison views. All plots show the origin, zero lines and rounded grid intervals. Historical coordinates are approximate reconstructions, not original observations. See [methodology](documentation/methodology.md) and the [dataset assessment](documentation/assessments/2026-11-03.md).
 
@@ -71,7 +75,7 @@ P23M_0 is the approximately 10 Hz reference; P23M_1, UM980 and LG290P are approx
 
 ## Report interpretation and references
 
-Reports include a linked table of contents and source links in HTML and PDF. The November 7 assessment explains broadcast-only outage bridging, distinguishes research evidence from manufacturer claims, and evaluates FMI P23A/M against UM980 and LG290P. The historical experiment is dated **18 July 2005**, Trimble GPS-only, based on project-owner context.
+Reports include a linked table of contents and source links in HTML and PDF. The November 7 assessment explains broadcast-only outage bridging, distinguishes research evidence from manufacturer claims, and evaluates FMI P23A/M against UM980 and LG290P. The historical experiment is dated **18 July 2005**, Trimble GPS-only; the project-owner revision of 10 November 2026 now states this explicitly and names **U. Vollath and S. Klose** in its header. Its current source files are `references/historical-outage-results/trimble-report.docx` and `trimble-report.pdf`.
 
 The bibliography and evidence limits are recorded in [references/literature/](references/literature/README.md). The receiver assessment separates retained-fixed accuracy from whole-record fixed fractions and does not claim an independent absolute ranking or a world first. The earlier discussion is now available as the October 18 ChatGPT implementation note (R10). It documents a discussed 0.36 m over 120 s scale, not a directly comparable FMI HRMS benchmark or verified firmware history.
 

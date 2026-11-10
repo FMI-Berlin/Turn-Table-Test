@@ -1,0 +1,33 @@
+{
+  "source_pdf": "trimble-report.pdf",
+  "source_pdf_sha256": "c85d1bd77aac009cf806c466c4a575c953aede76d54ee16a20892ab1302d4be0",
+  "figure": 1,
+  "page": 2,
+  "axis_ranges": {
+    "dage_s": [
+      0,
+      500
+    ],
+    "hrms_mm": [
+      0,
+      1400
+    ]
+  },
+  "svg_axis_bounds": {
+    "left": 133.144476882648,
+    "right": 503.17948102408803,
+    "top": 248.98427314636,
+    "bottom": 498.39042108807996
+  },
+  "method": "affine-transformed vector paths calibrated to detected chart frame",
+  "series_points": {
+    "no_sv_clock": 502,
+    "sv_clock": 493,
+    "sv_clock_rel": 491,
+    "sv_clock_rel_ultra": 101,
+    "sv_clock_rel_precise": 101,
+    "precise_clocks_300s": 1
+  },
+  "csv_sha256": "8375a0ba0189960efc0cfe75234e76725ebb484086037920ebd9d0e253f479f2",
+  "precision_note": "Reconstructed plot coordinates, not original observations; PDF export rounding applies"
+}

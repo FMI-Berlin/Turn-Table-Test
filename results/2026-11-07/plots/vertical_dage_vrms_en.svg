@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430"><rect width="100%" height="100%" fill="white"/>
+<g font-family="sans-serif" font-size="12">
+<text x="95" y="23" font-size="16">VRMS versus dAge: 10-s bins and linear fit</text>
+<path d="M95.0,90v270" stroke="#ddd" fill="none"/>
+<text x="95.0" y="380" text-anchor="middle">0</text>
+<path d="M240.0,90v270" stroke="#ddd" fill="none"/>
+<text x="240.0" y="380" text-anchor="middle">50</text>
+<path d="M385.0,90v270" stroke="#ddd" fill="none"/>
+<text x="385.0" y="380" text-anchor="middle">100</text>
+<path d="M530.0,90v270" stroke="#ddd" fill="none"/>
+<text x="530.0" y="380" text-anchor="middle">150</text>
+<path d="M675.0,90v270" stroke="#ddd" fill="none"/>
+<text x="675.0" y="380" text-anchor="middle">200</text>
+<path d="M820.0,90v270" stroke="#ddd" fill="none"/>
+<text x="820.0" y="380" text-anchor="middle">250</text>
+<path d="M965.0,90v270" stroke="#ddd" fill="none"/>
+<text x="965.0" y="380" text-anchor="middle">300</text>
+<path d="M95,360.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="364.0" text-anchor="end">0</text>
+<path d="M95,306.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="310.0" text-anchor="end">20</text>
+<path d="M95,252.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="256.0" text-anchor="end">40</text>
+<path d="M95,198.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="202.0" text-anchor="end">60</text>
+<path d="M95,144.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="148.0" text-anchor="end">80</text>
+<path d="M95,90.0h870" stroke="#ddd" fill="none"/>
+<text x="87" y="94.0" text-anchor="end">100</text>
+<path d="M95.0,90v270 M95,360.0h870" stroke="black" stroke-width="1.2" fill="none"/>
+<text x="95.0" y="45" fill="green">P23M_1</text>
+<path d="M98.64,341.11h0.1 M139.95,233.43h0.1 M168.95,231.21h0.1 M197.95,224.82h0.1 M226.95,221.82h0.1 M255.95,223.12h0.1 M284.95,220.48h0.1 M313.95,210.77h0.1 M342.95,217.66h0.1 M371.95,210.81h0.1 M400.95,202.13h0.1 M429.95,204.93h0.1 M458.95,202.87h0.1 M487.95,189.49h0.1 M516.95,198.03h0.1 M545.95,180.74h0.1 M574.95,185.89h0.1 M603.84,166.30h0.1 M632.95,182.09h0.1 M661.95,171.59h0.1 M690.95,166.41h0.1 M719.95,157.25h0.1 M748.95,157.77h0.1 M777.95,163.23h0.1 M806.95,160.05h0.1 M835.95,158.61h0.1 M864.95,152.36h0.1 M893.95,156.80h0.1 M922.95,148.31h0.1 M950.50,155.22h0.1" stroke="green" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="385.0" y="45" fill="blue">UM980</text>
+<path d="M98.64,334.82h0.1 M139.95,313.35h0.1 M168.95,302.61h0.1 M197.95,295.11h0.1 M226.95,293.21h0.1 M255.95,289.32h0.1 M284.95,291.20h0.1 M313.95,288.57h0.1 M342.95,284.16h0.1 M371.95,276.43h0.1 M400.95,267.20h0.1 M429.95,264.90h0.1 M458.95,267.87h0.1 M487.95,264.10h0.1 M516.95,260.84h0.1 M545.95,261.53h0.1 M574.95,260.95h0.1 M603.84,261.53h0.1 M632.95,258.72h0.1 M661.95,253.61h0.1 M690.95,246.27h0.1 M719.95,234.06h0.1 M748.95,227.65h0.1 M777.95,219.69h0.1 M806.95,218.78h0.1 M835.95,217.90h0.1 M864.95,211.18h0.1 M893.95,209.48h0.1 M922.95,205.21h0.1 M951.95,203.80h0.1" stroke="blue" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="675.0" y="45" fill="#d26900">LG290P</text>
+<path d="M98.65,330.69h0.1 M139.95,324.42h0.1 M168.95,228.01h0.1 M197.95,225.73h0.1 M226.95,227.61h0.1 M255.95,221.12h0.1 M284.95,227.30h0.1 M313.95,225.60h0.1 M342.95,227.03h0.1 M371.95,219.73h0.1 M400.95,215.67h0.1 M429.95,218.33h0.1 M458.95,218.55h0.1 M487.95,207.41h0.1 M516.95,208.71h0.1 M545.95,203.57h0.1 M574.95,210.22h0.1 M603.82,190.80h0.1 M632.95,189.28h0.1 M661.95,179.39h0.1 M690.95,173.47h0.1 M719.95,161.19h0.1 M748.95,157.02h0.1 M777.95,150.42h0.1 M806.95,153.19h0.1 M835.95,154.82h0.1 M864.95,150.45h0.1 M893.95,143.63h0.1 M922.95,150.37h0.1 M951.95,137.92h0.1" stroke="#d26900" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+<text x="95.0" y="67" fill="green">P23M_1: +0.1439 mm/s</text>
+<path d="M98.64,251.10 L950.50,136.97" stroke="green" stroke-width="2" fill="none"/>
+<text x="385.0" y="67" fill="blue">UM980: +0.1416 mm/s</text>
+<path d="M98.64,316.48 L951.95,203.97" stroke="blue" stroke-width="2" fill="none"/>
+<text x="675.0" y="67" fill="#d26900">LG290P: +0.1756 mm/s</text>
+<path d="M98.65,271.73 L951.95,132.26" stroke="#d26900" stroke-width="2" fill="none"/>
+<path d="M90.0,360.0h10 M95.0,355.0v10" stroke="black" stroke-width="2"/><text x="103.0" y="352.0">(0,0)</text>
+<text x="530.0" y="418" text-anchor="middle">Correction age dAge [s]</text>
+<text transform="translate(19,225.0) rotate(-90)" text-anchor="middle">Vertical RMS VRMS [mm]</text>
+</g></svg>

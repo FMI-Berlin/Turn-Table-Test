@@ -2,7 +2,7 @@
 
 The report cites the primary sources listed in `catalog.json`. Research papers support the mechanisms and show that outage bridging is established work. Manufacturer documents establish advertised functions, not independently measured accuracy or the enabled firmware options in this experiment.
 
-The historical source R1 is stored unchanged in `references/historical-outage-results/original.docx` and `original.pdf`. Its measurement date (18 July 2005), Trimble receiver family and GPS-only operation were supplied by the project owner. The 2026 PDF creation date is not the acquisition date.
+R1 is the historical Trimble GPS-only report, now stored as `references/historical-outage-results/trimble-report.docx` and `trimble-report.pdf`. The project-owner revision of 10 November 2026 explicitly identifies **18 July 2005**, **Trimble**, **GPS-only**, and **U. Vollath and S. Klose** in its header. The DOCX body paragraphs are unchanged; formatting and PDF pagination changed from four pages to three. Figure 1 remains on page 2 and Figure 2 is on page 3. The 2026 PDF export date is not the measurement date. Paths, revision context and SHA-256 hashes are recorded under R1 in `catalog.json`.
 
 Important comparison limits:
 
